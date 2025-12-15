@@ -8,8 +8,11 @@ public class SingleServerListener {
     private static final SingleServerListener instance = new SingleServerListener();
     private int port = 55555;
     private boolean running = true;
+    SingleServerProtocol serverProtocol = SingleServerProtocol.getServerProtocol();
+
 
     private SingleServerListener() {
+
     }
 
     public void start(){
