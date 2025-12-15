@@ -2,7 +2,7 @@ package team.dream.ClientSide;
 
 import javax.swing.*;
 
-public class Main {
+public class ToRemember {
     static void main() {
 
 
