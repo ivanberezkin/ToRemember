@@ -18,6 +18,7 @@ public class ClientConnection extends Thread {
     private final ObjectOutputStream outputStream;
     private final ObjectInputStream inputStream;
     private boolean usernameConfirmation = false;
+    private final ClientProtocol clientProtocol = ClientProtocol.getClientProtocol();
 
     private ClientConnection() {
         try {
@@ -46,11 +47,10 @@ public class ClientConnection extends Thread {
     public void run() {
         while (true) {
             try {
-                Object objectFromServer = inputStream.readObject();
+                Message messageFromServer = (Message) inputStream.readObject();
 
-                if (objectFromServer != null) {
-                    IO.println("Svar från server received");
-
+                if (messageFromServer != null) {
+                    clientProtocol.processInputFromServer(messageFromServer);
                 }
 
             } catch (IOException e) {

@@ -20,7 +20,7 @@ public class SingleUserDatabase {
 
     public User findExistingUser(String username){
         for(User u : userListInDB){
-            if(username.equals(u.getUserName())){
+            if(username.equalsIgnoreCase(u.getUserName())){
                 return u;
             }
         }

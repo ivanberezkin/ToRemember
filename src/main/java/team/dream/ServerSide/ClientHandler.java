@@ -39,8 +39,9 @@ public class ClientHandler extends Thread {
                     if(existingUser != null){
                         connectionsList.add(new Connections(existingUser.getUserName(),outputStream,inputStream));
                         IO.println("CLIENTHANDLER: New Connection added. Total connections: " + connectionsList.size());
+
                     }else{
-                        outputStream.writeObject(new Message(MessageType.USER_NOT_FOUND,null));
+                        outputStream.writeObject(new Message(MessageType.USER_NOT_FOUND,inputFromClient.getData()));
                     }
                 }else if(inputFromClient != null){
                     serverProtocol.processInputFromClient(inputFromClient);
