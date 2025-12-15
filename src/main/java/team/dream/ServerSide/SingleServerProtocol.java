@@ -1,6 +1,7 @@
 package team.dream.ServerSide;
 
 import team.dream.shared.Message;
+import team.dream.shared.User;
 
 public class SingleServerProtocol {
     private static final SingleServerProtocol serverProtocol = new SingleServerProtocol();
@@ -10,12 +11,18 @@ public class SingleServerProtocol {
 
     }
 
+    public User verifyUserInUserDatabase(Message loginRequest){
+        User user = null;
+        if(loginRequest.getData() instanceof String usernameFromClient){
+               user = userDatabase.findExistingUser(usernameFromClient);
+       }
+        return user;
+    }
+
     public void processInputFromClient(Message inputFromClient) {
         switch (inputFromClient.getType()) {
-            case REQUEST_LOGIN -> {
-                IO.println("User requesting login");
+
             }
-        }
     }
 
     public static SingleServerProtocol getServerProtocol() {

@@ -11,13 +11,14 @@ public class SingleUserDatabase {
     private SingleUserDatabase(){
 
         //TODO ska populera userList on start, läsa från fil. men skapar fake tillvidare
+        userListInDB = new ArrayList<>();
         userListInDB.add(new User("Ivan"));
         userListInDB.add(new User("Pelle"));
         userListInDB.add(new User("Jenny"));
         IO.println("SingleuserDB: Users in list: " + userListInDB.size());
     }
 
-    public static User findExistingUser(String username){
+    public User findExistingUser(String username){
         for(User u : userListInDB){
             if(username.equals(u.getUserName())){
                 return u;
