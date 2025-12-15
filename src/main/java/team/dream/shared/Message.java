@@ -1,4 +1,4 @@
-package team.dream.ServerSide;
+package team.dream.shared;
 
 public class Message {
     private final MessageType type;

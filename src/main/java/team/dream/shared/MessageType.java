@@ -1,4 +1,4 @@
-package team.dream.ServerSide;
+package team.dream.shared;
 
 import java.io.Serializable;
 
