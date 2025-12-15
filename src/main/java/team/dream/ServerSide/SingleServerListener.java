@@ -9,7 +9,9 @@ public class SingleServerListener {
     private int port = 55555;
     private boolean running = true;
 
+
     private SingleServerListener() {
+
     }
 
     public void start(){

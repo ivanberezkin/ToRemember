@@ -3,6 +3,7 @@ package team.dream.shared;
 import java.io.Serializable;
 
 public enum MessageType implements Serializable {
-    TEST,
+    REQUEST_LOGIN,
+    USER_NOT_FOUND,
 
 }
