@@ -25,8 +25,8 @@ public class ClientHandler extends Thread {
     public void run(){
         try{
             while(true){
-                Object inputFromClient = null;
-                inputFromClient = inputStream.readObject();
+                Message inputFromClient = null;
+                inputFromClient = (Message) inputStream.readObject();
 
                 if(inputFromClient != null){
                     //TODO lägga till logik som kollar vad det är för objekt.
