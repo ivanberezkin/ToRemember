@@ -1,5 +1,7 @@
 package team.dream.ClientSide;
 
+import team.dream.shared.Message;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -22,7 +24,7 @@ public class ClientConnection extends Thread{
             inputStream = new ObjectInputStream(socket.getInputStream());
 
             //Test skicka vid skapande
-            outputStream.writeObject(new String("test"));
+            outputStream.writeObject(new Message(null, "Hej hej"));
 
         } catch (UnknownHostException e) {
             throw new RuntimeException(e);
