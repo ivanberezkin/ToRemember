@@ -17,7 +17,16 @@ public class SingleUserDatabase {
         IO.println("SingleuserDB: Users in list: " + userListInDB.size());
     }
 
-    public static SingleUserDatabase getInstance(){
+    public static User findExistingUser(String username){
+        for(User u : userListInDB){
+            if(username.equals(u.getUserName())){
+                return u;
+            }
+        }
+        return null;
+    }
+
+    public static SingleUserDatabase getUserDB(){
         return userDB;
     }
 

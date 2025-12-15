@@ -1,30 +1,39 @@
 package team.dream.ClientSide;
 
 import team.dream.shared.Message;
+import team.dream.shared.MessageType;
 
+import javax.swing.*;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-public class ClientConnection extends Thread{
+public class ClientConnection extends Thread {
 
     private int port = 55555;
     private static final ClientConnection client = new ClientConnection();
 
     private final ObjectOutputStream outputStream;
     private final ObjectInputStream inputStream;
-
+    private boolean usernameConfirmation = false;
 
     private ClientConnection() {
-        try{
+        try {
             Socket socket = new Socket("127.0.0.1", port);
             outputStream = new ObjectOutputStream(socket.getOutputStream());
             inputStream = new ObjectInputStream(socket.getInputStream());
 
-            //Test skicka vid skapande
-            outputStream.writeObject(new Message(null, "Hej hej"));
+
+            while (!usernameConfirmation) {
+                String username = JOptionPane.showInputDialog("Please enter your username: ");
+                if (!username.isEmpty()) {
+                    outputStream.writeObject(new Message(MessageType.REQUEST_LOGIN, username));
+                    usernameConfirmation = true;
+                }
+            }
+
 
         } catch (UnknownHostException e) {
             throw new RuntimeException(e);
@@ -34,12 +43,12 @@ public class ClientConnection extends Thread{
     }
 
     @Override
-    public void run(){
-        while(true){
+    public void run() {
+        while (true) {
             try {
                 Object objectFromServer = inputStream.readObject();
 
-                if(objectFromServer != null){
+                if (objectFromServer != null) {
                     IO.println("Svar från server received");
 
                 }
@@ -52,7 +61,7 @@ public class ClientConnection extends Thread{
         }
     }
 
-    public static ClientConnection getClientConnection(){
+    public static ClientConnection getClientConnection() {
         return client;
     }
 

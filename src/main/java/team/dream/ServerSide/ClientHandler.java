@@ -11,7 +11,7 @@ public class ClientHandler extends Thread {
 
     ObjectInputStream inputStream;
     ObjectOutputStream outputStream;
-
+    SingleServerProtocol serverProtocol = SingleServerProtocol.getServerProtocol();
 
     ClientHandler(Socket socket) {
         try {
@@ -29,10 +29,7 @@ public class ClientHandler extends Thread {
                 Message inputFromClient = (Message) inputStream.readObject();
 
                 if(inputFromClient != null){
-                    //TODO lägga till logik som kollar vad det är för objekt.
-                    IO.println("Message received");
-                    outputStream.writeObject("Svar från server");
-
+                    serverProtocol.processInputFromClient(inputFromClient);
                 }
 
             }
