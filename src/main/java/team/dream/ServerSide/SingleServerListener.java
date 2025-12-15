@@ -19,8 +19,8 @@ public class SingleServerListener {
                 Socket socket = serverSocket.accept();
                 IO.println("SSL: Client Connected");
 
-//                ClientHandler clientHandler = new ClientHandler();
-//                clientHandler.start();
+                ClientHandler clientHandler = new ClientHandler(socket);
+                clientHandler.start();
             }
 
 

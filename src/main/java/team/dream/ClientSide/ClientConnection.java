@@ -21,6 +21,8 @@ public class ClientConnection extends Thread{
             outputStream = new ObjectOutputStream(socket.getOutputStream());
             inputStream = new ObjectInputStream(socket.getInputStream());
 
+            //Test skicka vid skapande
+            outputStream.writeObject(new String("test"));
 
         } catch (UnknownHostException e) {
             throw new RuntimeException(e);
@@ -28,6 +30,26 @@ public class ClientConnection extends Thread{
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    public void run(){
+        while(true){
+            try {
+                Object objectFromServer = inputStream.readObject();
+
+                if(objectFromServer != null){
+                    IO.println("Svar från server received");
+
+                }
+
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
     public static ClientConnection getClientConnection(){
         return client;
     }

@@ -25,12 +25,12 @@ public class ClientHandler extends Thread {
     public void run(){
         try{
             while(true){
-                Message inputFromClient = null;
-                inputFromClient = (Message) inputStream.readObject();
+                Object inputFromClient = inputStream.readObject();
 
                 if(inputFromClient != null){
                     //TODO lägga till logik som kollar vad det är för objekt.
-
+                    IO.println("Message received");
+                    outputStream.writeObject("Svar från server");
                 }
 
             }
