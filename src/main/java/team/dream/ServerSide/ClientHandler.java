@@ -17,6 +17,7 @@ public class ClientHandler extends Thread {
     private ObjectOutputStream outputStream;
     private SingleServerProtocol serverProtocol = SingleServerProtocol.getServerProtocol();
     private static final ArrayList<Connections> connectionsList = new ArrayList<>();
+    private final SingleUserDatabase singleUserDatabase = SingleUserDatabase.getUserDB();
 
 
     ClientHandler(Socket socket) {
@@ -42,6 +43,11 @@ public class ClientHandler extends Thread {
 
                     }else{
                         outputStream.writeObject(new Message(MessageType.USER_NOT_FOUND,inputFromClient.getData()));
+                        String newUserUsername = (String)(inputFromClient.getData());
+                        singleUserDatabase.addNewUser(newUserUsername);
+                        //todo ersätt denna med något mer robust, och t.ex en factory som skapar användarna.
+                        connectionsList.add(new Connections(newUserUsername,outputStream,inputStream));
+                        IO.println("CLIENTHANDLER: New Connection added. Total connections: " + connectionsList.size());
                     }
                 }else if(inputFromClient != null){
                     serverProtocol.processInputFromClient(inputFromClient);
