@@ -1,5 +1,7 @@
 package team.dream.shared;
 
+import java.io.Serializable;
+
 public class User {
 
     private String userName;
@@ -8,7 +10,14 @@ public class User {
         this.userName = userName;
     }
 
+    public User() {
+    }
+
     public String getUserName() {
         return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 }
