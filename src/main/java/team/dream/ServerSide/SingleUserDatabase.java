@@ -1,36 +1,55 @@
 package team.dream.ServerSide;
 
 import team.dream.shared.User;
+import tools.jackson.core.type.TypeReference;
+import tools.jackson.databind.ObjectMapper;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 public class SingleUserDatabase {
     private static final SingleUserDatabase userDB = new SingleUserDatabase();
-    private static ArrayList<User> userListInDB;
+    private static List<User> userListInDB;
+    private final ObjectMapper mapper = new ObjectMapper();
+    private final String filename = "src/main/resources/UserList.json";
 
-    private SingleUserDatabase(){
+    private SingleUserDatabase() {
+        userListInDB = readUserListFromFileJson();
 
-        //TODO ska populera userList on start, läsa från fil. men skapar fake tillvidare
-        userListInDB = new ArrayList<>();
-        userListInDB.add(new User("Ivan"));
-        userListInDB.add(new User("Pelle"));
-        userListInDB.add(new User("Jenny"));
         IO.println("SingleuserDB: Users in list: " + userListInDB.size());
+
     }
 
-    public User findExistingUser(String username){
-        for(User u : userListInDB){
-            if(username.equalsIgnoreCase(u.getUserName())){
+    public User findExistingUser(String username) {
+        for (User u : userListInDB) {
+            if (username.equalsIgnoreCase(u.getUserName())) {
                 return u;
             }
         }
         return null;
     }
 
-    public static SingleUserDatabase getUserDB(){
+    public void addNewUser(String username){
+        // det här kan vi ersätta med en factory som antingen anropas härifrån eller där denna metod anropas ifrån.
+        userListInDB.add(new User(username));
+        writeUserListToFileJson();
+    }
+
+    public static SingleUserDatabase getUserDB() {
         return userDB;
     }
 
+    private void writeUserListToFileJson() {
+        mapper.writerWithDefaultPrettyPrinter().writeValue(new File(filename).toPath().toFile(), userListInDB);
+        mapper.writerWithDefaultPrettyPrinter().writeValueAsString(userListInDB);
+    }
+
+    private List<User> readUserListFromFileJson() {
+        return mapper.readValue(new File(filename), new TypeReference<List<User>>() {
+        });
+
+    }
 
 
 }
