@@ -29,7 +29,7 @@ public class SingleServerProtocol {
                 if (UsersMethod.checkIfUserExistsInDB(usernameToCheck)) {
                     connectionToClient.addToConnectionList(usernameToCheck, connectionToClient);
                 } else {
-                    ClientHandler.sendMessageToClient(connectionToClient,new Message(MessageType.USER_NOT_FOUND,usernameToCheck,null));
+                    ClientHandler.sendMessageToClient(connectionToClient,new Message(MessageType.USER_NOT_FOUND,usernameToCheck));
 
                 }
             }

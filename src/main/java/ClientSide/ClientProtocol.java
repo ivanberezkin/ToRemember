@@ -20,9 +20,9 @@ public class ClientProtocol {
                     int result = JOptionPane.showConfirmDialog(null,"" +
                             "User not found, would you like to create " + username + "?", "Create User?", JOptionPane.YES_NO_OPTION);
                     if(result == JOptionPane.YES_OPTION){
-                        client.sendMessageToServer(new Message(MessageType.CREATE_NEW_USER, username, null));
+                        client.sendMessageToServer(new Message(MessageType.CREATE_NEW_USER, username));
                     }else if (result == JOptionPane.NO_OPTION){
-                        client.getUsernameFromUser(messageFromServer.getClientConnection());
+                        client.getUsernameFromUser();
                     }
                 }
             }

@@ -27,7 +27,7 @@ public class ClientConnection extends Thread {
             inputStream = new ObjectInputStream(socket.getInputStream());
 
 
-            getUsernameFromUser(null);
+            getUsernameFromUser();
 
         } catch (UnknownHostException e) {
             throw new RuntimeException(e);
@@ -36,12 +36,12 @@ public class ClientConnection extends Thread {
         }
     }
 
-    public void getUsernameFromUser(Connections clientConnection){
+    public void getUsernameFromUser(){
         boolean usernameConfirmation = false;
         while (!usernameConfirmation) {
             String username = JOptionPane.showInputDialog("Please enter your username: ");
             if (!username.isEmpty()) {
-                this.sendMessageToServer(new Message(MessageType.REQUEST_LOGIN, username, clientConnection));
+                this.sendMessageToServer(new Message(MessageType.REQUEST_LOGIN, username));
                 usernameConfirmation = true;
             }
         }
