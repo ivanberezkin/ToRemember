@@ -1,6 +1,6 @@
-package team.dream.ClientSide;
+package ClientSide;
 
-import team.dream.shared.Message;
+import shared.Message;
 
 import javax.swing.*;
 

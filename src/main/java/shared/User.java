@@ -1,6 +1,4 @@
-package team.dream.shared;
-
-import java.io.Serializable;
+package shared;
 
 public class User {
 

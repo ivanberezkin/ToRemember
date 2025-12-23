@@ -1,7 +1,8 @@
-package team.dream.ServerSide;
+package ServerSide;
 
-import team.dream.shared.Message;
-import team.dream.shared.User;
+
+import shared.Message;
+import shared.User;
 
 public class SingleServerProtocol {
     private static final SingleServerProtocol serverProtocol = new SingleServerProtocol();

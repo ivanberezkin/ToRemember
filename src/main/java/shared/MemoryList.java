@@ -1,4 +1,4 @@
-package team.dream.shared;
+package shared;
 
 import java.util.ArrayList;
 import java.util.List;

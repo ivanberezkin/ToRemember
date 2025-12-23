@@ -1,9 +1,8 @@
-package team.dream.ServerSide;
-
-import team.dream.shared.Connections;
-import team.dream.shared.Message;
-import team.dream.shared.MessageType;
-import team.dream.shared.User;
+package ServerSide;
+import shared.Connections;
+import shared.Message;
+import shared.MessageType;
+import shared.User;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -39,7 +38,7 @@ public class ClientHandler extends Thread {
                    User existingUser = serverProtocol.verifyUserInUserDatabase(inputFromClient);
                     if(existingUser != null){
                         connectionsList.add(new Connections(existingUser.getUserName(),outputStream,inputStream));
-                        IO.println("CLIENTHANDLER: New Connection added. Total connections: " + connectionsList.size());
+                        System.out.println("CLIENTHANDLER: New Connection added. Total connections: " + connectionsList.size());
 
                     }else{
                         outputStream.writeObject(new Message(MessageType.USER_NOT_FOUND,inputFromClient.getData()));
@@ -47,7 +46,7 @@ public class ClientHandler extends Thread {
                         singleUserDatabase.addNewUser(newUserUsername);
                         //todo ersätt denna med något mer robust, och t.ex en factory som skapar användarna.
                         connectionsList.add(new Connections(newUserUsername,outputStream,inputStream));
-                        IO.println("CLIENTHANDLER: New Connection added. Total connections: " + connectionsList.size());
+                        System.out.println("CLIENTHANDLER: New Connection added. Total connections: " + connectionsList.size());
                     }
                 }else if(inputFromClient != null){
                     serverProtocol.processInputFromClient(inputFromClient);

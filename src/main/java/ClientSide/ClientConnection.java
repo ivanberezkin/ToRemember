@@ -1,7 +1,7 @@
-package team.dream.ClientSide;
+package ClientSide;
 
-import team.dream.shared.Message;
-import team.dream.shared.MessageType;
+import shared.Message;
+import shared.MessageType;
 
 import javax.swing.*;
 import java.io.IOException;
