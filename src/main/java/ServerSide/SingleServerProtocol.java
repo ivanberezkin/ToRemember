@@ -27,9 +27,10 @@ public class SingleServerProtocol {
             if (inputFromClient.getData() instanceof String usernameToCheck) {
                 Connections connectionToClient = new Connections(usernameToCheck,oos,ois);
                 if (UsersMethod.checkIfUserExistsInDB(usernameToCheck)) {
-                    IO.println("User exists");
+                    connectionToClient.addToConnectionList(usernameToCheck, connectionToClient);
                 } else {
-                    ClientHandler.sendMessageToClient(connectionToClient,new Message(MessageType.USER_NOT_FOUND,usernameToCheck));
+                    ClientHandler.sendMessageToClient(connectionToClient,new Message(MessageType.USER_NOT_FOUND,usernameToCheck,null));
+
                 }
             }
         }
