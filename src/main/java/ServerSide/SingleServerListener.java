@@ -12,15 +12,12 @@ public class SingleServerListener {
     private static final SingleServerListener instance = new SingleServerListener();
     private int port = 55555;
     private boolean running = true;
+    private ConnectionToDB connectionToDBClass = ConnectionToDB.getInstance();
 
-
-    private SingleServerListener() {
-
-    }
+    private SingleServerListener() {}
 
     public void start(){
         try(ServerSocket serverSocket = new ServerSocket(port)){
-            ConnectionToDB connectionToDB = new ConnectionToDB();
             while(running){
                 Socket socket = serverSocket.accept();
                 System.out.println("SSL: Client Connected");
