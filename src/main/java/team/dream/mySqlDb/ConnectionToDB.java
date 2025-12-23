@@ -26,8 +26,8 @@ public class ConnectionToDB {
                         usernameLogon,
                         passwordLogon);
 
-                Statement stmt = connectionToDb.createStatement();
-                ResultSet rs = stmt.executeQuery("select id, username from users");
+                PreparedStatement stmt = connectionToDb.prepareStatement("select id, username from users");
+                ResultSet rs = stmt.executeQuery();
 
                 while(rs.next()){
                     String username_db = rs.getString("username");

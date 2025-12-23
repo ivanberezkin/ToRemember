@@ -4,6 +4,7 @@ target/
 !**/src/test/**/target/
 .kotlin
 
+src/main/resources/applications.properties
 ### IntelliJ IDEA ###
 .idea/modules.xml
 .idea/jarRepositories.xml
