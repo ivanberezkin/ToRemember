@@ -16,13 +16,20 @@ public class ClientHandler extends Thread {
     private ObjectInputStream inputStream;
     private ObjectOutputStream outputStream;
     private SingleServerProtocol serverProtocol = SingleServerProtocol.getServerProtocol();
-    private static final ArrayList<Connections> connectionsList = new ArrayList<>();
 
 
     ClientHandler(Socket socket) {
         try {
             this.outputStream = new ObjectOutputStream(socket.getOutputStream());
             this.inputStream = new ObjectInputStream(socket.getInputStream());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void sendMessageToClient(Connections conn, Message message){
+        try {
+            conn.getOutputStream().writeObject(message);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -35,13 +42,13 @@ public class ClientHandler extends Thread {
             try {
                 Message inputFromClient = (Message) inputStream.readObject();
 
-                if(inputFromClient != null){
+                if(inputFromClient.getType().equals(MessageType.REQUEST_LOGIN)){
+                    serverProtocol.processLoginFromClient(inputFromClient, outputStream,inputStream);
+                }else{
                     serverProtocol.processInputFromClient(inputFromClient);
                 }
 
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            } catch (ClassNotFoundException e) {
+            } catch (IOException | ClassNotFoundException e) {
                 throw new RuntimeException(e);
             }
 
