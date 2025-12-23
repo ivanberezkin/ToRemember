@@ -1,7 +1,9 @@
 package ServerSide;
 
 
+import mySqlDb.UsersMethod;
 import shared.Message;
+import shared.MessageType;
 import shared.User;
 
 public class SingleServerProtocol {
@@ -22,6 +24,19 @@ public class SingleServerProtocol {
 
     public void processInputFromClient(Message inputFromClient) {
         switch (inputFromClient.getType()) {
+
+            case MessageType.REQUEST_LOGIN -> {
+                if(inputFromClient.getData() instanceof String usernameToCheck){
+                    if(UsersMethod.checkIfUserExistsInDB(usernameToCheck)){
+                        IO.println("User exists");
+                    }else{
+                        IO.println("User not found");
+                    }
+                }
+            }
+
+
+
 
             }
     }

@@ -1,4 +1,5 @@
 package ServerSide;
+
 import shared.Connections;
 import shared.Message;
 import shared.MessageType;
@@ -16,7 +17,6 @@ public class ClientHandler extends Thread {
     private ObjectOutputStream outputStream;
     private SingleServerProtocol serverProtocol = SingleServerProtocol.getServerProtocol();
     private static final ArrayList<Connections> connectionsList = new ArrayList<>();
-    private final SingleUserDatabase singleUserDatabase = SingleUserDatabase.getUserDB();
 
 
     ClientHandler(Socket socket) {
@@ -29,32 +29,23 @@ public class ClientHandler extends Thread {
     }
 
     @Override
-    public void run(){
-        try{
-            while(true){
+    public void run() {
+
+        while (true) {
+            try {
                 Message inputFromClient = (Message) inputStream.readObject();
 
-                if(inputFromClient != null && inputFromClient.getType().equals(MessageType.REQUEST_LOGIN)){
-                   User existingUser = serverProtocol.verifyUserInUserDatabase(inputFromClient);
-                    if(existingUser != null){
-                        connectionsList.add(new Connections(existingUser.getUserName(),outputStream,inputStream));
-                        System.out.println("CLIENTHANDLER: New Connection added. Total connections: " + connectionsList.size());
-
-                    }else{
-                        outputStream.writeObject(new Message(MessageType.USER_NOT_FOUND,inputFromClient.getData()));
-                        String newUserUsername = (String)(inputFromClient.getData());
-                        singleUserDatabase.addNewUser(newUserUsername);
-                        //todo ersätt denna med något mer robust, och t.ex en factory som skapar användarna.
-                        connectionsList.add(new Connections(newUserUsername,outputStream,inputStream));
-                        System.out.println("CLIENTHANDLER: New Connection added. Total connections: " + connectionsList.size());
-                    }
-                }else if(inputFromClient != null){
+                if(inputFromClient != null){
                     serverProtocol.processInputFromClient(inputFromClient);
                 }
 
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException(e);
             }
-        }catch (Exception e){
-            e.printStackTrace();
+
+
         }
     }
 }
