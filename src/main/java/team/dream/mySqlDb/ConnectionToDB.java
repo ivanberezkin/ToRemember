@@ -1,8 +1,6 @@
 package team.dream.mySqlDb;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class ConnectionToDB {
     private Connection connectionToDb;
@@ -19,18 +17,29 @@ public class ConnectionToDB {
             Då behöver vi inte vara oroliga att ladda upp några lösen till Github också.
          */
         String url = System.getenv("DB_url");
-        String username = System.getenv("DB_username");
-        String password = System.getenv("DB_password");
+        String usernameLogon = System.getenv("DB_username");
+        String passwordLogon = System.getenv("DB_password");
 
         {
             try {
                 connectionToDb = DriverManager.getConnection(url,
-                        username,
-                        password);
+                        usernameLogon,
+                        passwordLogon);
+
+                Statement stmt = connectionToDb.createStatement();
+                ResultSet rs = stmt.executeQuery("select id, username from users");
+
+                while(rs.next()){
+                    String username_db = rs.getString("username");
+                    int id = rs.getInt("id");
+                    IO.println(id + "  " + username_db);
+                }
+
+
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
         }
-        ;
+
     }
 }
