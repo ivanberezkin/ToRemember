@@ -15,7 +15,7 @@ public class ClientProtocol {
         switch(messageFromServer.getType()){
             case USER_NOT_FOUND -> {
                 if(messageFromServer.getData() instanceof String username){
-                    JOptionPane.showMessageDialog(null,"User not found, creating new user " + username);
+                    IO.println("ClientProtocol: User not found. Username: " + username);
                 }
             }
             case STARTING_MENU -> {
