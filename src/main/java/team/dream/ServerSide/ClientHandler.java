@@ -33,9 +33,9 @@ public class ClientHandler extends Thread {
     public void run(){
         try{
             while(true){
-                System.out.println("ClientHandler: waiting for client to send");
+                IO.println("ClientHandler: waiting for client to send");
                 Message inputFromClient = (Message) inputStream.readObject();
-                System.out.println("ClientHandler: received from client");
+                IO.println("ClientHandler: received from client");
 
                 if(inputFromClient != null && inputFromClient.getType().equals(MessageType.REQUEST_LOGIN)){
                    User existingUser = serverProtocol.verifyUserInUserDatabase(inputFromClient);
@@ -54,7 +54,7 @@ public class ClientHandler extends Thread {
                 }else if(inputFromClient != null){
                     serverProtocol.processInputFromClient(inputFromClient);
                 }
-                System.out.println("ClientHandler: end of loop");
+                IO.println("ClientHandler: end of loop");
             }
         }catch (Exception e){
             e.printStackTrace();

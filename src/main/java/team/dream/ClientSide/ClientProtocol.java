@@ -20,7 +20,7 @@ public class ClientProtocol {
             }
             case STARTING_MENU -> {
                 //TODO create model view controll
-                System.out.println("""
+                IO.println("""
                         1. See memory lists
                         2. Create memory list
                         3. Delete memory list
