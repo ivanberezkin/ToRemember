@@ -12,7 +12,7 @@ import java.net.UnknownHostException;
 
 public class ClientConnection extends Thread {
 
-    private int port = 55555;
+    private int port = 44444;
     private static final ClientConnection client = new ClientConnection();
 
     private final ObjectOutputStream outputStream;

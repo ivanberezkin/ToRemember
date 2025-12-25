@@ -17,7 +17,7 @@ public class SingleUserDatabase {
     private SingleUserDatabase() {
         userListInDB = readUserListFromFileJson();
 
-        IO.println("SingleuserDB: Users in list: " + userListInDB.size());
+        IO.println("SingleUserDB: Users in list: " + userListInDB.size());
 
     }
 

@@ -33,13 +33,14 @@ public class ClientHandler extends Thread {
     public void run(){
         try{
             while(true){
+                System.out.println("ClientHandler: test");
                 Message inputFromClient = (Message) inputStream.readObject();
 
                 if(inputFromClient != null && inputFromClient.getType().equals(MessageType.REQUEST_LOGIN)){
                    User existingUser = serverProtocol.verifyUserInUserDatabase(inputFromClient);
                     if(existingUser != null){
                         connectionsList.add(new Connections(existingUser.getUserName(),outputStream,inputStream));
-                        IO.println("CLIENTHANDLER: New Connection added. Total connections: " + connectionsList.size());
+                        IO.println("ClientHandler: New Connection added. Total connections: " + connectionsList.size());
 
                     }else{
                         outputStream.writeObject(new Message(MessageType.USER_NOT_FOUND,inputFromClient.getData()));
@@ -47,9 +48,10 @@ public class ClientHandler extends Thread {
                         singleUserDatabase.addNewUser(newUserUsername);
                         //todo ersätt denna med något mer robust, och t.ex en factory som skapar användarna.
                         connectionsList.add(new Connections(newUserUsername,outputStream,inputStream));
-                        IO.println("CLIENTHANDLER: New Connection added. Total connections: " + connectionsList.size());
+                        IO.println("ClientHandler: New Connection added. Total connections: " + connectionsList.size());
                     }
                 }else if(inputFromClient != null){
+                    System.out.println("ClientHandler: test two");
                     serverProtocol.processInputFromClient(inputFromClient);
                 }
 
