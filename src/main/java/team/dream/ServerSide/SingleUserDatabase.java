@@ -1,6 +1,6 @@
-package ServerSide;
+package team.dream.ServerSide;
 
-import shared.User;
+import team.dream.shared.User;
 import tools.jackson.core.type.TypeReference;
 import tools.jackson.databind.ObjectMapper;
 

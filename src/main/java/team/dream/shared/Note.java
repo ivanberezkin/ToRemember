@@ -1,4 +1,4 @@
-package shared;
+package team.dream.shared;
 
 import java.time.LocalDateTime;
 

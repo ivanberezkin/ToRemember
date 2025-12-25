@@ -1,15 +1,13 @@
-package ServerSide;
+package team.dream.ServerSide;
 
-import shared.Connections;
-import shared.Message;
-import shared.MessageType;
-import shared.User;
+import team.dream.shared.Connections;
+import team.dream.shared.Message;
+import team.dream.shared.MessageType;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.util.ArrayList;
 
 public class ClientHandler extends Thread {
 

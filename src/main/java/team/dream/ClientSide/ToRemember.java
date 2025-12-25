@@ -1,4 +1,4 @@
-package ClientSide;
+package team.dream.ClientSide;
 
 import javax.swing.*;
 

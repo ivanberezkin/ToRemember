@@ -1,6 +1,6 @@
-package ServerSide;
+package team.dream.ServerSide;
 
-import mySqlDb.ConnectionToSQL;
+import team.dream.mySqlDb.ConnectionToSQL;
 
 
 import java.io.IOException;

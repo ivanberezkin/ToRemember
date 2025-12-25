@@ -1,6 +1,6 @@
-package ServerSide;
+package team.dream.ServerSide;
 
-import shared.MemoryList;
+import team.dream.shared.MemoryList;
 import tools.jackson.databind.ObjectMapper;
 import tools.jackson.core.type.TypeReference;
 

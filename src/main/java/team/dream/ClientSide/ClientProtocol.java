@@ -1,7 +1,6 @@
-package ClientSide;
-import shared.Connections;
-import shared.Message;
-import shared.MessageType;
+package team.dream.ClientSide;
+import team.dream.shared.Message;
+import team.dream.shared.MessageType;
 import javax.swing.*;
 
 public class ClientProtocol {

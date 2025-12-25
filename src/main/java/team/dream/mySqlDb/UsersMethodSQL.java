@@ -1,4 +1,4 @@
-package mySqlDb;
+package team.dream.mySqlDb;
 
 import java.sql.*;
 

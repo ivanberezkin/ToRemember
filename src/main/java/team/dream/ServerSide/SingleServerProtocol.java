@@ -1,11 +1,11 @@
-package ServerSide;
+package team.dream.ServerSide;
 
 
-import mySqlDb.SQLTableFunctions;
-import mySqlDb.UsersMethodSQL;
-import shared.Connections;
-import shared.Message;
-import shared.MessageType;
+import team.dream.mySqlDb.SQLTableFunctions;
+import team.dream.mySqlDb.UsersMethodSQL;
+import team.dream.shared.Connections;
+import team.dream.shared.Message;
+import team.dream.shared.MessageType;
 
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
