@@ -7,7 +7,7 @@ public class ToRemember {
     static void main() {
 
         Scanner sc = new Scanner(System.in);
-        System.out.println("Connect to server = 1, Offline = 2");
+        IO.println("Connect to server = 1, Offline = 2");
         String inputUser = sc.nextLine();
         if(inputUser.equals("1")){
             ClientConnection client = ClientConnection.getClientConnection();

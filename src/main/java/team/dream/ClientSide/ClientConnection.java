@@ -31,7 +31,7 @@ public class ClientConnection extends Thread {
 
 
             while (!usernameConfirmation) {
-                System.out.println("Please enter your username: ");
+                IO.println("Please enter your username: ");
                 String username = sc.nextLine();
                 if (!username.isEmpty()) {
                     //TODO FactoryMethod for message type ??
@@ -52,9 +52,9 @@ public class ClientConnection extends Thread {
     public void run() {
         while (true) {
             try {
-                System.out.println("ClientConnection: Waiting for server to send");
+                IO.println("ClientConnection: Waiting for server to send");
                 Message messageFromServer = (Message) inputStream.readObject();
-                System.out.println("ClientConnection: received from server");
+                IO.println("ClientConnection: received from server");
 
                 if (messageFromServer != null) {
                     clientProtocol.processInputFromServer(messageFromServer);
