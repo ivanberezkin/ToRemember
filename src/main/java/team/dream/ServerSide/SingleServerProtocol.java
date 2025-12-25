@@ -28,12 +28,12 @@ public class SingleServerProtocol {
                 }
                 case STARTING_MENU -> {
                     IO.println("Show starting menu");
-                    return new Message(MessageType.STARTING_MENU, null);
+//                    return new Message(MessageType.STARTING_MENU, null);
 
                 }
                 case SHOW_LIST_OF_MEMORY_LISTS -> {
                     IO.println("show list of memory lists");
-                    return new Message(MessageType.SHOW_LIST_OF_MEMORY_LISTS, null);
+//                    return new Message(MessageType.SHOW_LIST_OF_MEMORY_LISTS, null);
                 }
             }
 
