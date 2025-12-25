@@ -12,12 +12,20 @@ public class ClientProtocol {
 
 
     public void processInputFromServer(Message messageFromServer){
-
         switch(messageFromServer.getType()){
             case USER_NOT_FOUND -> {
                 if(messageFromServer.getData() instanceof String username){
                     JOptionPane.showMessageDialog(null,"User not found, creating new user " + username);
                 }
+            }
+            case STARTING_MENU -> {
+                //TODO create model view controll
+                System.out.println("""
+                        1. See memory lists
+                        2. Create memory list
+                        3. Delete memory list
+                        4. Quit""");
+
             }
         }
     }

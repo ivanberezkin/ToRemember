@@ -52,7 +52,9 @@ public class ClientConnection extends Thread {
     public void run() {
         while (true) {
             try {
+                System.out.println("ClientConnection: Waiting for server to send");
                 Message messageFromServer = (Message) inputStream.readObject();
+                System.out.println("ClientConnection: received from server");
 
                 if (messageFromServer != null) {
                     clientProtocol.processInputFromServer(messageFromServer);

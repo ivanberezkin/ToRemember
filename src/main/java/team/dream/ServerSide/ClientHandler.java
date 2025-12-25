@@ -33,15 +33,16 @@ public class ClientHandler extends Thread {
     public void run(){
         try{
             while(true){
-                System.out.println("ClientHandler: test");
+                System.out.println("ClientHandler: waiting for client to send");
                 Message inputFromClient = (Message) inputStream.readObject();
+                System.out.println("ClientHandler: received from client");
 
                 if(inputFromClient != null && inputFromClient.getType().equals(MessageType.REQUEST_LOGIN)){
                    User existingUser = serverProtocol.verifyUserInUserDatabase(inputFromClient);
                     if(existingUser != null){
                         connectionsList.add(new Connections(existingUser.getUserName(),outputStream,inputStream));
                         IO.println("ClientHandler: New Connection added. Total connections: " + connectionsList.size());
-
+                        outputStream.writeObject(new Message(MessageType.STARTING_MENU, ""));
                     }else{
                         outputStream.writeObject(new Message(MessageType.USER_NOT_FOUND,inputFromClient.getData()));
                         String newUserUsername = (String)(inputFromClient.getData());
@@ -51,10 +52,9 @@ public class ClientHandler extends Thread {
                         IO.println("ClientHandler: New Connection added. Total connections: " + connectionsList.size());
                     }
                 }else if(inputFromClient != null){
-                    System.out.println("ClientHandler: test two");
                     serverProtocol.processInputFromClient(inputFromClient);
                 }
-
+                System.out.println("ClientHandler: end of loop");
             }
         }catch (Exception e){
             e.printStackTrace();
