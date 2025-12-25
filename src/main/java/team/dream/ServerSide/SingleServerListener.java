@@ -9,7 +9,7 @@ import java.net.Socket;
 
 public class SingleServerListener {
     private static final SingleServerListener instance = new SingleServerListener();
-    private int port = 55555;
+    private int port = 44444;
     private boolean running = true;
     private ConnectionToSQL connectionToDBClass = ConnectionToSQL.getInstance();
 

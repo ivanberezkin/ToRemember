@@ -12,19 +12,18 @@ import java.net.UnknownHostException;
 
 public class ClientConnection extends Thread {
 
-    private int port = 55555;
+    private int port = 44444;
     private static final ClientConnection client = new ClientConnection();
     private final ObjectOutputStream outputStream;
     private final ObjectInputStream inputStream;
 
-    private final ClientProtocol clientProtocol = ClientProtocol.getClientProtocol();
+    private final SingleClientProtocol singleClientProtocol = SingleClientProtocol.getClientProtocol();
 
     private ClientConnection() {
         try {
             Socket socket = new Socket("127.0.0.1", port);
             outputStream = new ObjectOutputStream(socket.getOutputStream());
             inputStream = new ObjectInputStream(socket.getInputStream());
-
 
             getUsernameFromUser();
 
@@ -61,7 +60,7 @@ public class ClientConnection extends Thread {
                 Message messageFromServer = (Message) inputStream.readObject();
 
                 if (messageFromServer != null) {
-                    clientProtocol.processInputFromServer(messageFromServer, this);
+                    singleClientProtocol.processInputFromServer(messageFromServer, this);
                 }
 
             } catch (IOException e) {

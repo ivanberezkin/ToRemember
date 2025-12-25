@@ -3,10 +3,10 @@ import team.dream.shared.Message;
 import team.dream.shared.MessageType;
 import javax.swing.*;
 
-public class ClientProtocol {
-    private static final ClientProtocol clientProtocol = new ClientProtocol();
+public class SingleClientProtocol {
+    private static final SingleClientProtocol clientProtocol = new SingleClientProtocol();
 
-    ClientProtocol(){
+    SingleClientProtocol(){
 
     }
 
@@ -29,11 +29,20 @@ public class ClientProtocol {
                 if(messageFromServer.getData() instanceof String loggedInUsername)
                 IO.println("Hello " + loggedInUsername + "!");
             }
+            case STARTING_MENU -> {
+                //TODO create model view controll
+                IO.println("""
+                        1. See memory lists
+                        2. Create memory list
+                        3. Delete memory list
+                        4. Quit""");
+
+            }
 
         }
     }
 
-    public static ClientProtocol getClientProtocol(){
+    public static SingleClientProtocol getClientProtocol(){
         return clientProtocol;
     }
 }

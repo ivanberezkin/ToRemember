@@ -3,11 +3,13 @@ package team.dream.ServerSide;
 import team.dream.shared.Connections;
 import team.dream.shared.Message;
 import team.dream.shared.MessageType;
+import team.dream.shared.User;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.ArrayList;
 
 public class ClientHandler extends Thread {
 
