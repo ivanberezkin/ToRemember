@@ -1,7 +1,5 @@
 package team.dream.shared;
 
-import java.io.Serializable;
-
 public class User {
 
     private String userName;

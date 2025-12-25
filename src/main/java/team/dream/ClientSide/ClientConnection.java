@@ -1,6 +1,7 @@
 package team.dream.ClientSide;
 
 import team.dream.shared.Message;
+import team.dream.shared.MessageType;
 
 import javax.swing.*;
 import java.io.IOException;
@@ -13,25 +14,56 @@ public class ClientConnection extends Thread {
 
     private int port = 44444;
     private static final ClientConnection client = new ClientConnection();
-    private SingleClientProtocol clientProtocol = SingleClientProtocol.getClientProtocol();
+    private final ObjectOutputStream outputStream;
+    private final ObjectInputStream inputStream;
 
-    private ClientConnection() {}
+    private final ClientProtocol clientProtocol = ClientProtocol.getClientProtocol();
 
-    public static ClientConnection getClientConnection() {return client;}
+    private ClientConnection() {
+        try {
+            Socket socket = new Socket("127.0.0.1", port);
+            outputStream = new ObjectOutputStream(socket.getOutputStream());
+            inputStream = new ObjectInputStream(socket.getInputStream());
+
+
+            getUsernameFromUser();
+
+        } catch (UnknownHostException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void getUsernameFromUser(){
+        boolean usernameConfirmation = false;
+        while (!usernameConfirmation) {
+            String username = JOptionPane.showInputDialog("Please enter your username: ");
+            if (!username.isEmpty()) {
+                this.sendMessageToServer(new Message(MessageType.REQUEST_LOGIN, username));
+                usernameConfirmation = true;
+            }
+        }
+    }
+
+    public void sendMessageToServer(Message message){
+        try {
+            outputStream.writeObject(message);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     @Override
     public void run() {
         while (true) {
-            try (Socket socket = new Socket("127.0.0.1", port);
-                ObjectOutputStream outputStream = new ObjectOutputStream(socket.getOutputStream());
-                ObjectInputStream inputStream = new ObjectInputStream(socket.getInputStream())){
-                Message messageFromServer;
-                IO.println("ClientConnection: Waiting for server to send");
-                while((messageFromServer = (Message) inputStream.readObject()) != null) {
-                    IO.println("ClientConnection: Received from server");
-                    outputStream.writeObject(clientProtocol.processInputFromServer(messageFromServer));
-                    IO.println("ClientConnection: Sent to server");
+            try {
+                Message messageFromServer = (Message) inputStream.readObject();
+
+                if (messageFromServer != null) {
+                    clientProtocol.processInputFromServer(messageFromServer, this);
                 }
+
             } catch (IOException e) {
                 throw new RuntimeException(e);
             } catch (ClassNotFoundException e) {
@@ -39,4 +71,9 @@ public class ClientConnection extends Thread {
             }
         }
     }
+
+    public static ClientConnection getClientConnection() {
+        return client;
+    }
+
 }

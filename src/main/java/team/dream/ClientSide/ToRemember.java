@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.util.Scanner;
 
 public class ToRemember {
-    static void main() {
+    static void main(String [] args) {
 
         Scanner sc = new Scanner(System.in);
         IO.println("Connect to server = 1, Offline = 2");

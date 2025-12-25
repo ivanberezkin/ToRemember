@@ -1,8 +1,9 @@
 package team.dream.ServerSide;
 
 import team.dream.shared.MemoryList;
-import tools.jackson.core.type.TypeReference;
 import tools.jackson.databind.ObjectMapper;
+import tools.jackson.core.type.TypeReference;
+
 
 import java.io.File;
 import java.util.ArrayList;

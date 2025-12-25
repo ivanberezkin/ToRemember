@@ -1,5 +1,8 @@
 package team.dream.ServerSide;
 
+import team.dream.mySqlDb.ConnectionToSQL;
+
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -8,18 +11,15 @@ public class SingleServerListener {
     private static final SingleServerListener instance = new SingleServerListener();
     private int port = 44444;
     private boolean running = true;
+    private ConnectionToSQL connectionToDBClass = ConnectionToSQL.getInstance();
 
-
-    private SingleServerListener() {
-
-    }
+    private SingleServerListener() {}
 
     public void start(){
         try(ServerSocket serverSocket = new ServerSocket(port)){
-
             while(running){
                 Socket socket = serverSocket.accept();
-                IO.println("SSL: Client Connected");
+                System.out.println("SSL: Client Connected");
 
                 ClientHandler clientHandler = new ClientHandler(socket);
                 clientHandler.start();
@@ -35,7 +35,7 @@ public class SingleServerListener {
         return instance;
     }
 
-    static void main() {
+    static void main(String [] args) {
         SingleServerListener SSL = SingleServerListener.getInstance();
         SSL.start();
     }
