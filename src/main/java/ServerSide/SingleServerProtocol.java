@@ -1,16 +1,14 @@
 package ServerSide;
 
 
-import mySqlDb.UsersMethod;
+import mySqlDb.SQLTableFunctions;
+import mySqlDb.UsersMethodSQL;
 import shared.Connections;
 import shared.Message;
 import shared.MessageType;
-import shared.User;
 
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-
-import static shared.MessageType.USER_NOT_FOUND;
 
 public class SingleServerProtocol {
     private static final SingleServerProtocol serverProtocol = new SingleServerProtocol();
@@ -21,19 +19,32 @@ public class SingleServerProtocol {
 
     public void processInputFromClient(Message messageFromClient) {
 
-    }
-
-    public void processLoginFromClient(Message inputFromClient, ObjectOutputStream oos, ObjectInputStream ois){
-            if (inputFromClient.getData() instanceof String usernameToCheck) {
-                Connections connectionToClient = new Connections(usernameToCheck,oos,ois);
-                if (UsersMethod.checkIfUserExistsInDB(usernameToCheck)) {
-                    connectionToClient.addToConnectionList(usernameToCheck, connectionToClient);
-                } else {
-                    ClientHandler.sendMessageToClient(connectionToClient,new Message(MessageType.USER_NOT_FOUND,usernameToCheck));
-
+        if (messageFromClient != null) {
+            switch (messageFromClient.getType()) {
+                case MessageType.CREATE_NEW_USER -> {
+                    if (messageFromClient.getData() instanceof String userNameToAddToSQL)
+                        UsersMethodSQL.addUserToDB(userNameToAddToSQL);
                 }
             }
+
         }
+
+    }
+
+    public void processLoginFromClient(Message inputFromClient, ObjectOutputStream oos, ObjectInputStream ois) {
+        if (inputFromClient.getData() instanceof String usernameToCheck) {
+            Connections connectionToClient = new Connections(usernameToCheck, oos, ois);
+
+            SQLTableFunctions.createTableIfNotExist("users");
+            if (UsersMethodSQL.checkIfUserExistsInDB(usernameToCheck)) {
+                connectionToClient.addToConnectionList(usernameToCheck, connectionToClient);
+                ClientHandler.sendMessageToClient(connectionToClient, new Message(MessageType.LOGIN_SUCCESSFUL, usernameToCheck));
+            } else {
+                ClientHandler.sendMessageToClient(connectionToClient, new Message(MessageType.USER_NOT_FOUND, usernameToCheck));
+
+            }
+        }
+    }
 
 
     public static SingleServerProtocol getServerProtocol() {

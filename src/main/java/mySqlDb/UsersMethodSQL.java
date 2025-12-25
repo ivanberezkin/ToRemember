@@ -1,16 +1,15 @@
 package mySqlDb;
 
-import javax.xml.transform.Result;
 import java.sql.*;
 
-public class UsersMethod {
+public class UsersMethodSQL {
 
-    private static final Connection connectionToDB = ConnectionToDB.getInstance().getConnectionToDb();
+    private static final Connection connectionToDB = ConnectionToSQL.getInstance().getConnectionToDb();
+    private static final String tableName = "users";
 
-
-    public static void addUserToDB(Connection connectionToDb, String usernameToAdd){
-       try(PreparedStatement stmt = connectionToDb.prepareStatement(
-               "INSERT INTO users (username) VALUES (?)"
+    public static void addUserToDB(String usernameToAdd){
+       try(PreparedStatement stmt = connectionToDB.prepareStatement(
+               "INSERT INTO "+ tableName +" (username) VALUES (?)"
        )) {
 
            stmt.setString(1, usernameToAdd);
@@ -23,7 +22,7 @@ public class UsersMethod {
 
     public static boolean checkIfUserExistsInDB(String usernameToCheck){
 
-        String sql = "SELECT count(*) from user WHERE username = ?";
+        String sql = "SELECT count(*) from "+tableName+" WHERE username = ?";
 
         try(PreparedStatement stmt = connectionToDB.prepareStatement(sql)
         ) {
