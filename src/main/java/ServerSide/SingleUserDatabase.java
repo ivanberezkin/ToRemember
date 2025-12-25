@@ -1,11 +1,11 @@
-package team.dream.ServerSide;
+package ServerSide;
 
-import team.dream.shared.User;
+import shared.User;
 import tools.jackson.core.type.TypeReference;
 import tools.jackson.databind.ObjectMapper;
 
+
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 public class SingleUserDatabase {
@@ -17,7 +17,7 @@ public class SingleUserDatabase {
     private SingleUserDatabase() {
         userListInDB = readUserListFromFileJson();
 
-        IO.println("SingleuserDB: Users in list: " + userListInDB.size());
+        System.out.println("SingleuserDB: Users in list: " + userListInDB.size());
 
     }
 

@@ -1,9 +1,9 @@
-package team.dream.ClientSide;
+package ClientSide;
 
 import javax.swing.*;
 
 public class ToRemember {
-    static void main() {
+    static void main(String [] args) {
 
 
         String inputUser = JOptionPane.showInputDialog("Connect to server = 1, Offline = 2");

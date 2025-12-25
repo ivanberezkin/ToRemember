@@ -1,7 +1,8 @@
-package team.dream.ClientSide;
+package ClientSide;
 
-import team.dream.shared.Message;
-import team.dream.shared.MessageType;
+import shared.Connections;
+import shared.Message;
+import shared.MessageType;
 
 import javax.swing.*;
 import java.io.IOException;
@@ -14,10 +15,9 @@ public class ClientConnection extends Thread {
 
     private int port = 55555;
     private static final ClientConnection client = new ClientConnection();
-
     private final ObjectOutputStream outputStream;
     private final ObjectInputStream inputStream;
-    private boolean usernameConfirmation = false;
+
     private final ClientProtocol clientProtocol = ClientProtocol.getClientProtocol();
 
     private ClientConnection() {
@@ -27,17 +27,29 @@ public class ClientConnection extends Thread {
             inputStream = new ObjectInputStream(socket.getInputStream());
 
 
-            while (!usernameConfirmation) {
-                String username = JOptionPane.showInputDialog("Please enter your username: ");
-                if (!username.isEmpty()) {
-                    outputStream.writeObject(new Message(MessageType.REQUEST_LOGIN, username));
-                    usernameConfirmation = true;
-                }
-            }
-
+            getUsernameFromUser();
 
         } catch (UnknownHostException e) {
             throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void getUsernameFromUser(){
+        boolean usernameConfirmation = false;
+        while (!usernameConfirmation) {
+            String username = JOptionPane.showInputDialog("Please enter your username: ");
+            if (!username.isEmpty()) {
+                this.sendMessageToServer(new Message(MessageType.REQUEST_LOGIN, username));
+                usernameConfirmation = true;
+            }
+        }
+    }
+
+    public void sendMessageToServer(Message message){
+        try {
+            outputStream.writeObject(message);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -50,7 +62,7 @@ public class ClientConnection extends Thread {
                 Message messageFromServer = (Message) inputStream.readObject();
 
                 if (messageFromServer != null) {
-                    clientProtocol.processInputFromServer(messageFromServer);
+                    clientProtocol.processInputFromServer(messageFromServer, this);
                 }
 
             } catch (IOException e) {

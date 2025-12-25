@@ -1,9 +1,10 @@
-package team.dream.shared;
+package shared;
 
 import java.io.Serializable;
 
 public enum MessageType implements Serializable {
     REQUEST_LOGIN,
     USER_NOT_FOUND,
+    CREATE_NEW_USER,
 
 }
