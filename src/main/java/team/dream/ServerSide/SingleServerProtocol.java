@@ -6,13 +6,13 @@ import team.dream.mySqlDb.UsersMethodSQL;
 import team.dream.shared.Connections;
 import team.dream.shared.Message;
 import team.dream.shared.MessageType;
+import team.dream.unusedClasses.SingleUserDatabase;
 
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 public class SingleServerProtocol {
     private static final SingleServerProtocol serverProtocol = new SingleServerProtocol();
-    SingleUserDatabase userDatabase = SingleUserDatabase.getUserDB();
 
     private SingleServerProtocol() {
 

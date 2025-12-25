@@ -9,7 +9,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.Scanner;
 
 public class ClientConnection extends Thread {
 
@@ -18,14 +17,13 @@ public class ClientConnection extends Thread {
     private final ObjectOutputStream outputStream;
     private final ObjectInputStream inputStream;
 
-    private final ClientProtocol clientProtocol = ClientProtocol.getClientProtocol();
+    private final SingleClientProtocol singleClientProtocol = SingleClientProtocol.getClientProtocol();
 
     private ClientConnection() {
         try {
             Socket socket = new Socket("127.0.0.1", port);
             outputStream = new ObjectOutputStream(socket.getOutputStream());
             inputStream = new ObjectInputStream(socket.getInputStream());
-
 
             getUsernameFromUser();
 
@@ -62,7 +60,7 @@ public class ClientConnection extends Thread {
                 Message messageFromServer = (Message) inputStream.readObject();
 
                 if (messageFromServer != null) {
-                    clientProtocol.processInputFromServer(messageFromServer, this);
+                    singleClientProtocol.processInputFromServer(messageFromServer, this);
                 }
 
             } catch (IOException e) {

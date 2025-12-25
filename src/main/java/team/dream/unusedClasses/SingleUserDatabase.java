@@ -1,11 +1,10 @@
-package team.dream.ServerSide;
+package team.dream.unusedClasses;
 
 import team.dream.shared.User;
 import tools.jackson.core.type.TypeReference;
 import tools.jackson.databind.ObjectMapper;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 public class SingleUserDatabase {

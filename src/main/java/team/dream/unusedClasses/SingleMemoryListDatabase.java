@@ -1,4 +1,4 @@
-package team.dream.ServerSide;
+package team.dream.unusedClasses;
 
 import team.dream.shared.MemoryList;
 import tools.jackson.databind.ObjectMapper;
