@@ -34,6 +34,7 @@ public class ClientConnection extends Thread {
                 System.out.println("Please enter your username: ");
                 String username = sc.nextLine();
                 if (!username.isEmpty()) {
+                    //TODO FactoryMethod for message type ??
                     outputStream.writeObject(new Message(MessageType.REQUEST_LOGIN, username));
                     usernameConfirmation = true;
                 }
