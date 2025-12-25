@@ -1,7 +1,6 @@
 package ServerSide;
 
-import ClientSide.ToRemember;
-import mySqlDb.ConnectionToDB;
+import mySqlDb.ConnectionToSQL;
 
 
 import java.io.IOException;
@@ -12,7 +11,7 @@ public class SingleServerListener {
     private static final SingleServerListener instance = new SingleServerListener();
     private int port = 55555;
     private boolean running = true;
-    private ConnectionToDB connectionToDBClass = ConnectionToDB.getInstance();
+    private ConnectionToSQL connectionToDBClass = ConnectionToSQL.getInstance();
 
     private SingleServerListener() {}
 

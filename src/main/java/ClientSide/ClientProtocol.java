@@ -26,6 +26,11 @@ public class ClientProtocol {
                     }
                 }
             }
+            case LOGIN_SUCCESSFUL -> {
+                if(messageFromServer.getData() instanceof String loggedInUsername)
+                IO.println("Hello " + loggedInUsername + "!");
+            }
+
         }
     }
 

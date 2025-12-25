@@ -1,7 +1,6 @@
 package mySqlDb;
 
 import lombok.Data;
-import shared.Connections;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -9,8 +8,8 @@ import java.sql.*;
 import java.util.Properties;
 
 @Data
-public class ConnectionToDB {
-    private static final ConnectionToDB instance = new ConnectionToDB();
+public class ConnectionToSQL {
+    private static final ConnectionToSQL instance = new ConnectionToSQL();
     private Connection connectionToDb;
     private final String pathToConfigProperties = "src/main/resources/dbConfig.properties";
     private String usernameLogon = null;
@@ -20,11 +19,21 @@ public class ConnectionToDB {
     private String dbName = null;
 
 
-    public ConnectionToDB() {
+    public ConnectionToSQL() {
 
         assignPropertiesToVariables();
         {
             try {
+                //Först ansluter man mot själva SQL servern för att kolla ifall din dbName finns, om den inte finns så skapar den en.
+                //Det här kan man göra i förhand i databashanterare som MySQL Workbench, men för att underlätta för er så gör vi såhär.
+                try(Connection initialConnect = DriverManager.getConnection(url+url2,usernameLogon,passwordLogon)){
+                    Statement createDatabaseIfNotExistStatement = initialConnect.createStatement();
+                    String createDatabaseIfNotExistSQL = "CREATE DATABASE IF NOT EXISTS " + dbName;
+                    createDatabaseIfNotExistStatement.executeUpdate(createDatabaseIfNotExistSQL);
+                    IO.println("DB exists or new is created");
+                }
+
+                //Här ansluter man mot själva databasen som fanns eller som skapades.
                 connectionToDb = DriverManager.getConnection(url+dbName+url2,
                         usernameLogon,
                         passwordLogon);
@@ -47,7 +56,7 @@ public class ConnectionToDB {
 
     private Properties loadProperties(){
         Properties properties = new Properties();
-        try(InputStream input = ConnectionToDB.class.getClassLoader().getResourceAsStream("dbConfig.properties")){
+        try(InputStream input = ConnectionToSQL.class.getClassLoader().getResourceAsStream("dbConfig.properties")){
 
             if(input == null){
                 IO.println("Config file not found.");
@@ -61,7 +70,7 @@ public class ConnectionToDB {
         return properties;
     }
 
-    public static ConnectionToDB getInstance(){
+    public static ConnectionToSQL getInstance(){
         return instance;
     }
 }
