@@ -1,11 +1,14 @@
 package team.dream.ServerSide;
 
+import team.dream.shared.Message;
+
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 public class ClientHandler extends Thread {
     private Socket socket;
+    private SingleServerProtocol serverProtocol = SingleServerProtocol.getServerProtocol();
 
     ClientHandler(Socket socket) {
         this.socket = socket;
@@ -16,11 +19,12 @@ public class ClientHandler extends Thread {
         try(ObjectOutputStream outputStream = new  ObjectOutputStream(socket.getOutputStream());
             ObjectInputStream inputStream = new ObjectInputStream(socket.getInputStream())){
 
-            SingleServerProtocol serverProtocol = SingleServerProtocol.getServerProtocol();
-            Object object;
-
-            while((object = inputStream.readObject()) != null){
-                outputStream.writeObject(serverProtocol.processInputFromClient(object));
+            Message messageFromUser;
+            IO.println("ClientHandler: Waiting for client to send");
+            while((messageFromUser = (Message) inputStream.readObject()) != null){
+                IO.println("ClientHandler: Received from client");
+                outputStream.writeObject(serverProtocol.processInputFromClient(messageFromUser));
+                IO.println("ClientHandler: Sent to client");
             }
         }catch (Exception e){
             e.printStackTrace();

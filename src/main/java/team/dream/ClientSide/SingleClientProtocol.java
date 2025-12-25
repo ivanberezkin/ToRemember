@@ -2,16 +2,14 @@ package team.dream.ClientSide;
 
 import team.dream.shared.Message;
 
-import javax.swing.*;
+public class SingleClientProtocol {
+    private static final SingleClientProtocol clientProtocol = new SingleClientProtocol();
 
-public class ClientProtocol {
-    private static final ClientProtocol clientProtocol = new ClientProtocol();
+    private SingleClientProtocol(){}
 
-    ClientProtocol(){
-    }
+    public static SingleClientProtocol getClientProtocol(){return clientProtocol;}
 
-
-    public void processInputFromServer(Message messageFromServer){
+    public Message processInputFromServer(Message messageFromServer){
         switch(messageFromServer.getType()){
             case USER_NOT_FOUND -> {
                 if(messageFromServer.getData() instanceof String username){
@@ -28,9 +26,7 @@ public class ClientProtocol {
 
             }
         }
+        return null;
     }
 
-    public static ClientProtocol getClientProtocol(){
-        return clientProtocol;
-    }
 }
