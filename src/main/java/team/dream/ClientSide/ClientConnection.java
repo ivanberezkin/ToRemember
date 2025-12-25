@@ -9,6 +9,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.Scanner;
 
 public class ClientConnection extends Thread {
 
@@ -17,6 +18,7 @@ public class ClientConnection extends Thread {
 
     private final ObjectOutputStream outputStream;
     private final ObjectInputStream inputStream;
+    private final Scanner sc;
     private boolean usernameConfirmation = false;
     private final ClientProtocol clientProtocol = ClientProtocol.getClientProtocol();
 
@@ -25,10 +27,12 @@ public class ClientConnection extends Thread {
             Socket socket = new Socket("127.0.0.1", port);
             outputStream = new ObjectOutputStream(socket.getOutputStream());
             inputStream = new ObjectInputStream(socket.getInputStream());
+            sc = new Scanner(System.in);
 
 
             while (!usernameConfirmation) {
-                String username = JOptionPane.showInputDialog("Please enter your username: ");
+                System.out.println("Please enter your username: ");
+                String username = sc.nextLine();
                 if (!username.isEmpty()) {
                     outputStream.writeObject(new Message(MessageType.REQUEST_LOGIN, username));
                     usernameConfirmation = true;
