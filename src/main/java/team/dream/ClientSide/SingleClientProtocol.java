@@ -2,6 +2,7 @@ package team.dream.ClientSide;
 import team.dream.shared.Message;
 import team.dream.shared.MessageType;
 import javax.swing.*;
+import java.util.Scanner;
 
 public class SingleClientProtocol {
     private static final SingleClientProtocol clientProtocol = new SingleClientProtocol();
@@ -15,14 +16,9 @@ public class SingleClientProtocol {
 
         switch(messageFromServer.getType()){
             case USER_NOT_FOUND -> {
+                IO.println("SSL: USER_NOT_FOUND reached");
                 if(messageFromServer.getData() instanceof String username){
-                    int result = JOptionPane.showConfirmDialog(null,"" +
-                            "User not found, would you like to create " + username + "?", "Create User?", JOptionPane.YES_NO_OPTION);
-                    if(result == JOptionPane.YES_OPTION){
-                        client.sendMessageToServer(new Message(MessageType.CREATE_NEW_USER, username));
-                    }else if (result == JOptionPane.NO_OPTION){
-                        client.getUsernameFromUser();
-                    }
+                    getInputFromUserForUserNotFoundMessage(username, client);
                 }
             }
             case LOGIN_SUCCESSFUL -> {
@@ -39,6 +35,22 @@ public class SingleClientProtocol {
 
             }
 
+        }
+    }
+
+    private static void getInputFromUserForUserNotFoundMessage(String username, ClientConnection client ){
+        Scanner scan = new Scanner(System.in);
+
+        IO.println("User not found, would you like to create " + username + "?" +
+                "\nEnter 'Yes' or 'No' to try with different username.");
+
+        String inputFromUser = scan.next();
+        if(inputFromUser.equalsIgnoreCase("Yes")){
+            client.sendMessageToServer(new Message(MessageType.CREATE_NEW_USER, username));
+        }else if (inputFromUser.equalsIgnoreCase("No")){
+            client.getUsernameFromUser();
+        }else{
+            IO.println("Unknown input, try again.");
         }
     }
 

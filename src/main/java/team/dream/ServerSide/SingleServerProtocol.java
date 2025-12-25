@@ -22,10 +22,7 @@ public class SingleServerProtocol {
 
         if (messageFromClient != null) {
             switch (messageFromClient.getType()) {
-                case MessageType.CREATE_NEW_USER -> {
-                    if (messageFromClient.getData() instanceof String userNameToAddToSQL)
-                        UsersMethodSQL.addUserToDB(userNameToAddToSQL);
-                }
+
                 case STARTING_MENU -> {
                     IO.println("Show starting menu");
 //                    return new Message(MessageType.STARTING_MENU, null);
@@ -45,13 +42,19 @@ public class SingleServerProtocol {
         if (inputFromClient.getData() instanceof String usernameToCheck) {
             Connections connectionToClient = new Connections(usernameToCheck, oos, ois);
 
-            SQLTableFunctions.createTableIfNotExist("users");
-            if (UsersMethodSQL.checkIfUserExistsInDB(usernameToCheck)) {
-                connectionToClient.addToConnectionList(usernameToCheck, connectionToClient);
-                ClientHandler.sendMessageToClient(connectionToClient, new Message(MessageType.LOGIN_SUCCESSFUL, usernameToCheck));
+            if (inputFromClient.getType().equals(MessageType.CREATE_NEW_USER)) {
+                    UsersMethodSQL.addUserToDB(usernameToCheck);
+                    connectionToClient.addToConnectionList(usernameToCheck, connectionToClient);
+                    ClientHandler.sendMessageToClient(connectionToClient, new Message(MessageType.LOGIN_SUCCESSFUL, usernameToCheck));
             } else {
-                ClientHandler.sendMessageToClient(connectionToClient, new Message(MessageType.USER_NOT_FOUND, usernameToCheck));
+                SQLTableFunctions.createTableIfNotExist("users");
+                if (UsersMethodSQL.checkIfUserExistsInDB(usernameToCheck)) {
+                    connectionToClient.addToConnectionList(usernameToCheck, connectionToClient);
+                    ClientHandler.sendMessageToClient(connectionToClient, new Message(MessageType.LOGIN_SUCCESSFUL, usernameToCheck));
+                } else {
+                    ClientHandler.sendMessageToClient(connectionToClient, new Message(MessageType.USER_NOT_FOUND, usernameToCheck));
 
+                }
             }
         }
     }

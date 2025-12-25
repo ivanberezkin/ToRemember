@@ -9,6 +9,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.Scanner;
 
 public class ClientConnection extends Thread {
 
@@ -35,12 +36,16 @@ public class ClientConnection extends Thread {
     }
 
     public void getUsernameFromUser(){
+        Scanner scan = new Scanner(System.in);
+        IO.println("Please enter your username");
         boolean usernameConfirmation = false;
         while (!usernameConfirmation) {
-            String username = JOptionPane.showInputDialog("Please enter your username: ");
+            String username = scan.nextLine();
             if (!username.isEmpty()) {
                 this.sendMessageToServer(new Message(MessageType.REQUEST_LOGIN, username));
                 usernameConfirmation = true;
+            } else{
+                IO.println("Wrong format on username, try again");
             }
         }
     }

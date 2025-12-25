@@ -27,7 +27,7 @@ public class ClientHandler extends Thread {
         }
     }
 
-    public static void sendMessageToClient(Connections conn, Message message){
+    public static void sendMessageToClient(Connections conn, Message message) {
         try {
             conn.getOutputStream().writeObject(message);
         } catch (IOException e) {
@@ -42,9 +42,10 @@ public class ClientHandler extends Thread {
             try {
                 Message inputFromClient = (Message) inputStream.readObject();
 
-                if(inputFromClient.getType().equals(MessageType.REQUEST_LOGIN)){
-                    serverProtocol.processLoginFromClient(inputFromClient, outputStream,inputStream);
-                }else{
+                if (inputFromClient.getType().equals(MessageType.REQUEST_LOGIN) ||
+                        inputFromClient.getType().equals(MessageType.CREATE_NEW_USER)) {
+                    serverProtocol.processLoginFromClient(inputFromClient, outputStream, inputStream);
+                } else {
                     serverProtocol.processInputFromClient(inputFromClient);
                 }
 
