@@ -1,15 +1,20 @@
 package team.dream.ServerSide;
 
+import team.dream.mySqlDb.ConnectionToSQL;
 import team.dream.mySqlDb.SQLTableFunctions;
 import team.dream.mySqlDb.UsersMethodSQL;
 import team.dream.shared.Connections;
 import team.dream.shared.Message;
 import team.dream.shared.MessageType;
+import team.dream.shared.User;
+
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.sql.Connection;
 
 public class SingleServerProtocol {
     private static final SingleServerProtocol serverProtocol = new SingleServerProtocol();
+    private static final Connection connectionToDb = ConnectionToSQL.getInstance().getConnectionToDb();
 
     private SingleServerProtocol() {
     }
@@ -21,16 +26,25 @@ public class SingleServerProtocol {
     public Message processInputFromClient(Message inputFromClient) {
         switch (inputFromClient.getType()) {
             case REQUEST_LOGIN -> {
-                IO.println("SSP: Request Login");
-                if (true) { //TODO change boolean value to isRegisteredUser
-                    IO.println("SSP: Login Success, found user");
-                    return new Message(MessageType.STARTING_MENU, "test"); //TODO FactoryMethod for Message
-                } else {
-                    IO.println("SSP: Login creating new user");
-                    String newUserUsername = (String) (inputFromClient.getData());
-                    return new Message(MessageType.STARTING_MENU, null); //TODO FactoryMethod for Message
-                    //TODO what is connectionsList used for?
+                if (inputFromClient.getData() instanceof String usernameToCheck){
+                    SQLTableFunctions.createTableIfNotExist("users");
+                    if(UsersMethodSQL.checkIfUserExistsInDB(usernameToCheck)){
+                        IO.println("User found, Login Successful");
+                        return new Message(MessageType.STARTING_MENU, usernameToCheck);
+                    }else{
+                        IO.println("User not found, sending User Not Found Message");
+                        return new Message(MessageType.USER_NOT_FOUND, usernameToCheck);
+                    }
                 }
+            }
+
+            case CREATE_NEW_USER -> {
+                if (inputFromClient.getData() instanceof String usernameToAddToDB) { //TODO change boolean value to isRegisteredUser
+                        UsersMethodSQL.addUserToDB(usernameToAddToDB);
+                        IO.println("SSP: New User created");
+                        return new Message(MessageType.STARTING_MENU, usernameToAddToDB);
+                }
+
             }
             case STARTING_MENU -> {
                 IO.println("SSP: Send starting menu model to user");
@@ -56,11 +70,11 @@ public class SingleServerProtocol {
             Connections connectionToClient = new Connections(usernameToCheck, oos, ois);
 
             if (inputFromClient.getType().equals(MessageType.CREATE_NEW_USER)) {
-                    UsersMethodSQL.addUserToDB(usernameToCheck);
+
                     connectionToClient.addToConnectionList(usernameToCheck, connectionToClient);
                     ClientHandler.sendMessageToClient(connectionToClient, new Message(MessageType.LOGIN_SUCCESSFUL, usernameToCheck));
             } else {
-                SQLTableFunctions.createTableIfNotExist("users");
+
                 if (UsersMethodSQL.checkIfUserExistsInDB(usernameToCheck)) {
                     connectionToClient.addToConnectionList(usernameToCheck, connectionToClient);
                     ClientHandler.sendMessageToClient(connectionToClient, new Message(MessageType.LOGIN_SUCCESSFUL, usernameToCheck));

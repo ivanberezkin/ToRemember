@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.Scanner;
 
 public class ClientConnection extends Thread {
     private int port = 44444;
@@ -28,17 +29,50 @@ public class ClientConnection extends Thread {
              ObjectInputStream inputStream = new ObjectInputStream(socket.getInputStream())){
 
             outputStream.writeObject(new Message(MessageType.REQUEST_LOGIN, username));
+            outputStream.flush();
+
             Message messageFromServer;
-            IO.println("ClientConnection: Waiting for server to send");
-            while((messageFromServer = (Message) inputStream.readObject()) != null) {
-                IO.println("ClientConnection: Received from server");
-                outputStream.writeObject(clientProtocol.processInputFromServer(messageFromServer));
-                IO.println("ClientConnection: Sent to server");
+
+            while(true) {
+                try{
+                    messageFromServer = (Message) inputStream.readObject();
+                    IO.println("ClientConnection: Received from server");
+                    outputStream.writeObject(clientProtocol.processInputFromServer(messageFromServer));
+                    outputStream.flush();
+                    IO.println("ClientConnection: Sent to server");
+                } catch (IOException | ClassNotFoundException e) {
+                    e.printStackTrace();
+                    break;
+                }
             }
         } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
+/*
+    public void getUsernameFromUser(){
+        Scanner scan = new Scanner(System.in);
+        IO.println("Please enter your username");
+        boolean usernameConfirmation = false;
+        while (!usernameConfirmation) {
+            String username = scan.nextLine();
+            if (!username.isEmpty()) {
+                this.sendMessageToServer(new Message(MessageType.REQUEST_LOGIN, username));
+                usernameConfirmation = true;
+            } else{
+                IO.println("Wrong format on username, try again");
+            }
+        }
+
+ */
+/*
+        public void sendMessageToServer(Message message){
+            try {
+                outputStream.writeObject(message);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+ */
 }
