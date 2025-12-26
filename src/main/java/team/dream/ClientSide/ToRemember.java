@@ -14,6 +14,12 @@ public class ToRemember {
                 IO.println("Enter username:");
                 client.setUsername(sc.nextLine());
                 client.start();
+
+                try{
+                    client.join();
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
             }else{
                 //Do offline stuff
             }
