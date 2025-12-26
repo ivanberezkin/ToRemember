@@ -1,48 +1,45 @@
 package team.dream.ClientSide;
+
 import team.dream.shared.Message;
 import team.dream.shared.MessageType;
-import javax.swing.*;
+import java.util.Scanner;
 
 public class SingleClientProtocol {
     private static final SingleClientProtocol clientProtocol = new SingleClientProtocol();
+    Scanner scanner = new Scanner(System.in);
 
-    SingleClientProtocol(){
+    private SingleClientProtocol(){}
 
-    }
+    public static SingleClientProtocol getClientProtocol(){return clientProtocol;}
 
-
-    public void processInputFromServer(Message messageFromServer, ClientConnection client){
-
-        switch(messageFromServer.getType()){
+    public Message processInputFromServer(Message messageFromServer) {
+        switch (messageFromServer.getType()) {
             case USER_NOT_FOUND -> {
-                if(messageFromServer.getData() instanceof String username){
-                    int result = JOptionPane.showConfirmDialog(null,"" +
-                            "User not found, would you like to create " + username + "?", "Create User?", JOptionPane.YES_NO_OPTION);
-                    if(result == JOptionPane.YES_OPTION){
-                        client.sendMessageToServer(new Message(MessageType.CREATE_NEW_USER, username));
-                    }else if (result == JOptionPane.NO_OPTION){
-                        client.getUsernameFromUser();
-                    }
-                }
-            }
-            case LOGIN_SUCCESSFUL -> {
-                if(messageFromServer.getData() instanceof String loggedInUsername)
-                IO.println("Hello " + loggedInUsername + "!");
+                IO.println("ClientProtocol: User not found");
+                //TODO create model view control
+                return null;
             }
             case STARTING_MENU -> {
-                //TODO create model view controll
-                IO.println("""
-                        1. See memory lists
-                        2. Create memory list
-                        3. Delete memory list
-                        4. Quit""");
-
+                IO.println("ClientProtocol: Show starting menu");
+                scanner.nextLine(); //TODO menu for choosing valid actions
+                IO.println("ClientProtocol: Send menu choice made");
+                //TODO create model view control
+                return new Message(MessageType.SHOW_LIST_OF_MEMORY_LISTS, null); //TODO FactoryMethod
             }
-
+            case SHOW_LIST_OF_MEMORY_LISTS -> {
+                IO.println("ClientProtocol: Show list of memory lists");
+                scanner.nextLine(); //TODO menu for choosing valid actions
+                IO.println("ClientProtocol: Send list choice made");
+                return new Message(MessageType.SHOW_LIST_OF_MEMORY_LISTS, null); //TODO FactoryMethod
+            }
+            case SHOW_CHOSEN_MEMORY_LIST ->  {
+                IO.println("ClientProtocol: Show chosen memory list");
+                scanner.nextLine(); //TODO menu for choosing valid actions
+                IO.println("ClientProtocol: Send action chosen");
+                return new Message(MessageType.SHOW_CHOSEN_MEMORY_LIST, null); //TODO FactoryMethod
+            }
         }
-    }
-
-    public static SingleClientProtocol getClientProtocol(){
-        return clientProtocol;
+        IO.println("ClientProtocol: No return from switch triggered");
+        return null;
     }
 }

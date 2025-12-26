@@ -1,58 +1,32 @@
 package team.dream.ServerSide;
 
-import team.dream.shared.Connections;
 import team.dream.shared.Message;
-import team.dream.shared.MessageType;
-import team.dream.shared.User;
-
-import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.util.ArrayList;
 
 public class ClientHandler extends Thread {
-
-    private ObjectInputStream inputStream;
-    private ObjectOutputStream outputStream;
+    private Socket socket;
     private SingleServerProtocol serverProtocol = SingleServerProtocol.getServerProtocol();
 
-
     ClientHandler(Socket socket) {
-        try {
-            this.outputStream = new ObjectOutputStream(socket.getOutputStream());
-            this.inputStream = new ObjectInputStream(socket.getInputStream());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public static void sendMessageToClient(Connections conn, Message message){
-        try {
-            conn.getOutputStream().writeObject(message);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        this.socket = socket;
     }
 
     @Override
-    public void run() {
+    public void run(){
+        try(ObjectOutputStream outputStream = new  ObjectOutputStream(socket.getOutputStream());
+            ObjectInputStream inputStream = new ObjectInputStream(socket.getInputStream())){
 
-        while (true) {
-            try {
-                Message inputFromClient = (Message) inputStream.readObject();
-
-                if(inputFromClient.getType().equals(MessageType.REQUEST_LOGIN)){
-                    serverProtocol.processLoginFromClient(inputFromClient, outputStream,inputStream);
-                }else{
-                    serverProtocol.processInputFromClient(inputFromClient);
-                }
-
-            } catch (IOException | ClassNotFoundException e) {
-                throw new RuntimeException(e);
+            Message messageFromUser;
+            IO.println("ClientHandler: Waiting for client to send");
+            while((messageFromUser = (Message) inputStream.readObject()) != null){
+                IO.println("ClientHandler: Received from client");
+                outputStream.writeObject(serverProtocol.processInputFromClient(messageFromUser));
+                IO.println("ClientHandler: Sent to client");
             }
-
-
+        }catch (Exception e){
+            e.printStackTrace();
         }
     }
 }
