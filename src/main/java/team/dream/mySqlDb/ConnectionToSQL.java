@@ -9,19 +9,28 @@ import java.util.Properties;
 
 @Data
 public class ConnectionToSQL {
+
+    //Database variables
     private static final ConnectionToSQL instance = new ConnectionToSQL();
     private Connection connectionToDb;
     private final String pathToConfigProperties = "src/main/resources/dbConfig.properties";
-    private String usernameLogon = null;
-    private String passwordLogon = null;
-    private String url = null;
-    private String url2 = null;
-    private String dbName = null;
+    private final Properties properties = loadProperties();
 
+    private final String usernameLogon = properties.getProperty("db.username");
+    private final String passwordLogon = properties.getProperty("db.password");;
+    private final String url = properties.getProperty("db.url");
+    private final String url2 = properties.getProperty("db.url2");
+    private final String dbName = properties.getProperty("db.name");
+
+    //SSH variables
+    private final String sshHost = properties.getProperty("ssh.host");
+    private final String sshPort = properties.getProperty("ssh.port");
+    private final String sshUser = properties.getProperty("ssh.username");
+    private final String sshKeyPath = properties.getProperty("ssh.keyPath");
 
     public ConnectionToSQL() {
 
-        assignPropertiesToVariables();
+
         {
             try {
                 //Först ansluter man mot själva SQL servern för att kolla ifall din dbName finns, om den inte finns så skapar den en.
@@ -43,15 +52,6 @@ public class ConnectionToSQL {
             }
         }
 
-    }
-
-    private void assignPropertiesToVariables(){
-        Properties properties = loadProperties();
-        this.usernameLogon = properties.getProperty("db.username");
-        this.passwordLogon = properties.getProperty("db.password");
-        this.url = properties.getProperty("db.url");
-        this.url2 = properties.getProperty("db.url2");
-        this.dbName = properties.getProperty("db.name");
     }
 
     private Properties loadProperties(){
