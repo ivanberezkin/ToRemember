@@ -1,7 +1,6 @@
 package team.dream.ServerSide;
 
 
-
 import team.dream.Databases.SingleUserDatabase;
 import team.dream.shared.Message;
 import team.dream.shared.MessageType;
@@ -21,11 +20,11 @@ public class SingleServerProtocol {
     public Message processInputFromClient(Message inputFromClient) {
         switch (inputFromClient.getType()) {
             case REQUEST_LOGIN -> {
-                if (inputFromClient.getData() instanceof String usernameToCheck){
-                    if(userDatabase.findExistingUser(usernameToCheck) != null){
+                if (inputFromClient.getData() instanceof String usernameToCheck) {
+                    if (userDatabase.findExistingUser(usernameToCheck) != null) {
                         IO.println("User found, Login Successful");
                         return new Message(MessageType.STARTING_MENU, usernameToCheck);
-                    }else{
+                    } else {
                         IO.println("User not found, sending User Not Found Message");
                         return new Message(MessageType.USER_NOT_FOUND, usernameToCheck);
                     }
@@ -34,9 +33,9 @@ public class SingleServerProtocol {
 
             case CREATE_NEW_USER -> {
                 if (inputFromClient.getData() instanceof String usernameToAddToDB) { //TODO change boolean value to isRegisteredUser
-                       userDatabase.addNewUser(usernameToAddToDB);
-                        IO.println("SSP: New User created");
-                        return new Message(MessageType.STARTING_MENU, usernameToAddToDB);
+                    userDatabase.addNewUser(usernameToAddToDB);
+                    IO.println("SSP: New User created");
+                    return new Message(MessageType.STARTING_MENU, usernameToAddToDB);
                 }
 
             }
@@ -53,31 +52,4 @@ public class SingleServerProtocol {
         }
         return null;
     }
-
-    /*
-    // kommenterar ur koden för den bryter separation of concern då min tanke är
-    // att klassen ClientConnection ansvarar för att skicka och ta emor data
-    // Jag går att övertalas om ni anser det här vara en bättre lösning
-
-    public void processLoginFromClient(Message inputFromClient, ObjectOutputStream oos, ObjectInputStream ois) {
-        if (inputFromClient.getData() instanceof String usernameToCheck) {
-            Connections connectionToClient = new Connections(usernameToCheck, oos, ois);
-
-            if (inputFromClient.getType().equals(MessageType.CREATE_NEW_USER)) {
-
-                    connectionToClient.addToConnectionList(usernameToCheck, connectionToClient);
-                    ClientHandler.sendMessageToClient(connectionToClient, new Message(MessageType.LOGIN_SUCCESSFUL, usernameToCheck));
-            } else {
-
-                if (UsersMethodSQL.checkIfUserExistsInDB(usernameToCheck)) {
-                    connectionToClient.addToConnectionList(usernameToCheck, connectionToClient);
-                    ClientHandler.sendMessageToClient(connectionToClient, new Message(MessageType.LOGIN_SUCCESSFUL, usernameToCheck));
-                } else {
-                    ClientHandler.sendMessageToClient(connectionToClient, new Message(MessageType.USER_NOT_FOUND, usernameToCheck));
-
-                }
-            }
-        }
-    }
-     */
 }
