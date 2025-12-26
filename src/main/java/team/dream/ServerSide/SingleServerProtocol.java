@@ -45,10 +45,12 @@ public class SingleServerProtocol {
         }
         return null;
     }
+
     /*
     // kommenterar ur koden för den bryter separation of concern då min tanke är
     // att klassen ClientConnection ansvarar för att skicka och ta emor data
     // Jag går att övertalas om ni anser det här vara en bättre lösning
+
     public void processLoginFromClient(Message inputFromClient, ObjectOutputStream oos, ObjectInputStream ois) {
         if (inputFromClient.getData() instanceof String usernameToCheck) {
             Connections connectionToClient = new Connections(usernameToCheck, oos, ois);
