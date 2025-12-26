@@ -2,6 +2,7 @@ package team.dream.mySqlDb;
 
 import lombok.Data;
 import net.schmizz.sshj.SSHClient;
+import net.schmizz.sshj.connection.channel.direct.Parameters;
 import net.schmizz.sshj.transport.verification.HostKeyVerifier;
 import net.schmizz.sshj.transport.verification.PromiscuousVerifier;
 import net.schmizz.sshj.userauth.keyprovider.KeyProvider;
@@ -29,31 +30,33 @@ public class ConnectionToSQL {
     private final String dbName = properties.getProperty("db.name");
 
     //SSH variables
-//    private final String sshHost = properties.getProperty("ssh.host");
-//    private final int sshPort = Integer.parseInt(properties.getProperty("ssh.port"));
-//    private final String sshUser = properties.getProperty("ssh.username");
-//    private final String sshKeyPath = properties.getProperty("ssh.keyPath");
-//    private final int forwardedLocalPort = 3307;
+    private final String sshHost = properties.getProperty("ssh.host");
+    private final int sshPort = Integer.parseInt(properties.getProperty("ssh.port"));
+    private final String sshUser = properties.getProperty("ssh.username");
+    private final String sshKeyPath = properties.getProperty("ssh.keyPath");
 
-//    private SSHClient ssh;
-//
-//    private void connectToSSH(){
-//        ssh = new SSHClient();
-//
-//        //PromiscuousVerifier accepterar alla host keys, inte säkert i prod.
-//        ssh.addHostKeyVerifier(new PromiscuousVerifier());
-//
-//        try {
-//            ssh.connect(sshHost,sshPort);
-//            KeyProvider keyProvider = ssh.loadKeys(sshKeyPath);
-//            ssh.authPublickey(sshUser,keyProvider);
-//
-//
-//        } catch (IOException e) {
-//            IO.println("SSH connection failed");
-//            throw new RuntimeException(e);
-//        }
-//    }
+    private final int forwardedLocalPort = 3307;
+    private static final String localhost = "localhost";
+
+    private SSHClient ssh;
+
+    private void connectToSSH(){
+        ssh = new SSHClient();
+
+        //PromiscuousVerifier accepterar alla host keys, inte säkert i prod.
+        ssh.addHostKeyVerifier(new PromiscuousVerifier());
+
+        try {
+            ssh.connect(sshHost,sshPort);
+            KeyProvider keyProvider = ssh.loadKeys(sshKeyPath);
+            ssh.authPublickey(sshUser,keyProvider);
+
+
+        } catch (IOException e) {
+            IO.println("SSH connection failed");
+            throw new RuntimeException(e);
+        }
+    }
 
     public ConnectionToSQL() {
 
