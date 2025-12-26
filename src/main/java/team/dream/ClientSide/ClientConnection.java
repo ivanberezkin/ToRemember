@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.Scanner;
 
 public class ClientConnection extends Thread {
     private int port = 44444;
@@ -41,4 +42,30 @@ public class ClientConnection extends Thread {
             throw new RuntimeException(e);
         }
     }
+/*
+    public void getUsernameFromUser(){
+        Scanner scan = new Scanner(System.in);
+        IO.println("Please enter your username");
+        boolean usernameConfirmation = false;
+        while (!usernameConfirmation) {
+            String username = scan.nextLine();
+            if (!username.isEmpty()) {
+                this.sendMessageToServer(new Message(MessageType.REQUEST_LOGIN, username));
+                usernameConfirmation = true;
+            } else{
+                IO.println("Wrong format on username, try again");
+            }
+        }
+
+ */
+/*
+        public void sendMessageToServer(Message message){
+            try {
+                outputStream.writeObject(message);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+ */
 }
