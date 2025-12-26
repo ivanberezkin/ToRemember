@@ -46,6 +46,9 @@ public class SingleClientProtocol {
         IO.println("ClientProtocol: No return from switch triggered");
         return null;
     }
+    /*
+    // kommenterar ut då koden vill använda metoder från klassen ClientConnection
+    // Min tanke är att ClientConnection hanterar sända och ta emot data, separation of concern
     private static void getInputFromUserForUserNotFoundMessage(String username, ClientConnection client ){
         Scanner scan = new Scanner(System.in);
 
@@ -61,4 +64,5 @@ public class SingleClientProtocol {
             IO.println("Unknown input, try again.");
         }
     }
+     */
 }

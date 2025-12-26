@@ -1,20 +1,22 @@
 package team.dream.ServerSide;
 
-
 import team.dream.mySqlDb.SQLTableFunctions;
 import team.dream.mySqlDb.UsersMethodSQL;
 import team.dream.shared.Connections;
 import team.dream.shared.Message;
 import team.dream.shared.MessageType;
-import team.dream.unusedClasses.SingleUserDatabase;
-
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 public class SingleServerProtocol {
     private static final SingleServerProtocol serverProtocol = new SingleServerProtocol();
 
-    private SingleServerProtocol() {}
+    private SingleServerProtocol() {
+    }
+
+    public static SingleServerProtocol getServerProtocol() {
+        return serverProtocol;
+    }
 
     public Message processInputFromClient(Message inputFromClient) {
         switch (inputFromClient.getType()) {
@@ -43,9 +45,10 @@ public class SingleServerProtocol {
         }
         return null;
     }
-
-    }
-
+    /*
+    // kommenterar ur koden för den bryter separation of concern då min tanke är
+    // att klassen ClientConnection ansvarar för att skicka och ta emor data
+    // Jag går att övertalas om ni anser det här vara en bättre lösning
     public void processLoginFromClient(Message inputFromClient, ObjectOutputStream oos, ObjectInputStream ois) {
         if (inputFromClient.getData() instanceof String usernameToCheck) {
             Connections connectionToClient = new Connections(usernameToCheck, oos, ois);
@@ -66,11 +69,5 @@ public class SingleServerProtocol {
             }
         }
     }
-
-
-    public static SingleServerProtocol getServerProtocol() {
-        return serverProtocol;
-    }
-
-    public static SingleServerProtocol getServerProtocol() {return serverProtocol;}
+     */
 }
