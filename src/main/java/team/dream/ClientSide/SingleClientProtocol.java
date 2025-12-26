@@ -19,6 +19,10 @@ public class SingleClientProtocol {
                 //TODO create model view control
                 return null;
             }
+            case LOGIN_SUCCESSFUL -> {
+                if(messageFromServer.getData() instanceof String loggedInUsername)
+                    IO.println("Hello " + loggedInUsername + "!");
+            }
             case STARTING_MENU -> {
                 IO.println("ClientProtocol: Show starting menu");
                 scanner.nextLine(); //TODO menu for choosing valid actions
@@ -41,5 +45,20 @@ public class SingleClientProtocol {
         }
         IO.println("ClientProtocol: No return from switch triggered");
         return null;
+    }
+    private static void getInputFromUserForUserNotFoundMessage(String username, ClientConnection client ){
+        Scanner scan = new Scanner(System.in);
+
+        IO.println("User not found, would you like to create " + username + "?" +
+                "\nEnter 'Yes' or 'No' to try with different username.");
+
+        String inputFromUser = scan.next();
+        if(inputFromUser.equalsIgnoreCase("Yes")){
+            client.sendMessageToServer(new Message(MessageType.CREATE_NEW_USER, username));
+        }else if (inputFromUser.equalsIgnoreCase("No")){
+            client.getUsernameFromUser();
+        }else{
+            IO.println("Unknown input, try again.");
+        }
     }
 }
