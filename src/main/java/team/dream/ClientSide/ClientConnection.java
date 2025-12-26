@@ -29,17 +29,24 @@ public class ClientConnection extends Thread {
              ObjectInputStream inputStream = new ObjectInputStream(socket.getInputStream())){
 
             outputStream.writeObject(new Message(MessageType.REQUEST_LOGIN, username));
+            outputStream.flush();
+
             Message messageFromServer;
-            IO.println("ClientConnection: Waiting for server to send");
-            while((messageFromServer = (Message) inputStream.readObject()) != null) {
-                IO.println("ClientConnection: Received from server");
-                outputStream.writeObject(clientProtocol.processInputFromServer(messageFromServer));
-                IO.println("ClientConnection: Sent to server");
+
+            while(true) {
+                try{
+                    messageFromServer = (Message) inputStream.readObject();
+                    IO.println("ClientConnection: Received from server");
+                    outputStream.writeObject(clientProtocol.processInputFromServer(messageFromServer));
+                    outputStream.flush();
+                    IO.println("ClientConnection: Sent to server");
+                } catch (IOException | ClassNotFoundException e) {
+                    e.printStackTrace();
+                    break;
+                }
             }
         } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
 /*
