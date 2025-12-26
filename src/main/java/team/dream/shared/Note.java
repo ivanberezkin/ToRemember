@@ -4,12 +4,10 @@ import java.time.LocalDateTime;
 
 public class Note {
     private String title;
-    private String description;
     private LocalDateTime deadline;
 
-    public Note(String title, String description, LocalDateTime deadline) {
+    public Note(String title, LocalDateTime deadline) {
         this.title = title;
-        this.description = description;
         this.deadline = deadline;
     }
 
@@ -19,14 +17,6 @@ public class Note {
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public LocalDateTime getDeadline() {

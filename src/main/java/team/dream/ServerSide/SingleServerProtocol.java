@@ -32,7 +32,7 @@ public class SingleServerProtocol {
             }
 
             case CREATE_NEW_USER -> {
-                if (inputFromClient.getData() instanceof String usernameToAddToDB) { //TODO change boolean value to isRegisteredUser
+                if (inputFromClient.getData() instanceof String usernameToAddToDB) {
                     userDatabase.addNewUser(usernameToAddToDB);
                     IO.println("SSP: New User created");
                     return new Message(MessageType.STARTING_MENU, usernameToAddToDB);
