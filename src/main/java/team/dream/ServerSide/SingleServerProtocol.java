@@ -1,20 +1,15 @@
 package team.dream.ServerSide;
 
-import team.dream.mySqlDb.ConnectionToSQL;
-import team.dream.mySqlDb.SQLTableFunctions;
-import team.dream.mySqlDb.UsersMethodSQL;
-import team.dream.shared.Connections;
+
+
+import team.dream.Databases.SingleUserDatabase;
 import team.dream.shared.Message;
 import team.dream.shared.MessageType;
-import team.dream.shared.User;
 
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.sql.Connection;
 
 public class SingleServerProtocol {
     private static final SingleServerProtocol serverProtocol = new SingleServerProtocol();
-    private static final Connection connectionToDb = ConnectionToSQL.getInstance().getConnectionToDb();
+    private static final SingleUserDatabase userDatabase = SingleUserDatabase.getInstance();
 
     private SingleServerProtocol() {
     }
@@ -27,8 +22,7 @@ public class SingleServerProtocol {
         switch (inputFromClient.getType()) {
             case REQUEST_LOGIN -> {
                 if (inputFromClient.getData() instanceof String usernameToCheck){
-                    SQLTableFunctions.createTableIfNotExist("users");
-                    if(UsersMethodSQL.checkIfUserExistsInDB(usernameToCheck)){
+                    if(userDatabase.findExistingUser(usernameToCheck) != null){
                         IO.println("User found, Login Successful");
                         return new Message(MessageType.STARTING_MENU, usernameToCheck);
                     }else{
@@ -40,7 +34,7 @@ public class SingleServerProtocol {
 
             case CREATE_NEW_USER -> {
                 if (inputFromClient.getData() instanceof String usernameToAddToDB) { //TODO change boolean value to isRegisteredUser
-                        UsersMethodSQL.addUserToDB(usernameToAddToDB);
+                       userDatabase.addNewUser(usernameToAddToDB);
                         IO.println("SSP: New User created");
                         return new Message(MessageType.STARTING_MENU, usernameToAddToDB);
                 }
