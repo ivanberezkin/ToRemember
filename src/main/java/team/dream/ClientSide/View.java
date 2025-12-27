@@ -7,10 +7,10 @@ import java.util.List;
 
 public class View {
 
-    private ClientModel model;
 
-    View (ClientModel model){
-        this.model = model;
+
+    View (){
+
     }
 
     public void showStartingMenuView(){
