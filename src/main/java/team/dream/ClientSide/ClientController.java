@@ -1,5 +1,6 @@
 package team.dream.ClientSide;
 
+import team.dream.shared.MemoryList;
 import team.dream.shared.Message;
 import team.dream.shared.MessageType;
 
@@ -11,24 +12,31 @@ public class ClientController {
     private View view;
     Scanner scan = new Scanner(System.in);
 
-    ClientController(ClientModel model, View view){
+    ClientController(ClientModel model, View view) {
         this.model = model;
         this.view = view;
     }
 
-    public Message getInputFromStartingMenu(){
+    public MemoryList createNewMemoryList() {
+
+        IO.println("Please enter name for your memorylist.");
+        String title = scan.nextLine();
+        return new MemoryList(title);
+    }
+
+    public Message getInputFromStartingMenu() {
         IO.println("Hello " + model.getUser());
         int inputFromUser;
-        while(true){
+        while (true) {
             view.showStartingMenuView();
-            try{
+            try {
                 inputFromUser = scan.nextInt();
-                switch(inputFromUser){
+                switch (inputFromUser) {
                     case 1 -> {
                         return new Message(MessageType.SHOW_LIST_OF_MEMORY_LISTS, model.getUser());
                     }
                     case 2 -> {
-                        return new Message(MessageType.CREATE_MEMORY_LIST, model.getUser());
+                        return new Message(MessageType.CREATE_MEMORY_LIST, createNewMemoryList(), model.getUser());
                     }
                     case 3 -> {
                         return new Message(MessageType.REMOVE_MEMORY_LIST, model.getUser());
@@ -41,11 +49,10 @@ public class ClientController {
                     }
 
                 }
-            } catch (InputMismatchException e){
+            } catch (InputMismatchException e) {
                 scan.next();
                 IO.println("Please enter a valid digit");
             }
-
 
 
         }

@@ -11,6 +11,10 @@ public class MemoryList {
         this.notes = notes;
     }
 
+    public MemoryList(String title) {
+        this.title = title;
+    }
+
     public MemoryList() {
     }
 
