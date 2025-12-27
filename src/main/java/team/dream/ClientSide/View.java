@@ -7,10 +7,10 @@ import java.util.List;
 
 public class View {
 
-    private ClientModel model;
 
-    View (ClientModel model){
-        this.model = model;
+
+    View (){
+
     }
 
     public void showStartingMenuView(){
@@ -32,7 +32,7 @@ public class View {
     public void showMemoryListsView(MemoryList  memoryList){
         IO.println(memoryList.getTitle());
         for (Note note : memoryList.getNotes()) {
-            IO.println(note.getTitle() + " " + note.getDeadline());
+            IO.println(note.getTitle());
         }
     }
 }

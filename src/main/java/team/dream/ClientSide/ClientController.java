@@ -4,6 +4,7 @@ import team.dream.shared.MemoryList;
 import team.dream.shared.Message;
 import team.dream.shared.MessageType;
 
+import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -17,10 +18,21 @@ public class ClientController {
         this.view = view;
     }
 
-    private MemoryList createNewMemoryList() {
+
+    public void getInputFromShowMemoryLists(){
+        view.showAllMemoryListsView(model.getUsersMemoryList());
+
+
+        //TODO har inget vettigt att skicka tillbaka än, så pausar programmet här genom att vänta på input
+        int inputFromUser = scan.nextInt();
+        scan.nextLine();
+    }
+
+    private String getTitleForNewMemoryList() {
         IO.println("Please enter name for your memorylist.");
         String title = scan.nextLine();
-        return new MemoryList(title, "123");
+        //TODO lägga till felhantering
+        return title;
     }
 
     public Message getInputFromStartingMenu() {
@@ -35,9 +47,10 @@ public class ClientController {
                     case 1 -> {
                         return new Message(MessageType.SHOW_LIST_OF_MEMORY_LISTS, model.getUser());
                     }
+                    //Create new memoryList
                     case 2 -> {
-                        MemoryList newMemoryList = createNewMemoryList();
-                        return new Message(MessageType.CREATE_MEMORY_LIST, newMemoryList, model.getUser());
+                        String title = getTitleForNewMemoryList();
+                        return new Message(MessageType.CREATE_MEMORY_LIST, title, model.getUser());
                     }
                     case 3 -> {
                         return new Message(MessageType.REMOVE_MEMORY_LIST, model.getUser());

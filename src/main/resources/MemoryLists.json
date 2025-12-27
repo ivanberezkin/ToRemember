@@ -1,6 +1,19 @@
 [ {
+  "memoryListID" : 88,
   "notes" : [ ],
-  "title" : "TestlistaIvanNr2",
-  "userID" : "123",
+  "ownerUsername" : "ivan",
+  "title" : "ivantestlist",
+  "users" : [ ]
+}, {
+  "memoryListID" : 20,
+  "notes" : [ ],
+  "ownerUsername" : "ivan",
+  "title" : "IvansAndraTestLista",
+  "users" : [ ]
+}, {
+  "memoryListID" : 68,
+  "notes" : [ ],
+  "ownerUsername" : "ivan",
+  "title" : "IvansTredjeTestLista",
   "users" : [ ]
 } ]

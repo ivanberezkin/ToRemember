@@ -7,6 +7,9 @@ import team.dream.shared.MemoryList;
 import team.dream.shared.Message;
 import team.dream.shared.MessageType;
 
+import java.util.ArrayList;
+import java.util.Random;
+
 
 public class SingleServerProtocol {
     private static final SingleServerProtocol serverProtocol = new SingleServerProtocol();
@@ -43,10 +46,20 @@ public class SingleServerProtocol {
             }
 
             case CREATE_MEMORY_LIST -> {
-                if(inputFromClient.getData() instanceof MemoryList memoryListToAddToDB){
+                if(inputFromClient.getData() instanceof String titleOfNewMemoryList){
+                    Random randomID = new Random();
+                    int assignedIdToNewMemoryList = randomID.nextInt(100);
+                    while(singleMemoryListDatabase.isIDtaken(assignedIdToNewMemoryList)){
+                        assignedIdToNewMemoryList = randomID.nextInt(100);
+                    }
+                    MemoryList memoryListToAddToDB = new MemoryList(
+                            titleOfNewMemoryList,
+                            inputFromClient.getUsername(),
+                            assignedIdToNewMemoryList);
+
                     singleMemoryListDatabase.addNewMemoryListToDB(memoryListToAddToDB);
                     IO.println("SSP: Memorylist added to DB succesfully");
-                    return new Message(MessageType.SHOW_CHOSEN_MEMORY_LIST, memoryListToAddToDB, inputFromClient.getUsername());
+                    return new Message(MessageType.STARTING_MENU, inputFromClient.getUsername());
                 }
             }
 
@@ -58,7 +71,10 @@ public class SingleServerProtocol {
             }
             case SHOW_LIST_OF_MEMORY_LISTS -> {
                 IO.println("SSP: Send list of memory lists model to user");
-                return new Message(MessageType.SHOW_LIST_OF_MEMORY_LISTS, null);
+                if(inputFromClient.getData() instanceof String ownerUsername){
+                    return new Message(MessageType.SHOW_LIST_OF_MEMORY_LISTS, singleMemoryListDatabase.getAllUsersMemoryLists(ownerUsername), ownerUsername);
+                }
+
             }
         }
         return null;

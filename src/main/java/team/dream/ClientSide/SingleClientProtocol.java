@@ -5,16 +5,18 @@ import team.dream.shared.Message;
 import team.dream.shared.MessageType;
 import team.dream.shared.User;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class SingleClientProtocol {
     private static final SingleClientProtocol clientProtocol = new SingleClientProtocol();
     Scanner scanner = new Scanner(System.in);
-    private ClientModel model;
-    private View view;
-
+    private ClientModel model = new ClientModel();
+    ClientController cc = new ClientController(model, new View());
 
     private SingleClientProtocol() {
+
     }
 
     public static SingleClientProtocol getClientProtocol() {
@@ -33,9 +35,7 @@ public class SingleClientProtocol {
 
             case STARTING_MENU -> {
                 if (messageFromServer.getData() instanceof String loggedInUsername) {
-                    model = new ClientModel(loggedInUsername);
-                    view = new View(model);
-                    ClientController cc = new ClientController(model,view);
+                    model.setUser(loggedInUsername);
                     return  cc.getInputFromStartingMenu();
                 }
             }
@@ -44,15 +44,18 @@ public class SingleClientProtocol {
                 IO.println("ClientProtocol: Enter title of new memory list");
                 String title = scanner.nextLine();
                 String user = model.getUser();
-                MemoryList memoryList = new MemoryList(title, user);
-                model.getUsersMemoryList().add(memoryList);
-                return new Message(MessageType.STARTING_MENU, model);
+//                MemoryList memoryList = new MemoryList(title, user);
+//                model.getUsersMemoryList().add(memoryList);
+//                return new Message(MessageType.STARTING_MENU, model);
             }
             case SHOW_LIST_OF_MEMORY_LISTS -> {
                 IO.println("ClientProtocol: Show list of memory lists");
-                scanner.nextLine(); //TODO menu for choosing valid actions
-                IO.println("ClientProtocol: Send list choice made");
-                return new Message(MessageType.SHOW_LIST_OF_MEMORY_LISTS, null); //TODO FactoryMethod
+                    model.setUsersMemoryList((ArrayList<MemoryList>) messageFromServer.getData());
+                    cc.getInputFromShowMemoryLists();
+                    return new Message(MessageType.SHOW_LIST_OF_MEMORY_LISTS, null); //TODO FactoryMethod
+
+
+
             }
             case SHOW_CHOSEN_MEMORY_LIST -> {
                 IO.println("ClientProtocol: Show chosen memory list");
