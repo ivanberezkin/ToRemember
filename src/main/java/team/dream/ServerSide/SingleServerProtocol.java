@@ -1,7 +1,9 @@
 package team.dream.ServerSide;
 
 
+import team.dream.Databases.SingleMemoryListDatabase;
 import team.dream.Databases.SingleUserDatabase;
+import team.dream.shared.MemoryList;
 import team.dream.shared.Message;
 import team.dream.shared.MessageType;
 
@@ -9,6 +11,7 @@ import team.dream.shared.MessageType;
 public class SingleServerProtocol {
     private static final SingleServerProtocol serverProtocol = new SingleServerProtocol();
     private static final SingleUserDatabase userDatabase = SingleUserDatabase.getInstance();
+    private static final SingleMemoryListDatabase singleMemoryListDatabase = SingleMemoryListDatabase.getInstance();
 
     private SingleServerProtocol() {
     }
@@ -37,8 +40,16 @@ public class SingleServerProtocol {
                     IO.println("SSP: New User created");
                     return new Message(MessageType.STARTING_MENU, usernameToAddToDB);
                 }
-
             }
+
+            case CREATE_MEMORY_LIST -> {
+                if(inputFromClient.getData() instanceof MemoryList memoryListToAddToDB){
+                    singleMemoryListDatabase.addNewMemoryListToDB(memoryListToAddToDB);
+                    IO.println("SSP: Memorylist added to DB succesfully");
+                    return new Message(MessageType.SHOW_CHOSEN_MEMORY_LIST, memoryListToAddToDB, inputFromClient.getUsername());
+                }
+            }
+
             case STARTING_MENU -> {
                 IO.println("SSP: Send starting menu model to user");
                 //TODO send starting menu model to client side MVC

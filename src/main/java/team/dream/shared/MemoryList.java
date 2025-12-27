@@ -1,9 +1,10 @@
 package team.dream.shared;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MemoryList {
+public class MemoryList implements Serializable {
     private List<Note> notes = new ArrayList<>();
     private String title;
     private String userID;

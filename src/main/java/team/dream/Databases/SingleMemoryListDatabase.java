@@ -1,6 +1,7 @@
 package team.dream.Databases;
 
 import team.dream.shared.MemoryList;
+import team.dream.shared.User;
 import tools.jackson.databind.ObjectMapper;
 import tools.jackson.core.type.TypeReference;
 
@@ -24,6 +25,11 @@ public class SingleMemoryListDatabase {
 
     private List<MemoryList> readMemoryListsFromFileJson() {
         return mapper.readValue(new File(filename), new TypeReference<List<MemoryList>>() {});
+    }
+
+    public void addNewMemoryListToDB(MemoryList memoryListToAdd){
+        memoryLists.add(memoryListToAdd);
+        writeMemoryListsToFile(memoryLists);
     }
 
     private void writeMemoryListsToFile(List<MemoryList> memoryLists) {
