@@ -20,7 +20,7 @@ public class ClientController {
     private MemoryList createNewMemoryList() {
         IO.println("Please enter name for your memorylist.");
         String title = scan.nextLine();
-        return new MemoryList(title);
+        return new MemoryList(title, "123");
     }
 
     public Message getInputFromStartingMenu() {
