@@ -32,7 +32,7 @@ public class View {
     public void showMemoryListsView(MemoryList  memoryList){
         IO.println(memoryList.getTitle());
         for (Note note : memoryList.getNotes()) {
-            IO.println(note.getTitle() + " " + note.getDeadline());
+            IO.println(note.getTitle());
         }
     }
 }

@@ -44,9 +44,9 @@ public class SingleClientProtocol {
                 IO.println("ClientProtocol: Enter title of new memory list");
                 String title = scanner.nextLine();
                 String user = model.getUser();
-                MemoryList memoryList = new MemoryList(title, user);
-                model.getUsersMemoryList().add(memoryList);
-                return new Message(MessageType.STARTING_MENU, model);
+//                MemoryList memoryList = new MemoryList(title, user);
+//                model.getUsersMemoryList().add(memoryList);
+//                return new Message(MessageType.STARTING_MENU, model);
             }
             case SHOW_LIST_OF_MEMORY_LISTS -> {
                 IO.println("ClientProtocol: Show list of memory lists");

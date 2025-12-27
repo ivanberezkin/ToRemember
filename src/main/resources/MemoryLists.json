@@ -1,6 +1,7 @@
 [ {
+  "memoryListID" : 3,
   "notes" : [ ],
-  "title" : "TestlistaIvanNr2",
-  "userID" : "123",
+  "ownerUsername" : "ivan",
+  "title" : "Test123",
   "users" : [ ]
 } ]

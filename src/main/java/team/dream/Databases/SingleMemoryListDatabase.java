@@ -27,6 +27,16 @@ public class SingleMemoryListDatabase {
         return mapper.readValue(new File(filename), new TypeReference<List<MemoryList>>() {});
     }
 
+    public boolean isIDtaken(int idToCheck){
+        for(MemoryList ml : memoryLists){
+            if(ml.getMemoryListID() == idToCheck){
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public void addNewMemoryListToDB(MemoryList memoryListToAdd){
         memoryLists.add(memoryListToAdd);
         writeMemoryListsToFile(memoryLists);
