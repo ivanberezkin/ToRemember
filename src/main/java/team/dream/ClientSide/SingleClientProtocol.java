@@ -1,7 +1,9 @@
 package team.dream.ClientSide;
 
+import team.dream.shared.MemoryList;
 import team.dream.shared.Message;
 import team.dream.shared.MessageType;
+import team.dream.shared.User;
 
 import java.util.Scanner;
 
@@ -34,9 +36,17 @@ public class SingleClientProtocol {
                     model = new ClientModel(loggedInUsername);
                     view = new View(model);
                     ClientController cc = new ClientController(model,view);
-
                     return  cc.getInputFromStartingMenu();
                 }
+            }
+            case CREATE_MEMORY_LIST -> {
+                IO.println("ClientProtocol: Create Memory List");
+                IO.println("ClientProtocol: Enter title of new memory list");
+                String title = scanner.nextLine();
+                String user = model.getUser();
+                MemoryList memoryList = new MemoryList(title, user);
+                model.getUsersMemoryList().add(memoryList);
+                return new Message(MessageType.STARTING_MENU, model);
             }
             case SHOW_LIST_OF_MEMORY_LISTS -> {
                 IO.println("ClientProtocol: Show list of memory lists");
