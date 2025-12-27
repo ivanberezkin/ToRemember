@@ -17,8 +17,7 @@ public class ClientController {
         this.view = view;
     }
 
-    public MemoryList createNewMemoryList() {
-
+    private MemoryList createNewMemoryList() {
         IO.println("Please enter name for your memorylist.");
         String title = scan.nextLine();
         return new MemoryList(title);
@@ -31,12 +30,14 @@ public class ClientController {
             view.showStartingMenuView();
             try {
                 inputFromUser = scan.nextInt();
+                scan.nextLine();
                 switch (inputFromUser) {
                     case 1 -> {
                         return new Message(MessageType.SHOW_LIST_OF_MEMORY_LISTS, model.getUser());
                     }
                     case 2 -> {
-                        return new Message(MessageType.CREATE_MEMORY_LIST, createNewMemoryList(), model.getUser());
+                        MemoryList newMemoryList = createNewMemoryList();
+                        return new Message(MessageType.CREATE_MEMORY_LIST, newMemoryList, model.getUser());
                     }
                     case 3 -> {
                         return new Message(MessageType.REMOVE_MEMORY_LIST, model.getUser());
