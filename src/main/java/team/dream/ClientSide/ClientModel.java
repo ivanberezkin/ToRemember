@@ -23,4 +23,8 @@ public class ClientModel {
         usersMemoryList = singleMemoryListDatabase.getMemoryLists();
     }
 
+    public List<MemoryList> getUsersMemoryList() {
+        return usersMemoryList;
+    }
+
 }
