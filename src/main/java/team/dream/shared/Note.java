@@ -1,29 +1,23 @@
 package team.dream.shared;
 
+import lombok.Data;
+
 import java.time.LocalDateTime;
 
+@Data
 public class Note {
     private String title;
-    private LocalDateTime deadline;
+    private String description;
+    private int priorityIndex;
+    private int categoryEnum;
+    private boolean isDone;
 
-    public Note(String title, LocalDateTime deadline) {
+
+    public Note(String title, String description, int priorityIndex, int categoryEnume) {
         this.title = title;
-        this.deadline = deadline;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public LocalDateTime getDeadline() {
-        return deadline;
-    }
-
-    public void setDeadline(LocalDateTime deadline) {
-        this.deadline = deadline;
+        this.description = description;
+        this.priorityIndex = priorityIndex;
+        this.categoryEnum = categoryEnum;
+        this.isDone = false;
     }
 }
