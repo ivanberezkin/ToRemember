@@ -1,4 +1,4 @@
-package team.dream.unusedClasses;
+package team.dream.Databases;
 
 import team.dream.shared.User;
 import tools.jackson.core.type.TypeReference;
@@ -35,7 +35,7 @@ public class SingleUserDatabase {
         writeUserListToFileJson();
     }
 
-    public static SingleUserDatabase getUserDB() {
+    public static SingleUserDatabase getInstance() {
         return userDB;
     }
 

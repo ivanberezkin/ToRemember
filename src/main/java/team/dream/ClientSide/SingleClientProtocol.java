@@ -8,6 +8,9 @@ import java.util.Scanner;
 public class SingleClientProtocol {
     private static final SingleClientProtocol clientProtocol = new SingleClientProtocol();
     Scanner scanner = new Scanner(System.in);
+    private ClientModel model;
+    private View view;
+
 
     private SingleClientProtocol() {
     }
@@ -28,12 +31,11 @@ public class SingleClientProtocol {
 
             case STARTING_MENU -> {
                 if (messageFromServer.getData() instanceof String loggedInUsername) {
-                    IO.println("Hello " + loggedInUsername);
-                    IO.println("ClientProtocol: Show starting menu");
-                    scanner.nextLine(); //TODO menu for choosing valid actions
-                    IO.println("ClientProtocol: Send menu choice made");
-                    //TODO create model view control
-                    return new Message(MessageType.SHOW_LIST_OF_MEMORY_LISTS, null); //TODO FactoryMethod
+                    model = new ClientModel(loggedInUsername);
+                    view = new View(model);
+                    ClientController cc = new ClientController(model,view);
+
+                    return  cc.getInputFromStartingMenu();
                 }
             }
             case SHOW_LIST_OF_MEMORY_LISTS -> {
