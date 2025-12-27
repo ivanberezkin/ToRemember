@@ -7,6 +7,7 @@ import team.dream.shared.MemoryList;
 import team.dream.shared.Message;
 import team.dream.shared.MessageType;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 
@@ -70,7 +71,10 @@ public class SingleServerProtocol {
             }
             case SHOW_LIST_OF_MEMORY_LISTS -> {
                 IO.println("SSP: Send list of memory lists model to user");
-                return new Message(MessageType.SHOW_LIST_OF_MEMORY_LISTS, null);
+                if(inputFromClient.getData() instanceof String ownerUsername){
+                    return new Message(MessageType.SHOW_LIST_OF_MEMORY_LISTS, singleMemoryListDatabase.getAllUsersMemoryLists(ownerUsername), ownerUsername);
+                }
+
             }
         }
         return null;
