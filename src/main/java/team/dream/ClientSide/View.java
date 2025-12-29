@@ -8,12 +8,11 @@ import java.util.List;
 public class View {
 
 
-
-    View (){
+    View() {
 
     }
 
-    public void showStartingMenuView(){
+    public void showStartingMenuView() {
         IO.println("*** ToRemember ***" +
                 "\nPlease choose an option below" +
                 "\n1. Show all memory lists" +
@@ -23,13 +22,18 @@ public class View {
                 "\n5. Exit");
     }
 
-    public void showAllMemoryListsView(List<MemoryList> list){
-        for(MemoryList memoryList : list){
-            IO.println(memoryList.getTitle() + ", notes in list: " + memoryList.getNotes().size());
+    public void showAllMemoryListsView(List<MemoryList> ownedList, List<MemoryList> sharedList) {
+        StringBuilder sb = new StringBuilder();
+        ViewHelperMethods.getAllOwnedMemoryListToStringBuilder(sb, ownedList);
+        if(!sharedList.isEmpty()){
+            sb.append(ViewHelperMethods.getAllSharedMemoryListToStringBuilder(sb, sharedList, ownedList.size()));
         }
+        IO.println(sb);
     }
 
-    public void showMemoryListsView(MemoryList  memoryList){
+
+
+    public void showMemoryListsView(MemoryList memoryList) {
         IO.println(memoryList.getTitle());
         for (Note note : memoryList.getNotes()) {
             IO.println(note.getTitle());
