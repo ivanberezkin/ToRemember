@@ -26,6 +26,7 @@ public class SingleServerProtocol {
     public Message processInputFromClient(Message inputFromClient) {
         switch (inputFromClient.getType()) {
             case REQUEST_LOGIN -> {
+                IO.println(inputFromClient.getType() + " received from client");
                 if (inputFromClient.getData() instanceof String usernameToCheck) {
                     if (userDatabase.findExistingUser(usernameToCheck) != null) {
                         IO.println("User found, Login Successful");
@@ -38,6 +39,7 @@ public class SingleServerProtocol {
             }
 
             case CREATE_NEW_USER -> {
+                IO.println(inputFromClient.getType() + " received from client");
                 if (inputFromClient.getData() instanceof String usernameToAddToDB) {
                     userDatabase.addNewUser(usernameToAddToDB);
                     IO.println("SSP: New User created");
@@ -46,6 +48,7 @@ public class SingleServerProtocol {
             }
 
             case CREATE_MEMORY_LIST -> {
+                IO.println(inputFromClient.getType() + " received from client");
                 if(inputFromClient.getData() instanceof String titleOfNewMemoryList){
                     Random randomID = new Random();
                     int assignedIdToNewMemoryList = randomID.nextInt(100);
@@ -64,14 +67,26 @@ public class SingleServerProtocol {
             }
 
             case STARTING_MENU -> {
-                IO.println("SSP: Send starting menu model to user");
+                IO.println(inputFromClient.getType() + " received from client");
                 //TODO send starting menu model to client side MVC
                 return new Message(MessageType.STARTING_MENU, null);
 
             }
 
+            case CREATE_NOTE -> {
+                IO.println(inputFromClient.getType() + " received from client");
+                if(inputFromClient.getData() instanceof MemoryList updatedMemoryListFromClient){
+                    singleMemoryListDatabase.updateNotesInMemoryListInDB(updatedMemoryListFromClient);
+
+                    //For Troubleshooting purposes.
+//                    singleMemoryListDatabase.printSizeOfUsersMemoryLists(singleMemoryListDatabase.getAllUsersMemoryLists(inputFromClient.getUsername()));
+                    return new Message(MessageType.SHOW_LIST_OF_MEMORY_LISTS, singleMemoryListDatabase.getAllUsersMemoryLists(inputFromClient.getUsername()), inputFromClient.getUsername());
+                }
+            }
+
             //TODO detta steg känns egentligen lite onödig, men tar det för att det ska vara tydligare tillsvidare.
             case SHOW_CHOSEN_MEMORY_LIST -> {
+                IO.println(inputFromClient.getType() + " received from client");
                 if(inputFromClient.getData() instanceof MemoryList memoryListToShow){
                     return new Message(MessageType.SHOW_CHOSEN_MEMORY_LIST, memoryListToShow, inputFromClient.getUsername());
                 }
@@ -79,6 +94,7 @@ public class SingleServerProtocol {
             }
 
             case SHOW_LIST_OF_MEMORY_LISTS -> {
+                IO.println(inputFromClient.getType() + " received from client");
                 if(inputFromClient.getData() instanceof String ownerUsername){
                     return new Message(MessageType.SHOW_LIST_OF_MEMORY_LISTS, singleMemoryListDatabase.getAllUsersMemoryLists(ownerUsername), ownerUsername);
                 }

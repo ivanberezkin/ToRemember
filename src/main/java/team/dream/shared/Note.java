@@ -1,11 +1,16 @@
 package team.dream.shared;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Data
-public class Note {
+@AllArgsConstructor
+@NoArgsConstructor
+public class Note implements Serializable {
     private String title;
     private String description;
     private int priorityIndex;

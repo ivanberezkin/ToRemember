@@ -26,6 +26,7 @@ public class View {
 
     public void showAllMemoryListsView(List<MemoryList> ownedList, List<MemoryList> sharedList) {
         StringBuilder sb = new StringBuilder();
+        sb.setLength(0);
         ViewHelperMethods.getAllOwnedMemoryListToStringBuilder(sb, ownedList);
         if(!sharedList.isEmpty()){
             sb.append(ViewHelperMethods.getAllSharedMemoryListToStringBuilder(sb, sharedList, ownedList.size()));

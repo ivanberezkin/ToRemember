@@ -25,4 +25,10 @@ public class ClientModel {
         // bara returnerar memory lists som tillhör user.
     }
 
+    public void updateUsersMemoryList(ArrayList<MemoryList> updatedList){
+        usersMemoryList.clear();
+        usersMemoryList.addAll(updatedList);
+
+    }
+
 }

@@ -36,10 +36,10 @@ public class ClientConnection extends Thread {
             while(true) {
                 try{
                     messageFromServer = (Message) inputStream.readObject();
-                    IO.println("ClientConnection: Received from server");
+//                    IO.println("ClientConnection: Received from server");
                     outputStream.writeObject(clientProtocol.processInputFromServer(messageFromServer));
                     outputStream.flush();
-                    IO.println("ClientConnection: Sent to server");
+//                    IO.println("ClientConnection: Sent to server");
                 } catch (IOException | ClassNotFoundException e) {
                     e.printStackTrace();
                     break;

@@ -58,13 +58,13 @@ public class ClientController {
 
         IO.println("Set priority index (1-5, 1 is highest priority, 5 is lowest): ");
         int priority = scan.nextInt();
+        scan.nextLine();
 
         view.categoryEnumPrint();
-        Category chosenCategory = Category.valueOf(scan.nextLine());
+        String category = scan.nextLine();
+        Category chosenCategory = Category.valueOf(category.trim().toUpperCase());
 
         return new Note(title, description,priority,chosenCategory);
-
-
     }
 
     private Message getInputFromChosenMemoryListAllOptions(int userChosenOption, MemoryList chosedMemoryList){
@@ -89,6 +89,8 @@ public class ClientController {
                 getInputFromShowMemoryLists();
             }
         }
+        //TODO fixa felhantering sen
+        return null;
     }
 
     public Message getInputFromStartingMenu() {
