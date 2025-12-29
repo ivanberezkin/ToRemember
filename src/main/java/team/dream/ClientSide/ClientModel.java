@@ -16,6 +16,7 @@ public class ClientModel {
 
     private String user;
     private List<MemoryList> usersMemoryList = new ArrayList<>();
+    private List<MemoryList> sharedMemoryList = new ArrayList<>();
 
 
     ClientModel(String user){

@@ -20,7 +20,7 @@ public class ClientController {
 
 
     public void getInputFromShowMemoryLists(){
-        view.showAllMemoryListsView(model.getUsersMemoryList());
+        view.showAllMemoryListsView(model.getUsersMemoryList(), model.getSharedMemoryList());
 
 
         //TODO har inget vettigt att skicka tillbaka än, så pausar programmet här genom att vänta på input

@@ -22,19 +22,18 @@ public class View {
                 "\n5. Exit");
     }
 
-    public void showAllMemoryListsView(List<MemoryList> list) {
+    public void showAllMemoryListsView(List<MemoryList> ownedList, List<MemoryList> sharedList) {
         StringBuilder sb = new StringBuilder();
-        sb.append("*** Owned Lists ***").append("\n");
-        for (int i = 0; i < list.size(); i++) {
-            sb.append(i + 1).append(": ").
-                    append(list.get(i).getTitle()).
-                    append(", notes in list: ").
-                    append(list.get(i).getNotes().size()).
-                    append("\n");
+        ViewHelperMethods.getAllOwnedMemoryListToStringBuilder(sb, ownedList);
+        if(!sharedList.isEmpty()){
+
         }
+
         IO.println(sb);
 
     }
+
+
 
     public void showMemoryListsView(MemoryList memoryList) {
         IO.println(memoryList.getTitle());
