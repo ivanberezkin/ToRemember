@@ -26,11 +26,9 @@ public class View {
         StringBuilder sb = new StringBuilder();
         ViewHelperMethods.getAllOwnedMemoryListToStringBuilder(sb, ownedList);
         if(!sharedList.isEmpty()){
-
+            sb.append(ViewHelperMethods.getAllSharedMemoryListToStringBuilder(sb, sharedList, ownedList.size()));
         }
-
         IO.println(sb);
-
     }
 
 

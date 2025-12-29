@@ -16,6 +16,20 @@ public class ViewHelperMethods {
                     append(ownedLists.get(i).getNotes().size()).
                     append("\n");
         }
+        sb.append("\n");
+        return sb;
+    }
+
+    public static StringBuilder getAllSharedMemoryListToStringBuilder(StringBuilder sb, List<MemoryList> sharedLists, int startIndex){
+        sb.append("*** Shared Lists ***").append("\n");
+        for(MemoryList ml : sharedLists){
+            sb.append(startIndex).append(": ").
+                    append(ml.getTitle()).
+                    append(", notes in list: ").
+                    append(ml.getNotes().size()).
+                    append("\n");
+                    startIndex++;
+        }
         return sb;
     }
 
