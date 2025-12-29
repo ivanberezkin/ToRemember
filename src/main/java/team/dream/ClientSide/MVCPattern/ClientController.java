@@ -30,7 +30,7 @@ public class ClientController {
                 return new Message(MessageType.CREATE_NOTE, chosedMemoryList, model.getUser());
             }
             case 3 -> {
-                //TODO sort notes
+                return NoteHelperMethods.sortNotesByPriority(chosedMemoryList, this);
             }
             case 4 -> {
                 //TODO remove note

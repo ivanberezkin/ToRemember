@@ -27,7 +27,7 @@ public class View {
         StringBuilder sb = new StringBuilder();
         sb.setLength(0);
         ViewHelperMethods.getAllOwnedMemoryListToStringBuilder(sb, ownedList);
-        if(!sharedList.isEmpty()){
+        if (!sharedList.isEmpty()) {
             sb.append(ViewHelperMethods.getAllSharedMemoryListToStringBuilder(sb, sharedList, ownedList.size()));
         }
 
@@ -36,16 +36,16 @@ public class View {
     }
 
 
-    public void categoryEnumPrint(){
+    public void categoryEnumPrint() {
         IO.print("Available categories ");
-        for(Category c : Category.values()){
+        for (Category c : Category.values()) {
             IO.print(c.toString());
             IO.print(" ");
         }
         IO.println("\nPlease choose one of those categories: ");
     }
 
-    public void showUserOptionForChosenMemoryListView(){
+    public void showUserOptionForChosenMemoryListView() {
         StringBuilder userOptionsSb = new StringBuilder();
         userOptionsSb.append("What would you like to do with this list.").append("\n").
                 append("1. Show note").append("\n").
@@ -63,11 +63,16 @@ public class View {
         StringBuilder memoryListSb = new StringBuilder();
         memoryListSb.append("*** ").append(memoryList.getTitle()).append(" ***").append("\n");
         List<Note> notesInMemoryList = memoryList.getNotes();
-
-        for(int i = 0; i < notesInMemoryList.size();i++){
-                memoryListSb.append(i+1).
-                        append(": ").
-                        append(notesInMemoryList.get(i).getTitle()).append("\n");
+        int titleLength = 0;
+        for (int i = 0; i < notesInMemoryList.size(); i++) {
+            memoryListSb.append(i + 1).
+                    append(": ").
+                    append(notesInMemoryList.get(i).getTitle());
+            if ((titleLength = notesInMemoryList.get(i).getTitle().length()) < 25) {
+                memoryListSb.append(" ".repeat(25 - titleLength + 1));
+            }
+            memoryListSb.append("\tPriority: ").
+                    append(notesInMemoryList.get(i).getPriorityIndex()).append("\n");
         }
 
         IO.println(memoryListSb);
