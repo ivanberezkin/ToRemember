@@ -2,11 +2,21 @@ package team.dream.ClientSide.MVCPattern;
 
 import team.dream.shared.*;
 
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Scanner;
 
 public class NoteHelperMethods {
 
 
+
+
+    protected static Message sortNotesByPriority(MemoryList chosenMemoryList, ClientController clientController){
+
+        chosenMemoryList.getNotes().sort(Comparator.comparingInt(Note::getPriorityIndex));
+        return new Message(MessageType.SHOW_CHOSEN_MEMORY_LIST,chosenMemoryList, clientController.getModel().getUser());
+    }
 
     protected static Message wouldUserWantToEditNote(Note note, MemoryList chosedMemoryList, Scanner scan, ClientController clientController) {
         IO.println("If you want to edit note, enter Title/Description/Priority/Category else enter random character to go back");
