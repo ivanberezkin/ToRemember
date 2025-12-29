@@ -28,6 +28,8 @@ public class View {
         if(!sharedList.isEmpty()){
             sb.append(ViewHelperMethods.getAllSharedMemoryListToStringBuilder(sb, sharedList, ownedList.size()));
         }
+
+        sb.append("Please enter index of MemoryList you would like to see");
         IO.println(sb);
     }
 

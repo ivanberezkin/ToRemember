@@ -6,6 +6,7 @@ import team.dream.shared.MessageType;
 
 import java.util.ArrayList;
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Scanner;
 
 public class ClientController {
@@ -19,13 +20,18 @@ public class ClientController {
     }
 
 
-    public void getInputFromShowMemoryLists(){
+    public MemoryList getInputFromShowMemoryLists(){
         view.showAllMemoryListsView(model.getUsersMemoryList(), model.getSharedMemoryList());
 
-
-        //TODO har inget vettigt att skicka tillbaka än, så pausar programmet här genom att vänta på input
         int inputFromUser = scan.nextInt();
         scan.nextLine();
+
+        List<MemoryList> bothOwnedAndSharedList = new ArrayList<>();
+        bothOwnedAndSharedList.addAll(model.getUsersMemoryList());
+        bothOwnedAndSharedList.addAll(model.getSharedMemoryList());
+
+        return bothOwnedAndSharedList.get(inputFromUser-1);
+
     }
 
     private String getTitleForNewMemoryList() {
