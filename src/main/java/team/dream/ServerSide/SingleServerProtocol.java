@@ -69,8 +69,16 @@ public class SingleServerProtocol {
                 return new Message(MessageType.STARTING_MENU, null);
 
             }
+
+            //TODO detta steg känns egentligen lite onödig, men tar det för att det ska vara tydligare tillsvidare.
+            case SHOW_CHOSEN_MEMORY_LIST -> {
+                if(inputFromClient.getData() instanceof MemoryList memoryListToShow){
+                    return new Message(MessageType.SHOW_CHOSEN_MEMORY_LIST, memoryListToShow, inputFromClient.getUsername());
+                }
+
+            }
+
             case SHOW_LIST_OF_MEMORY_LISTS -> {
-                IO.println("SSP: Send list of memory lists model to user");
                 if(inputFromClient.getData() instanceof String ownerUsername){
                     return new Message(MessageType.SHOW_LIST_OF_MEMORY_LISTS, singleMemoryListDatabase.getAllUsersMemoryLists(ownerUsername), ownerUsername);
                 }

@@ -56,9 +56,10 @@ public class SingleClientProtocol {
 
             }
             case SHOW_CHOSEN_MEMORY_LIST -> {
-                IO.println("ClientProtocol: Show chosen memory list");
-                scanner.nextLine(); //TODO menu for choosing valid actions
-                IO.println("ClientProtocol: Send action chosen");
+                if(messageFromServer.getData() instanceof MemoryList memoryListToShow){
+                    cc.getInputFromChosenMemoryList(memoryListToShow);
+
+                }
                 return new Message(MessageType.SHOW_CHOSEN_MEMORY_LIST, null); //TODO FactoryMethod
             }
         }

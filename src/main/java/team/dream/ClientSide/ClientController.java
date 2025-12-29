@@ -41,6 +41,15 @@ public class ClientController {
         return title;
     }
 
+    public void getInputFromChosenMemoryList(MemoryList memoryListToShow){
+        view.showMemoryListsView(memoryListToShow);
+        view.showUserOptionForChosenMemoryListView();
+
+        int userChosenOption = scan.nextInt();
+        scan.nextLine();
+
+    }
+
     public Message getInputFromStartingMenu() {
         IO.println("Hello " + model.getUser());
         int inputFromUser;

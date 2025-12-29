@@ -3,6 +3,7 @@ package team.dream.ClientSide;
 import team.dream.shared.MemoryList;
 import team.dream.shared.Note;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class View {
@@ -34,11 +35,31 @@ public class View {
     }
 
 
+    public void showUserOptionForChosenMemoryListView(){
+        StringBuilder userOptionsSb = new StringBuilder();
+        userOptionsSb.append("What would you like to do with this list.").append("\n").
+                append("1. Show note").append("\n").
+                append("2. Create new note").append("\n").
+                append("3. Sort notes based on priority").append("\n").
+                append("4. Remove note").append("\n").
+                append("5. Remove memory list").append("\n").
+                append("6. Return to view all memory lists").append("\n\n").
+                append("Please enter valid index: ");
+
+        IO.println(userOptionsSb);
+    }
 
     public void showMemoryListsView(MemoryList memoryList) {
-        IO.println(memoryList.getTitle());
-        for (Note note : memoryList.getNotes()) {
-            IO.println(note.getTitle());
+        StringBuilder memoryListSb = new StringBuilder();
+        memoryListSb.append(memoryList.getTitle()).append("\n");
+        List<Note> notesInMemoryList = memoryList.getNotes();
+
+        for(int i = 0; i < notesInMemoryList.size();i++){
+                memoryListSb.append(i+1).
+                        append(notesInMemoryList.get(i).getTitle()).append("\n");
         }
+
+        IO.println(memoryListSb);
+
     }
 }
