@@ -60,13 +60,14 @@ public class View {
         IO.println(userOptionsSb);
     }
 
-    public void showMemoryListsView(MemoryList memoryList) {
+    public void showMemoryListView(MemoryList memoryList) {
         StringBuilder memoryListSb = new StringBuilder();
-        memoryListSb.append(memoryList.getTitle()).append("\n");
+        memoryListSb.append("*** ").append(memoryList.getTitle()).append(" ***").append("\n");
         List<Note> notesInMemoryList = memoryList.getNotes();
 
         for(int i = 0; i < notesInMemoryList.size();i++){
                 memoryListSb.append(i+1).
+                        append(": ").
                         append(notesInMemoryList.get(i).getTitle()).append("\n");
         }
 

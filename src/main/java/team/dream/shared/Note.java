@@ -25,4 +25,12 @@ public class Note implements Serializable {
         this.categoryEnum = categoryEnum;
         this.isDone = false;
     }
+
+    public void printNote(){
+        IO.println("Title: " + title);
+        IO.println("Description: " + description);
+        IO.println("Priority: " + priorityIndex);
+        IO.println("Category: " + categoryEnum.toString());
+    }
+
 }

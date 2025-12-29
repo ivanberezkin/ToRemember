@@ -37,6 +37,7 @@ public class ClientConnection extends Thread {
                 try{
                     messageFromServer = (Message) inputStream.readObject();
 //                    IO.println("ClientConnection: Received from server");
+                    outputStream.reset();
                     outputStream.writeObject(clientProtocol.processInputFromServer(messageFromServer));
                     outputStream.flush();
 //                    IO.println("ClientConnection: Sent to server");
