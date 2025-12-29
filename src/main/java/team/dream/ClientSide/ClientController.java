@@ -51,6 +51,23 @@ public class ClientController {
 
     }
 
+    private void createNewNote(){
+        IO.println("Creating new note, please enter title: ");
+        String title = scan.nextLine();
+
+        IO.println("Enter description of the note: ");
+        String description = scan.nextLine();
+
+        IO.println("Set priority index (1-5, 1 is highest priority, 5 is lowest): ");
+        int priority = scan.nextInt();
+
+        IO.println("Enter ");
+        int priority = scan.nextInt();
+
+
+
+    }
+
     private void getInputFromChosenMemoryListAllOptions(int userChosenOption){
         switch (userChosenOption){
             case 1 -> {
