@@ -1,4 +1,4 @@
-package team.dream.ClientSide;
+package team.dream.ClientSide.Network;
 
 import team.dream.shared.Message;
 import team.dream.shared.MessageType;
@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.util.Scanner;
 
 public class ClientConnection extends Thread {
     private int port = 44444;
@@ -36,10 +35,11 @@ public class ClientConnection extends Thread {
             while(true) {
                 try{
                     messageFromServer = (Message) inputStream.readObject();
-                    IO.println("ClientConnection: Received from server");
+//                    IO.println("ClientConnection: Received from server");
+                    outputStream.reset();
                     outputStream.writeObject(clientProtocol.processInputFromServer(messageFromServer));
                     outputStream.flush();
-                    IO.println("ClientConnection: Sent to server");
+//                    IO.println("ClientConnection: Sent to server");
                 } catch (IOException | ClassNotFoundException e) {
                     e.printStackTrace();
                     break;

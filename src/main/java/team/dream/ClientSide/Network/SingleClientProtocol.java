@@ -1,12 +1,13 @@
-package team.dream.ClientSide;
+package team.dream.ClientSide.Network;
 
+import team.dream.ClientSide.MVCPattern.ClientController;
+import team.dream.ClientSide.MVCPattern.ClientModel;
+import team.dream.ClientSide.MVCPattern.View;
 import team.dream.shared.MemoryList;
 import team.dream.shared.Message;
 import team.dream.shared.MessageType;
-import team.dream.shared.User;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 public class SingleClientProtocol {
@@ -36,7 +37,7 @@ public class SingleClientProtocol {
             case STARTING_MENU -> {
                 if (messageFromServer.getData() instanceof String loggedInUsername) {
                     model.setUser(loggedInUsername);
-                    return  cc.getInputFromStartingMenu();
+                    return cc.getInputFromStartingMenu();
                 }
             }
             case CREATE_MEMORY_LIST -> {
@@ -50,18 +51,17 @@ public class SingleClientProtocol {
             }
             case SHOW_LIST_OF_MEMORY_LISTS -> {
                 IO.println("ClientProtocol: Show list of memory lists");
-                    model.setUsersMemoryList((ArrayList<MemoryList>) messageFromServer.getData());
-                    cc.getInputFromShowMemoryLists();
-                    return new Message(MessageType.SHOW_LIST_OF_MEMORY_LISTS, null); //TODO FactoryMethod
+                model.updateUsersMemoryList((ArrayList<MemoryList>) messageFromServer.getData());
 
-
+                MemoryList memoryListToShow = cc.getInputFromShowMemoryLists();
+                return new Message(MessageType.SHOW_CHOSEN_MEMORY_LIST, memoryListToShow, model.getUser());
 
             }
             case SHOW_CHOSEN_MEMORY_LIST -> {
-                IO.println("ClientProtocol: Show chosen memory list");
-                scanner.nextLine(); //TODO menu for choosing valid actions
-                IO.println("ClientProtocol: Send action chosen");
-                return new Message(MessageType.SHOW_CHOSEN_MEMORY_LIST, null); //TODO FactoryMethod
+                if (messageFromServer.getData() instanceof MemoryList memoryListToShow) {
+                    return cc.getInputFromChosenMemoryList(memoryListToShow);
+
+                }
             }
         }
         IO.println("ClientProtocol: No return from switch triggered");

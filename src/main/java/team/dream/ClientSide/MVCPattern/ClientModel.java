@@ -1,10 +1,8 @@
-package team.dream.ClientSide;
+package team.dream.ClientSide.MVCPattern;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import team.dream.Databases.SingleMemoryListDatabase;
 import team.dream.shared.MemoryList;
-import team.dream.shared.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +21,12 @@ public class ClientModel {
         this.user = user;
         //TODO här behöver vi göra så att en funktion i singleMemoryListDatabase
         // bara returnerar memory lists som tillhör user.
+    }
+
+    public void updateUsersMemoryList(ArrayList<MemoryList> updatedList){
+        usersMemoryList.clear();
+        usersMemoryList.addAll(updatedList);
+
     }
 
 }

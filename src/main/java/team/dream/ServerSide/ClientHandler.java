@@ -21,9 +21,11 @@ public class ClientHandler extends Thread {
             Message messageFromUser;
             IO.println("ClientHandler: Waiting for client to send");
             while((messageFromUser = (Message) inputStream.readObject()) != null){
-                IO.println("ClientHandler: Received from client");
+//                IO.println("ClientHandler: Received from client");
+                outputStream.reset();
                 outputStream.writeObject(serverProtocol.processInputFromClient(messageFromUser));
-                IO.println("ClientHandler: Sent to client");
+//                IO.println("ClientHandler: Sent to client");
+                outputStream.flush();
             }
         }catch (Exception e){
             e.printStackTrace();

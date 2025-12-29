@@ -12,5 +12,6 @@ public enum MessageType implements Serializable {
     SHOW_CHOSEN_MEMORY_LIST,
     CREATE_MEMORY_LIST,
     REMOVE_MEMORY_LIST,
-    CREATE_NOTE
+    CREATE_NOTE,
+    UPDATE_NOTE,
 }

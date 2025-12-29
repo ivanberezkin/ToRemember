@@ -21,4 +21,10 @@ public class MemoryList implements Serializable {
         this.ownerUsername = ownerUsername;
         this.memoryListID = memoryListID;
     }
+
+    public void addNoteToMemoryList(Note noteToAdd){
+        notes.add(noteToAdd);
+        IO.println("Note " + noteToAdd.getTitle() + " successfully added to " + title);
+    }
+
 }

@@ -26,6 +26,12 @@ public class SingleMemoryListDatabase {
         return instance;
     }
 
+    public void printSizeOfUsersMemoryLists(ArrayList<MemoryList> usersMemoryLists){
+        for(MemoryList ml : usersMemoryLists){
+            IO.println(ml.getTitle() + "    Size: " + ml.getNotes().size());
+        }
+    }
+
     private List<MemoryList> readMemoryListsFromFileJson() {
         return mapper.readValue(new File(filename), new TypeReference<List<MemoryList>>() {});
     }
@@ -48,6 +54,15 @@ public class SingleMemoryListDatabase {
         }
 
         return false;
+    }
+
+    public void updateNotesInMemoryListInDB(MemoryList updatedMemoryList){
+        for(MemoryList ml : memoryLists){
+            if(ml.getMemoryListID() == updatedMemoryList.getMemoryListID()){
+                ml.setNotes(updatedMemoryList.getNotes());
+            }
+        }
+        writeMemoryListsToFile(memoryLists);
     }
 
     public void addNewMemoryListToDB(MemoryList memoryListToAdd){
