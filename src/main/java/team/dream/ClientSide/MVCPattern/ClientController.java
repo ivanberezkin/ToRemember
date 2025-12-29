@@ -33,12 +33,9 @@ public class ClientController {
                 return NoteHelperMethods.sortNotesByPriority(chosedMemoryList, this);
             }
             case 4 -> {
-                //TODO remove note
+                return new Message(MessageType.REMOVE_MEMORY_LIST,chosedMemoryList, model.getUser());
             }
             case 5 -> {
-                //TODO remove memory list
-            }
-            case 6 -> {
                 return new Message(MessageType.SHOW_LIST_OF_MEMORY_LISTS, model.getUser());
             }
         }
@@ -67,9 +64,6 @@ public class ClientController {
                         return new Message(MessageType.REMOVE_MEMORY_LIST, model.getUser());
                     }
                     case 4 -> {
-                        return new Message(MessageType.CREATE_NOTE, model.getUser());
-                    }
-                    case 5 -> {
                         System.exit(0);
                     }
 
@@ -90,18 +84,21 @@ public class ClientController {
         return getInputFromChosenMemoryListAllOptions(userChosenOption, memoryListToShow);
     }
 
-    public MemoryList getInputFromShowMemoryLists() {
+    public Message getInputFromShowMemoryLists() {
         view.showAllMemoryListsView(model.getUsersMemoryList(), model.getSharedMemoryList());
 
         int inputFromUser = scan.nextInt();
         scan.nextLine();
 
-        bothOwnedAndSharedList.clear();
-        bothOwnedAndSharedList.addAll(model.getUsersMemoryList());
-        bothOwnedAndSharedList.addAll(model.getSharedMemoryList());
+        if(inputFromUser == 0){
+            return new Message(MessageType.STARTING_MENU, model.getUser());
+        }else{
+            bothOwnedAndSharedList.clear();
+            bothOwnedAndSharedList.addAll(model.getUsersMemoryList());
+            bothOwnedAndSharedList.addAll(model.getSharedMemoryList());
 
-        return bothOwnedAndSharedList.get(inputFromUser - 1);
-
+            return new Message(MessageType.SHOW_CHOSEN_MEMORY_LIST, bothOwnedAndSharedList.get(inputFromUser - 1), model.getUser());
+        }
     }
 
 

@@ -10,16 +10,24 @@ import java.util.Scanner;
 public class NoteHelperMethods {
 
 
+    protected static Message removeNote(MemoryList chosenMemoryList, Scanner scan, ClientController clientController){
 
 
-    protected static Message sortNotesByPriority(MemoryList chosenMemoryList, ClientController clientController){
+
+        return new Message(MessageType.UPDATE_NOTE, chosenMemoryList, clientController.getModel().getUser());
+    }
+
+    protected static Message sortNotesByPriority(MemoryList chosenMemoryList, ClientController clientController) {
 
         chosenMemoryList.getNotes().sort(Comparator.comparingInt(Note::getPriorityIndex));
-        return new Message(MessageType.SHOW_CHOSEN_MEMORY_LIST,chosenMemoryList, clientController.getModel().getUser());
+        return new Message(MessageType.SHOW_CHOSEN_MEMORY_LIST, chosenMemoryList, clientController.getModel().getUser());
     }
 
     protected static Message wouldUserWantToEditNote(Note note, MemoryList chosedMemoryList, Scanner scan, ClientController clientController) {
-        IO.println("If you want to edit note, enter Title/Description/Priority/Category else enter random character to go back");
+        IO.println("If you want to edit note, enter Title/Description/Priority/Category." +
+                "\nIf you want to remove note enter 'Remove'" +
+                "\nIf you want to mark note as done enter 'Done'" +
+                "\nEnter random character to go back");
         String userEditInput = scan.nextLine();
         String userEdit = null;
         int userEditPriority;
@@ -49,6 +57,12 @@ public class NoteHelperMethods {
                 userEdit = scan.nextLine();
                 note.setCategoryEnum(Category.valueOf(userEdit.trim().toUpperCase()));
             }
+            case "remove" -> {
+                chosedMemoryList.getNotes().remove(note);
+            }
+            case "done" -> {
+                note.setDone(true);
+            }
             default -> {
                 return new Message(MessageType.SHOW_CHOSEN_MEMORY_LIST, chosedMemoryList, clientController.getModel().getUser());
             }
@@ -72,6 +86,7 @@ public class NoteHelperMethods {
         }
 
     }
+
     protected static Note createNewNote(Scanner scan, ClientController clientController) {
         IO.println("Creating new note, please enter title: ");
         String title = scan.nextLine();
@@ -89,7 +104,6 @@ public class NoteHelperMethods {
 
         return new Note(title, description, priority, chosenCategory);
     }
-
 
 
 }
