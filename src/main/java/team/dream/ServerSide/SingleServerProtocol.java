@@ -73,6 +73,15 @@ public class SingleServerProtocol {
 
             }
 
+            case UPDATE_NOTE ->  {
+                IO.println(inputFromClient.getType() + " received from client");
+                if(inputFromClient.getData() instanceof MemoryList updatedMemoryListWithUpdatedNote) {
+                singleMemoryListDatabase.updateNotesInMemoryListInDB(updatedMemoryListWithUpdatedNote);
+                    return new Message(MessageType.SHOW_CHOSEN_MEMORY_LIST, updatedMemoryListWithUpdatedNote, inputFromClient.getUsername());
+                }
+
+            }
+
             case CREATE_NOTE -> {
                 IO.println(inputFromClient.getType() + " received from client");
                 if(inputFromClient.getData() instanceof MemoryList updatedMemoryListFromClient){

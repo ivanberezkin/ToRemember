@@ -2,10 +2,10 @@
   "memoryListID" : 88,
   "notes" : [ {
     "categoryEnum" : "Hobby",
-    "description" : "this is a testnote",
+    "description" : "denna note har edditassssss",
     "done" : false,
     "priorityIndex" : 1,
-    "title" : "testnote123"
+    "title" : "EdittedNote123"
   }, {
     "categoryEnum" : "Sport",
     "description" : "12312313asdfas",
@@ -65,7 +65,7 @@
     "description" : "123123",
     "done" : false,
     "priorityIndex" : 1,
-    "title" : "asdfasf"
+    "title" : "EditedNoteHereToo"
   }, {
     "categoryEnum" : "Food",
     "description" : "sdafasf12313",
