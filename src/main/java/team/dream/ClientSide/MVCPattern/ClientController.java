@@ -33,12 +33,9 @@ public class ClientController {
                 return NoteHelperMethods.sortNotesByPriority(chosedMemoryList, this);
             }
             case 4 -> {
-                //TODO remove note
-            }
-            case 5 -> {
                 //TODO remove memory list
             }
-            case 6 -> {
+            case 5 -> {
                 return new Message(MessageType.SHOW_LIST_OF_MEMORY_LISTS, model.getUser());
             }
         }

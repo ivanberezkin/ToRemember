@@ -51,9 +51,8 @@ public class View {
                 append("1. Show note").append("\n").
                 append("2. Create new note").append("\n").
                 append("3. Sort notes based on priority").append("\n").
-                append("4. Remove note").append("\n").
-                append("5. Remove memory list").append("\n").
-                append("6. Return to view all memory lists").append("\n\n").
+                append("4. Remove memory list").append("\n").
+                append("5. Return to view all memory lists").append("\n\n").
                 append("Please enter valid index: ");
 
         IO.println(userOptionsSb);
