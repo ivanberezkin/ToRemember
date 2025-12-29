@@ -1,63 +1,9 @@
 [ {
-  "memoryListID" : 88,
-  "notes" : [ {
-    "categoryEnum" : "Hobby",
-    "description" : "denna note har edditassssss",
-    "done" : false,
-    "priorityIndex" : 1,
-    "title" : "EdittedNote123"
-  }, {
-    "categoryEnum" : "Food",
-    "description" : "12312312313",
-    "done" : false,
-    "priorityIndex" : 1,
-    "title" : "sdfaasdfsfsdafsdf"
-  }, {
-    "categoryEnum" : "Sport",
-    "description" : "sdagasdgsa",
-    "done" : false,
-    "priorityIndex" : 2,
-    "title" : "sdfasdf"
-  }, {
-    "categoryEnum" : "Work",
-    "description" : "asdfasfsadfsafsadfasfd",
-    "done" : false,
-    "priorityIndex" : 2,
-    "title" : "Hejj"
-  }, {
-    "categoryEnum" : "Family",
-    "description" : "asdfasdfsafdsaf",
-    "done" : false,
-    "priorityIndex" : 3,
-    "title" : "asdfasfd"
-  }, {
-    "categoryEnum" : "Family",
-    "description" : "sadfkjsakdfj1293",
-    "done" : false,
-    "priorityIndex" : 3,
-    "title" : "sadfsafsadfsafsafddsaf"
-  }, {
-    "categoryEnum" : "Sport",
-    "description" : "123123asf",
-    "done" : false,
-    "priorityIndex" : 4,
-    "title" : "dsafsafdsaf"
-  }, {
-    "categoryEnum" : "Hobby",
-    "description" : "",
-    "done" : false,
-    "priorityIndex" : 4,
-    "title" : "dasfsdafsadjfksadfj"
-  } ],
-  "ownerUsername" : "ivan",
-  "title" : "ivantestlist",
-  "users" : [ ]
-}, {
   "memoryListID" : 20,
   "notes" : [ {
     "categoryEnum" : "Food",
     "description" : "123123",
-    "done" : false,
+    "done" : true,
     "priorityIndex" : 1,
     "title" : "EditedNoteHereToo"
   }, {

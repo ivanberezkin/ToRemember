@@ -19,8 +19,7 @@ public class View {
                 "\n1. Show all memory lists" +
                 "\n2. Create new memory list" +
                 "\n3. Remove memory list" +
-                "\n4. Create note" +
-                "\n5. Exit");
+                "\n4. Exit");
     }
 
     public void showAllMemoryListsView(List<MemoryList> ownedList, List<MemoryList> sharedList) {
@@ -31,7 +30,7 @@ public class View {
             sb.append(ViewHelperMethods.getAllSharedMemoryListToStringBuilder(sb, sharedList, ownedList.size()));
         }
 
-        sb.append("Please enter index of MemoryList you would like to see");
+        sb.append("Please enter index of MemoryList you would like to see, enter 0 to go back to start menu.");
         IO.println(sb);
     }
 
@@ -63,18 +62,36 @@ public class View {
         memoryListSb.append("*** ").append(memoryList.getTitle()).append(" ***").append("\n");
         List<Note> notesInMemoryList = memoryList.getNotes();
         int titleLength = 0;
+        Note currentNote;
         for (int i = 0; i < notesInMemoryList.size(); i++) {
+            currentNote = notesInMemoryList.get(i);
             memoryListSb.append(i + 1).
                     append(": ").
-                    append(notesInMemoryList.get(i).getTitle());
-            if ((titleLength = notesInMemoryList.get(i).getTitle().length()) < 25) {
-                memoryListSb.append(" ".repeat(25 - titleLength + 1));
-            }
+                    append(currentNote.getTitle());
+
+            addFormattingToTable(memoryListSb,currentNote, 25);
             memoryListSb.append("\tPriority: ").
-                    append(notesInMemoryList.get(i).getPriorityIndex()).append("\n");
+                    append(currentNote.getPriorityIndex());
+            memoryListSb.append(" ".repeat(5));
+            memoryListSb.append("\tStatus: ");
+            if(currentNote.isDone()){
+                memoryListSb.append("Finished").append("\n");
+            }else{
+                memoryListSb.append("Ongoing").append("\n");
+            }
+
         }
 
         IO.println(memoryListSb);
 
     }
+
+    private StringBuilder addFormattingToTable(StringBuilder sb, Note note, int spaces){
+        int titleLength = 0;
+        if ((titleLength = note.getTitle().length()) < spaces) {
+            sb.append(" ".repeat(spaces - titleLength + 1));
+        }
+        return sb;
+    }
+
 }

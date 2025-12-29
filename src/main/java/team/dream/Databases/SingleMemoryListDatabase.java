@@ -70,6 +70,12 @@ public class SingleMemoryListDatabase {
         writeMemoryListsToFile(memoryLists);
     }
 
+    public void removeMemoryListFromDB(MemoryList memoryListToRemove){
+        memoryLists.remove(memoryListToRemove);
+        writeMemoryListsToFile(memoryLists);
+    }
+
+
     private void writeMemoryListsToFile(List<MemoryList> memoryLists) {
         mapper.writerWithDefaultPrettyPrinter().writeValue(new File(filename), memoryLists);
     }

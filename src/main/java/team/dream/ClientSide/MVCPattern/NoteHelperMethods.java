@@ -25,7 +25,9 @@ public class NoteHelperMethods {
 
     protected static Message wouldUserWantToEditNote(Note note, MemoryList chosedMemoryList, Scanner scan, ClientController clientController) {
         IO.println("If you want to edit note, enter Title/Description/Priority/Category." +
-                "\nIf you want to remove note enter 'remove' else enter random character to go back");
+                "\nIf you want to remove note enter 'Remove'" +
+                "\nIf you want to mark note as done enter 'Done'" +
+                "\nEnter random character to go back");
         String userEditInput = scan.nextLine();
         String userEdit = null;
         int userEditPriority;
@@ -57,6 +59,9 @@ public class NoteHelperMethods {
             }
             case "remove" -> {
                 chosedMemoryList.getNotes().remove(note);
+            }
+            case "done" -> {
+                note.setDone(true);
             }
             default -> {
                 return new Message(MessageType.SHOW_CHOSEN_MEMORY_LIST, chosedMemoryList, clientController.getModel().getUser());
