@@ -1,6 +1,7 @@
 package team.dream.ClientSide;
 
-import javax.swing.*;
+import team.dream.ClientSide.Network.ClientConnection;
+
 import java.util.Scanner;
 
 public class ToRemember {

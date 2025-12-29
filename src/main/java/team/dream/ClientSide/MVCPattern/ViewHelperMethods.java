@@ -1,4 +1,4 @@
-package team.dream.ClientSide;
+package team.dream.ClientSide.MVCPattern;
 
 import team.dream.shared.MemoryList;
 

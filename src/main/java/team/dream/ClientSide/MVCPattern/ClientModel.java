@@ -1,10 +1,8 @@
-package team.dream.ClientSide;
+package team.dream.ClientSide.MVCPattern;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import team.dream.Databases.SingleMemoryListDatabase;
 import team.dream.shared.MemoryList;
-import team.dream.shared.User;
 
 import java.util.ArrayList;
 import java.util.List;

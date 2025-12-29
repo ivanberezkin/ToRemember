@@ -1,16 +1,15 @@
-package team.dream.ClientSide;
+package team.dream.ClientSide.MVCPattern;
 
 import team.dream.shared.Category;
 import team.dream.shared.MemoryList;
 import team.dream.shared.Note;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class View {
 
 
-    View() {
+    public View() {
 
     }
 

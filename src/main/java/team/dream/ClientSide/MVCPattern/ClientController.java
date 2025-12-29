@@ -1,4 +1,4 @@
-package team.dream.ClientSide;
+package team.dream.ClientSide.MVCPattern;
 
 import team.dream.shared.*;
 
@@ -13,7 +13,7 @@ public class ClientController {
     List<MemoryList> bothOwnedAndSharedList = new ArrayList<>();
     Scanner scan = new Scanner(System.in);
 
-    ClientController(ClientModel model, View view) {
+    public ClientController(ClientModel model, View view) {
         this.model = model;
         this.view = view;
     }

@@ -1,4 +1,4 @@
-package team.dream.ClientSide;
+package team.dream.ClientSide.Network;
 
 import team.dream.shared.Message;
 import team.dream.shared.MessageType;
@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.util.Scanner;
 
 public class ClientConnection extends Thread {
     private int port = 44444;

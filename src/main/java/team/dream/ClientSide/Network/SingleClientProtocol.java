@@ -1,12 +1,13 @@
-package team.dream.ClientSide;
+package team.dream.ClientSide.Network;
 
+import team.dream.ClientSide.MVCPattern.ClientController;
+import team.dream.ClientSide.MVCPattern.ClientModel;
+import team.dream.ClientSide.MVCPattern.View;
 import team.dream.shared.MemoryList;
 import team.dream.shared.Message;
 import team.dream.shared.MessageType;
-import team.dream.shared.User;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 public class SingleClientProtocol {
