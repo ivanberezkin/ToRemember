@@ -9,11 +9,11 @@ public class Note {
     private String title;
     private String description;
     private int priorityIndex;
-    private int categoryEnum;
+    private Category categoryEnum;
     private boolean isDone;
 
 
-    public Note(String title, String description, int priorityIndex, int categoryEnume) {
+    public Note(String title, String description, int priorityIndex, Category categoryEnum) {
         this.title = title;
         this.description = description;
         this.priorityIndex = priorityIndex;

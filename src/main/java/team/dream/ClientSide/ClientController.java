@@ -1,8 +1,6 @@
 package team.dream.ClientSide;
 
-import team.dream.shared.MemoryList;
-import team.dream.shared.Message;
-import team.dream.shared.MessageType;
+import team.dream.shared.*;
 
 import java.util.ArrayList;
 import java.util.InputMismatchException;
@@ -41,17 +39,17 @@ public class ClientController {
         return title;
     }
 
-    public void getInputFromChosenMemoryList(MemoryList memoryListToShow){
+    public Message getInputFromChosenMemoryList(MemoryList memoryListToShow){
         view.showMemoryListsView(memoryListToShow);
         view.showUserOptionForChosenMemoryListView();
 
         int userChosenOption = scan.nextInt();
         scan.nextLine();
-        getInputFromChosenMemoryListAllOptions(userChosenOption);
+        return getInputFromChosenMemoryListAllOptions(userChosenOption, memoryListToShow);
 
     }
 
-    private void createNewNote(){
+    private Note createNewNote(){
         IO.println("Creating new note, please enter title: ");
         String title = scan.nextLine();
 
@@ -61,20 +59,22 @@ public class ClientController {
         IO.println("Set priority index (1-5, 1 is highest priority, 5 is lowest): ");
         int priority = scan.nextInt();
 
-        IO.println("Enter ");
-        int priority = scan.nextInt();
+        view.categoryEnumPrint();
+        Category chosenCategory = Category.valueOf(scan.nextLine());
 
+        return new Note(title, description,priority,chosenCategory);
 
 
     }
 
-    private void getInputFromChosenMemoryListAllOptions(int userChosenOption){
+    private Message getInputFromChosenMemoryListAllOptions(int userChosenOption, MemoryList chosedMemoryList){
         switch (userChosenOption){
             case 1 -> {
                 //TODO show note
             }
             case 2 -> {
-                //TODO create note
+                chosedMemoryList.addNoteToMemoryList(createNewNote());
+                return new Message(MessageType.CREATE_NOTE,chosedMemoryList,model.getUser());
             }
             case 3 -> {
                 //TODO sort notes

@@ -36,7 +36,7 @@ public class SingleClientProtocol {
             case STARTING_MENU -> {
                 if (messageFromServer.getData() instanceof String loggedInUsername) {
                     model.setUser(loggedInUsername);
-                    return  cc.getInputFromStartingMenu();
+                    return cc.getInputFromStartingMenu();
                 }
             }
             case CREATE_MEMORY_LIST -> {
@@ -50,17 +50,16 @@ public class SingleClientProtocol {
             }
             case SHOW_LIST_OF_MEMORY_LISTS -> {
                 IO.println("ClientProtocol: Show list of memory lists");
-                    model.setUsersMemoryList((ArrayList<MemoryList>) messageFromServer.getData());
-                    MemoryList memoryListToShow = cc.getInputFromShowMemoryLists();
-                    return new Message(MessageType.SHOW_CHOSEN_MEMORY_LIST, memoryListToShow, model.getUser());
+                model.setUsersMemoryList((ArrayList<MemoryList>) messageFromServer.getData());
+                MemoryList memoryListToShow = cc.getInputFromShowMemoryLists();
+                return new Message(MessageType.SHOW_CHOSEN_MEMORY_LIST, memoryListToShow, model.getUser());
 
             }
             case SHOW_CHOSEN_MEMORY_LIST -> {
-                if(messageFromServer.getData() instanceof MemoryList memoryListToShow){
-                    cc.getInputFromChosenMemoryList(memoryListToShow);
+                if (messageFromServer.getData() instanceof MemoryList memoryListToShow) {
+                    return cc.getInputFromChosenMemoryList(memoryListToShow);
 
                 }
-                return new Message(MessageType.SHOW_CHOSEN_MEMORY_LIST, null); //TODO FactoryMethod
             }
         }
         IO.println("ClientProtocol: No return from switch triggered");
