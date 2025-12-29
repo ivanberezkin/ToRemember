@@ -47,7 +47,31 @@ public class ClientController {
 
         int userChosenOption = scan.nextInt();
         scan.nextLine();
+        getInputFromChosenMemoryListAllOptions(userChosenOption);
 
+    }
+
+    private void getInputFromChosenMemoryListAllOptions(int userChosenOption){
+        switch (userChosenOption){
+            case 1 -> {
+                //TODO show note
+            }
+            case 2 -> {
+                //TODO create note
+            }
+            case 3 -> {
+                //TODO sort notes
+            }
+            case 4 -> {
+                //TODO remove note
+            }
+            case 5 -> {
+                //TODO remove memory list
+            }
+            case 6 -> {
+                getInputFromShowMemoryLists();
+            }
+        }
     }
 
     public Message getInputFromStartingMenu() {
