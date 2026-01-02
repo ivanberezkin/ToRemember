@@ -1,11 +1,11 @@
 [ {
   "memoryListID" : 20,
   "notes" : [ {
-    "categoryEnum" : "Food",
-    "description" : "123123",
+    "categoryEnum" : "Work",
+    "description" : "sasdfas",
     "done" : true,
-    "priorityIndex" : 1,
-    "title" : "EditedNoteHereToo"
+    "priorityIndex" : 3,
+    "title" : "eddd"
   }, {
     "categoryEnum" : "Food",
     "description" : "sdafasf12313",

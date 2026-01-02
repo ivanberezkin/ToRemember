@@ -9,9 +9,18 @@ public class ToRemember {
 
         try (Scanner sc = new Scanner(System.in)) {
             ClientConnection client = ClientConnection.getClientConnection();
-            IO.println("Enter username:");
-            client.setUsername(sc.nextLine());
-            client.start();
+            String usernameInputFromUser;
+            while(true){
+                IO.println("Enter username:");
+                usernameInputFromUser = sc.nextLine();
+                if(usernameInputFromUser.isEmpty()){
+                    IO.println("Username can't be empty. Try again!");
+                }else{
+                    client.setUsername(usernameInputFromUser);
+                    client.start();
+                    break;
+                }
+            }
 
             try {
                 client.join();

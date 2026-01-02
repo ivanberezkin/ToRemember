@@ -20,27 +20,30 @@ public class ClientController {
         this.view = view;
     }
 
-    private Message getInputFromChosenMemoryListAllOptions(int userChosenOption, MemoryList chosedMemoryList) {
+    private Message getInputFromChosenMemoryListAllOptions(int userChosenOption, MemoryList chosedMemoryList) throws InputMismatchException {
+
         switch (userChosenOption) {
-            case 1 -> {
-                return NoteHelperMethods.getChosenNoteForUser(chosedMemoryList, scan, this);
+                case 1 -> {
+                    return NoteHelperMethods.getChosenNoteForUser(chosedMemoryList, scan, this);
+                }
+                case 2 -> {
+                    chosedMemoryList.addNoteToMemoryList(NoteHelperMethods.createNewNote(scan, this));
+                    return new Message(MessageType.CREATE_NOTE, chosedMemoryList, model.getUser());
+                }
+                case 3 -> {
+                    return NoteHelperMethods.sortNotesByPriority(chosedMemoryList, this);
+                }
+                case 4 -> {
+                    return new Message(MessageType.REMOVE_MEMORY_LIST, chosedMemoryList, model.getUser());
+                }
+                case 5 -> {
+                    return new Message(MessageType.SHOW_LIST_OF_MEMORY_LISTS, model.getUser());
+                }
+                default -> {
+                    throw new InputMismatchException();
+                }
             }
-            case 2 -> {
-                chosedMemoryList.addNoteToMemoryList(NoteHelperMethods.createNewNote(scan, this));
-                return new Message(MessageType.CREATE_NOTE, chosedMemoryList, model.getUser());
-            }
-            case 3 -> {
-                return NoteHelperMethods.sortNotesByPriority(chosedMemoryList, this);
-            }
-            case 4 -> {
-                return new Message(MessageType.REMOVE_MEMORY_LIST,chosedMemoryList, model.getUser());
-            }
-            case 5 -> {
-                return new Message(MessageType.SHOW_LIST_OF_MEMORY_LISTS, model.getUser());
-            }
-        }
-        //TODO fixa felhantering sen
-        return null;
+
     }
 
     public Message getInputFromStartingMenu() {
@@ -66,6 +69,9 @@ public class ClientController {
                     case 4 -> {
                         System.exit(0);
                     }
+                    default -> {
+                        throw new InputMismatchException();
+                    }
 
                 }
             } catch (InputMismatchException e) {
@@ -76,30 +82,49 @@ public class ClientController {
     }
 
     public Message getInputFromChosenMemoryList(MemoryList memoryListToShow) {
-        view.showMemoryListView(memoryListToShow);
-        view.showUserOptionForChosenMemoryListView();
+        while (true) {
+            try {
 
-        int userChosenOption = scan.nextInt();
-        scan.nextLine();
-        return getInputFromChosenMemoryListAllOptions(userChosenOption, memoryListToShow);
-    }
+                view.showMemoryListView(memoryListToShow);
+                view.showUserOptionForChosenMemoryListView();
+                int userChosenOption = scan.nextInt();
+                return getInputFromChosenMemoryListAllOptions(userChosenOption, memoryListToShow);
 
-    public Message getInputFromShowMemoryLists() {
-        view.showAllMemoryListsView(model.getUsersMemoryList(), model.getSharedMemoryList());
-
-        int inputFromUser = scan.nextInt();
-        scan.nextLine();
-
-        if(inputFromUser == 0){
-            return new Message(MessageType.STARTING_MENU, model.getUser());
-        }else{
-            bothOwnedAndSharedList.clear();
-            bothOwnedAndSharedList.addAll(model.getUsersMemoryList());
-            bothOwnedAndSharedList.addAll(model.getSharedMemoryList());
-
-            return new Message(MessageType.SHOW_CHOSEN_MEMORY_LIST, bothOwnedAndSharedList.get(inputFromUser - 1), model.getUser());
+            } catch (InputMismatchException e) {
+                IO.println("Invalid index, please try again");
+                scan.nextLine();
+            }
         }
     }
 
+    public Message getInputFromShowMemoryLists() {
+
+        while (true) {
+
+            try {
+                view.showAllMemoryListsView(model.getUsersMemoryList(), model.getSharedMemoryList());
+
+                int inputFromUser = scan.nextInt();
+
+                if (inputFromUser == 0) {
+                    return new Message(MessageType.STARTING_MENU, model.getUser());
+                } else {
+                    bothOwnedAndSharedList.clear();
+                    bothOwnedAndSharedList.addAll(model.getUsersMemoryList());
+                    bothOwnedAndSharedList.addAll(model.getSharedMemoryList());
+
+                    if (inputFromUser < bothOwnedAndSharedList.size()) {
+                        return new Message(MessageType.SHOW_CHOSEN_MEMORY_LIST, bothOwnedAndSharedList.get(inputFromUser - 1), model.getUser());
+                    } else {
+                        throw new InputMismatchException();
+                    }
+                }
+            } catch (InputMismatchException e) {
+                scan.nextLine();
+                IO.println("Please enter a valid index");
+            }
+        }
+
+    }
 
 }
