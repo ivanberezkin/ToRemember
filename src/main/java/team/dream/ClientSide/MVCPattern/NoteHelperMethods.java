@@ -29,29 +29,75 @@ public class NoteHelperMethods {
         int userEditPriority;
         switch (userEditInput.trim().toLowerCase()) {
             case "title" -> {
-                IO.println("Current title: " + note.getTitle());
-                IO.println("Change title to: ");
-                userEdit = scan.nextLine();
-                note.setTitle(userEdit);
+                while (true) {
+                    IO.println("Current title: " + note.getTitle());
+                    IO.println("Change title to: ");
+                    userEdit = scan.nextLine();
+
+                    if (!userEdit.isEmpty()) {
+                        note.setTitle(userEdit);
+                        break;
+                    } else {
+                        IO.println("---- Title can't be empty.");
+                    }
+
+                }
             }
             case "description" -> {
-                IO.println("Current description: " + note.getDescription());
-                IO.println("Change description to: ");
-                userEdit = scan.nextLine();
-                note.setDescription(userEdit);
+                while (true) {
+                    IO.println("Current description: " + note.getDescription());
+                    IO.println("Change description to: ");
+                    userEdit = scan.nextLine();
+                    if (!userEdit.isEmpty()) {
+                        note.setDescription(userEdit);
+                        break;
+                    } else {
+                        IO.println("---- Description can't be empty.");
+                    }
+                }
             }
             case "priority" -> {
-                IO.println("Current priority: " + note.getPriorityIndex());
-                IO.println("Change priority to (1-5 where 1 is highest priority and 5 is lowest): ");
-                userEditPriority = scan.nextInt();
-                scan.nextLine();
-                note.setPriorityIndex(userEditPriority);
+                while (true) {
+
+                    IO.println("Current priority: " + note.getPriorityIndex());
+                    IO.println("Change priority to (1-5 where 1 is highest priority and 5 is lowest): ");
+                    try {
+
+                        userEditPriority = scan.nextInt();
+                        scan.nextLine();
+
+                        if (userEditPriority > 0 && userEditPriority <= 5) {
+                            note.setPriorityIndex(userEditPriority);
+                            break;
+                        } else {
+                            throw new IllegalArgumentException();
+                        }
+
+                    } catch (InputMismatchException e) {
+                        IO.println("---- Please enter a number between 1 - 5. ----");
+                        scan.nextLine();
+                    } catch (IllegalArgumentException e) {
+                        IO.println("---- Please enter a valid priority between 1 - 5. ----");
+                    }
+                }
             }
             case "category" -> {
-                IO.println("Current Category: " + note.getCategoryEnum().toString());
-                clientController.getView().categoryEnumPrint();
-                userEdit = scan.nextLine();
-                note.setCategoryEnum(Category.valueOf(userEdit.trim().toUpperCase()));
+                while (true) {
+                    IO.println("Current Category: " + note.getCategoryEnum().toString());
+                    clientController.getView().categoryEnumPrint();
+                    userEdit = scan.nextLine();
+                    if (!userEdit.isEmpty()) {
+                        try {
+                            note.setCategoryEnum(Category.valueOf(userEdit.trim().toUpperCase()));
+                            break;
+                        } catch (IllegalArgumentException e) {
+                            IO.println("---- Please enter a valid category. ----");
+                        }
+                    } else {
+                        IO.println("---- Category can't be empty.");
+                    }
+
+                }
             }
             case "remove" -> {
                 chosedMemoryList.getNotes().remove(note);
@@ -85,12 +131,16 @@ public class NoteHelperMethods {
                         chosenNote.printNote();
                         return wouldUserWantToEditNote(chosenNote, chosedMemoryList, scan, clientController);
                     } else {
-                        throw new InputMismatchException();
+                        throw new IllegalArgumentException();
+
                     }
                 }
 
             } catch (InputMismatchException e) {
-                IO.println("Index doesn't exist, please enter a valid index.");
+                IO.println("---- Index doesn't exist, please enter a valid index. ----");
+                scan.nextLine();
+            } catch (IllegalArgumentException e) {
+                IO.println("---- Note index doesn't exist, please enter a valid index. ----");
             }
         }
     }
@@ -112,15 +162,15 @@ public class NoteHelperMethods {
 
                 clientController.getView().categoryEnumPrint();
                 String category = scan.nextLine();
-                try{
+                try {
                     chosenCategory = Category.valueOf(category.trim().toUpperCase());
-                } catch (IllegalArgumentException e){
-                    IO.println("Category doesn't exist, please try again.");
+                } catch (IllegalArgumentException e) {
+                    IO.println("---- Category doesn't exist, please try again. ----");
                 }
 
                 return new Note(title, description, priority, chosenCategory);
-            } catch (InputMismatchException e){
-                IO.println("Please enter valid values. ");
+            } catch (InputMismatchException e) {
+                IO.println("---- Please enter valid values. ----");
             }
         }
 

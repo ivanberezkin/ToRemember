@@ -20,10 +20,9 @@ public class ClientController {
         this.view = view;
     }
 
-    private Message getInputFromChosenMemoryListAllOptions(int userChosenOption, MemoryList chosedMemoryList) {
-        while (true) {
+    private Message getInputFromChosenMemoryListAllOptions(int userChosenOption, MemoryList chosedMemoryList) throws InputMismatchException {
 
-            switch (userChosenOption) {
+        switch (userChosenOption) {
                 case 1 -> {
                     return NoteHelperMethods.getChosenNoteForUser(chosedMemoryList, scan, this);
                 }
@@ -41,10 +40,10 @@ public class ClientController {
                     return new Message(MessageType.SHOW_LIST_OF_MEMORY_LISTS, model.getUser());
                 }
                 default -> {
-                    IO.println("Please enter a valid index.");
+                    throw new InputMismatchException();
                 }
             }
-        }
+
     }
 
     public Message getInputFromStartingMenu() {
@@ -71,7 +70,7 @@ public class ClientController {
                         System.exit(0);
                     }
                     default -> {
-                        IO.println("Invalid index, please try again.");
+                        throw new InputMismatchException();
                     }
 
                 }
@@ -83,12 +82,19 @@ public class ClientController {
     }
 
     public Message getInputFromChosenMemoryList(MemoryList memoryListToShow) {
-        view.showMemoryListView(memoryListToShow);
-        view.showUserOptionForChosenMemoryListView();
+        while (true) {
+            try {
 
-        int userChosenOption = scan.nextInt();
-        scan.nextLine();
-        return getInputFromChosenMemoryListAllOptions(userChosenOption, memoryListToShow);
+                view.showMemoryListView(memoryListToShow);
+                view.showUserOptionForChosenMemoryListView();
+                int userChosenOption = scan.nextInt();
+                return getInputFromChosenMemoryListAllOptions(userChosenOption, memoryListToShow);
+
+            } catch (InputMismatchException e) {
+                IO.println("Invalid index, please try again");
+                scan.nextLine();
+            }
+        }
     }
 
     public Message getInputFromShowMemoryLists() {
