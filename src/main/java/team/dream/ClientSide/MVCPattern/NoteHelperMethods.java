@@ -2,16 +2,12 @@ package team.dream.ClientSide.MVCPattern;
 
 import team.dream.shared.*;
 
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class NoteHelperMethods {
 
 
-    protected static Message removeNote(MemoryList chosenMemoryList, Scanner scan, ClientController clientController){
-
+    protected static Message removeNote(MemoryList chosenMemoryList, Scanner scan, ClientController clientController) {
 
 
         return new Message(MessageType.UPDATE_NOTE, chosenMemoryList, clientController.getModel().getUser());
@@ -71,39 +67,63 @@ public class NoteHelperMethods {
     }
 
     protected static Message getChosenNoteForUser(MemoryList chosedMemoryList, Scanner scan, ClientController clientController) {
-        clientController.getView().showMemoryListView(chosedMemoryList);
-        IO.println("Which note would you like to see?" +
-                "\nEnter 0 to go back " +
-                "\nEnter a valid index");
-        int chosenNoteIndex = scan.nextInt();
-        scan.nextLine();
-        if (chosenNoteIndex == 0) {
-            return new Message(MessageType.SHOW_LIST_OF_MEMORY_LISTS, clientController.getModel().getUser());
-        } else {
-            Note chosenNote = chosedMemoryList.getNotes().get(chosenNoteIndex - 1);
-            chosenNote.printNote();
-            return wouldUserWantToEditNote(chosenNote, chosedMemoryList, scan, clientController);
-        }
 
+        while (true) {
+            try {
+
+                clientController.getView().showMemoryListView(chosedMemoryList);
+                IO.println("Which note would you like to see?" +
+                        "\nEnter 0 to go back " +
+                        "\nEnter a valid index");
+                int chosenNoteIndex = scan.nextInt();
+                scan.nextLine();
+                if (chosenNoteIndex == 0) {
+                    return new Message(MessageType.SHOW_LIST_OF_MEMORY_LISTS, clientController.getModel().getUser());
+                } else {
+                    if (chosenNoteIndex < chosedMemoryList.getNotes().size()) {
+                        Note chosenNote = chosedMemoryList.getNotes().get(chosenNoteIndex - 1);
+                        chosenNote.printNote();
+                        return wouldUserWantToEditNote(chosenNote, chosedMemoryList, scan, clientController);
+                    } else {
+                        throw new InputMismatchException();
+                    }
+                }
+
+            } catch (InputMismatchException e) {
+                IO.println("Index doesn't exist, please enter a valid index.");
+            }
+        }
     }
 
     protected static Note createNewNote(Scanner scan, ClientController clientController) {
-        IO.println("Creating new note, please enter title: ");
-        String title = scan.nextLine();
+        Category chosenCategory = null;
 
-        IO.println("Enter description of the note: ");
-        String description = scan.nextLine();
+        while (true) {
+            try {
+                IO.println("Creating new note, please enter title: ");
+                String title = scan.nextLine();
 
-        IO.println("Set priority index (1-5, 1 is highest priority, 5 is lowest): ");
-        int priority = scan.nextInt();
-        scan.nextLine();
+                IO.println("Enter description of the note: ");
+                String description = scan.nextLine();
 
-        clientController.getView().categoryEnumPrint();
-        String category = scan.nextLine();
-        Category chosenCategory = Category.valueOf(category.trim().toUpperCase());
+                IO.println("Set priority index (1-5, 1 is highest priority, 5 is lowest): ");
+                int priority = scan.nextInt();
+                scan.nextLine();
 
-        return new Note(title, description, priority, chosenCategory);
+                clientController.getView().categoryEnumPrint();
+                String category = scan.nextLine();
+                try{
+                    chosenCategory = Category.valueOf(category.trim().toUpperCase());
+                } catch (IllegalArgumentException e){
+                    IO.println("Category doesn't exist, please try again.");
+                }
+
+                return new Note(title, description, priority, chosenCategory);
+            } catch (InputMismatchException e){
+                IO.println("Please enter valid values. ");
+            }
+        }
+
     }
-
 
 }

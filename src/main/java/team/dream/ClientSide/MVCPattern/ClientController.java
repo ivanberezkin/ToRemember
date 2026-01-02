@@ -21,26 +21,30 @@ public class ClientController {
     }
 
     private Message getInputFromChosenMemoryListAllOptions(int userChosenOption, MemoryList chosedMemoryList) {
-        switch (userChosenOption) {
-            case 1 -> {
-                return NoteHelperMethods.getChosenNoteForUser(chosedMemoryList, scan, this);
-            }
-            case 2 -> {
-                chosedMemoryList.addNoteToMemoryList(NoteHelperMethods.createNewNote(scan, this));
-                return new Message(MessageType.CREATE_NOTE, chosedMemoryList, model.getUser());
-            }
-            case 3 -> {
-                return NoteHelperMethods.sortNotesByPriority(chosedMemoryList, this);
-            }
-            case 4 -> {
-                return new Message(MessageType.REMOVE_MEMORY_LIST,chosedMemoryList, model.getUser());
-            }
-            case 5 -> {
-                return new Message(MessageType.SHOW_LIST_OF_MEMORY_LISTS, model.getUser());
+        while (true) {
+
+            switch (userChosenOption) {
+                case 1 -> {
+                    return NoteHelperMethods.getChosenNoteForUser(chosedMemoryList, scan, this);
+                }
+                case 2 -> {
+                    chosedMemoryList.addNoteToMemoryList(NoteHelperMethods.createNewNote(scan, this));
+                    return new Message(MessageType.CREATE_NOTE, chosedMemoryList, model.getUser());
+                }
+                case 3 -> {
+                    return NoteHelperMethods.sortNotesByPriority(chosedMemoryList, this);
+                }
+                case 4 -> {
+                    return new Message(MessageType.REMOVE_MEMORY_LIST, chosedMemoryList, model.getUser());
+                }
+                case 5 -> {
+                    return new Message(MessageType.SHOW_LIST_OF_MEMORY_LISTS, model.getUser());
+                }
+                default -> {
+                    IO.println("Please enter a valid index.");
+                }
             }
         }
-        //TODO fixa felhantering sen
-        return null;
     }
 
     public Message getInputFromStartingMenu() {
@@ -66,6 +70,9 @@ public class ClientController {
                     case 4 -> {
                         System.exit(0);
                     }
+                    default -> {
+                        IO.println("Invalid index, please try again.");
+                    }
 
                 }
             } catch (InputMismatchException e) {
@@ -85,21 +92,33 @@ public class ClientController {
     }
 
     public Message getInputFromShowMemoryLists() {
-        view.showAllMemoryListsView(model.getUsersMemoryList(), model.getSharedMemoryList());
 
-        int inputFromUser = scan.nextInt();
-        scan.nextLine();
+        while (true) {
 
-        if(inputFromUser == 0){
-            return new Message(MessageType.STARTING_MENU, model.getUser());
-        }else{
-            bothOwnedAndSharedList.clear();
-            bothOwnedAndSharedList.addAll(model.getUsersMemoryList());
-            bothOwnedAndSharedList.addAll(model.getSharedMemoryList());
+            try {
+                view.showAllMemoryListsView(model.getUsersMemoryList(), model.getSharedMemoryList());
 
-            return new Message(MessageType.SHOW_CHOSEN_MEMORY_LIST, bothOwnedAndSharedList.get(inputFromUser - 1), model.getUser());
+                int inputFromUser = scan.nextInt();
+
+                if (inputFromUser == 0) {
+                    return new Message(MessageType.STARTING_MENU, model.getUser());
+                } else {
+                    bothOwnedAndSharedList.clear();
+                    bothOwnedAndSharedList.addAll(model.getUsersMemoryList());
+                    bothOwnedAndSharedList.addAll(model.getSharedMemoryList());
+
+                    if (inputFromUser < bothOwnedAndSharedList.size()) {
+                        return new Message(MessageType.SHOW_CHOSEN_MEMORY_LIST, bothOwnedAndSharedList.get(inputFromUser - 1), model.getUser());
+                    } else {
+                        throw new InputMismatchException();
+                    }
+                }
+            } catch (InputMismatchException e) {
+                scan.nextLine();
+                IO.println("Please enter a valid index");
+            }
         }
-    }
 
+    }
 
 }
