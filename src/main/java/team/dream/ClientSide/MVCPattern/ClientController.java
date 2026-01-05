@@ -113,7 +113,7 @@ public class ClientController {
                     bothOwnedAndSharedList.addAll(model.getUsersMemoryList());
                     bothOwnedAndSharedList.addAll(model.getSharedMemoryList());
 
-                    if (inputFromUser < bothOwnedAndSharedList.size()) {
+                    if (inputFromUser <= bothOwnedAndSharedList.size()) {
                         return new Message(MessageType.SHOW_CHOSEN_MEMORY_LIST, bothOwnedAndSharedList.get(inputFromUser - 1), model.getUser());
                     } else {
                         throw new InputMismatchException();
