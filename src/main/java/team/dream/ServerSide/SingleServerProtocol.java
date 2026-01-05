@@ -2,6 +2,7 @@ package team.dream.ServerSide;
 
 
 import team.dream.Databases.ConnectionToSQL;
+import team.dream.Databases.MemoryListMethodSQL;
 import team.dream.Databases.SQLTableFunctions;
 import team.dream.Databases.UsersMethodSQL;
 import team.dream.oldDatabases.SingleMemoryListDatabase;
@@ -120,7 +121,7 @@ public class SingleServerProtocol {
                 IO.println(inputFromClient.getType() + " received from client");
                 if (inputFromClient.getData() instanceof String ownerUsername) {
                     SQLTableFunctions.createMemoryListTableIfNotExist(memoryListTableName);
-                    return new Message(MessageType.SHOW_LIST_OF_MEMORY_LISTS, singleMemoryListDatabase.getAllUsersMemoryLists(ownerUsername), ownerUsername);
+                    return new Message(MessageType.SHOW_LIST_OF_MEMORY_LISTS, MemoryListMethodSQL.showUsersMemoryLists(ownerUsername), ownerUsername);
                 }
 
             }

@@ -28,6 +28,7 @@ public class SQLTableFunctions {
         String createTableIfNotExistSQL = "CREATE TABLE IF NOT EXISTS " + tableName +
                 "(memoryListID int not null auto_increment primary key," +
                 " ownerUserID int not null," +
+                "title varchar(50) not null," +
                 "foreign key(ownerUserID) references Users(userid))";
 
         try {
