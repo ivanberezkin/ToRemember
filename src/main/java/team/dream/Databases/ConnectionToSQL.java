@@ -30,8 +30,6 @@ public class ConnectionToSQL {
     public ConnectionToSQL() {
         {
             try {
-                //Först ansluter man mot själva SQL servern för att kolla ifall din dbName finns, om den inte finns så skapar den en.
-                //Det här kan man göra i förhand i databashanterare som MySQL Workbench, men för att underlätta för er så gör vi såhär.
                 try(Connection initialConnect = DriverManager.getConnection(url+url2,usernameLogon,passwordLogon)){
                     Statement createDatabaseIfNotExistStatement = initialConnect.createStatement();
                     String createDatabaseIfNotExistSQL = "CREATE DATABASE IF NOT EXISTS " + dbName;
