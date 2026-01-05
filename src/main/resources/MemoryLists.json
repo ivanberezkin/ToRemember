@@ -40,4 +40,28 @@
   "ownerUsername" : "ivan",
   "title" : "IvansTredjeTestLista",
   "users" : [ ]
+}, {
+  "memoryListID" : 62,
+  "notes" : [ {
+    "categoryEnum" : "Hobby",
+    "description" : "remember",
+    "done" : false,
+    "priorityIndex" : 1,
+    "title" : ""
+  } ],
+  "ownerUsername" : "viktor",
+  "title" : "test",
+  "users" : [ ]
+}, {
+  "memoryListID" : 18,
+  "notes" : [ ],
+  "ownerUsername" : "viktor",
+  "title" : "test 2",
+  "users" : [ ]
+}, {
+  "memoryListID" : 78,
+  "notes" : [ ],
+  "ownerUsername" : "viktor",
+  "title" : "test 3",
+  "users" : [ ]
 } ]

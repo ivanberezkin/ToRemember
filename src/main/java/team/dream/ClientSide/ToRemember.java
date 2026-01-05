@@ -5,8 +5,7 @@ import team.dream.ClientSide.Network.ClientConnection;
 import java.util.Scanner;
 
 public class ToRemember {
-    static void main() {
-
+    public static void main(String[] args) {
         try (Scanner sc = new Scanner(System.in)) {
             ClientConnection client = ClientConnection.getClientConnection();
             String usernameInputFromUser;

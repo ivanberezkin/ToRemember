@@ -27,7 +27,7 @@ public class SingleServerListener {
 
     public static SingleServerListener getInstance() {return instance;}
 
-    static void main() {
+    public static void main(String[] args) {
         SingleServerListener SSL = SingleServerListener.getInstance();
         SSL.start();
     }
