@@ -2,6 +2,7 @@ package team.dream.ServerSide;
 
 
 import team.dream.Databases.ConnectionToSQL;
+import team.dream.Databases.MemoryListMethodSQL;
 import team.dream.Databases.SQLTableFunctions;
 import team.dream.Databases.UsersMethodSQL;
 import team.dream.oldDatabases.SingleMemoryListDatabase;
@@ -19,6 +20,7 @@ public class SingleServerProtocol {
     private static final SingleMemoryListDatabase singleMemoryListDatabase = SingleMemoryListDatabase.getInstance();
     private static final ConnectionToSQL connToSQL = ConnectionToSQL.getInstance();
     private final String userTableName = "users";
+    private final String memoryListTableName = "memorylist";
 
     private SingleServerProtocol() {
     }
@@ -55,18 +57,8 @@ public class SingleServerProtocol {
             case CREATE_MEMORY_LIST -> {
                 IO.println(inputFromClient.getType() + " received from client");
                 if (inputFromClient.getData() instanceof String titleOfNewMemoryList) {
-                    Random randomID = new Random();
-                    int assignedIdToNewMemoryList = randomID.nextInt(100);
-                    while (singleMemoryListDatabase.isIDtaken(assignedIdToNewMemoryList)) {
-                        assignedIdToNewMemoryList = randomID.nextInt(100);
-                    }
-                    MemoryList memoryListToAddToDB = new MemoryList(
-                            titleOfNewMemoryList,
-                            inputFromClient.getUsername(),
-                            assignedIdToNewMemoryList);
-
-                    singleMemoryListDatabase.addNewMemoryListToDB(memoryListToAddToDB);
-                    IO.println("SSP: Memorylist added to DB succesfully");
+                    SQLTableFunctions.createMemoryListTableIfNotExist(memoryListTableName);
+                    MemoryListMethodSQL.createNewMemoryList(inputFromClient.getUsername(), titleOfNewMemoryList);
                     return new Message(MessageType.STARTING_MENU, inputFromClient.getUsername());
                 }
             }
@@ -118,7 +110,8 @@ public class SingleServerProtocol {
             case SHOW_LIST_OF_MEMORY_LISTS -> {
                 IO.println(inputFromClient.getType() + " received from client");
                 if (inputFromClient.getData() instanceof String ownerUsername) {
-                    return new Message(MessageType.SHOW_LIST_OF_MEMORY_LISTS, singleMemoryListDatabase.getAllUsersMemoryLists(ownerUsername), ownerUsername);
+                    SQLTableFunctions.createMemoryListTableIfNotExist(memoryListTableName);
+                    return new Message(MessageType.SHOW_LIST_OF_MEMORY_LISTS, MemoryListMethodSQL.showUsersMemoryLists(ownerUsername), ownerUsername);
                 }
 
             }
