@@ -1,5 +1,7 @@
 package team.dream.ServerSide;
 
+import team.dream.Databases.ConnectionToSQL;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -11,6 +13,9 @@ public class SingleServerListener {
     private SingleServerListener() {}
 
     public void start(){
+
+        ConnectionToSQL connectionToSQL = ConnectionToSQL.getInstance();
+
         try(ServerSocket serverSocket = new ServerSocket(port)){
 
             while(true){
