@@ -1,6 +1,9 @@
 package team.dream.ServerSide;
 
 
+import team.dream.Databases.ConnectionToSQL;
+import team.dream.Databases.SQLTableFunctions;
+import team.dream.Databases.UsersMethodSQL;
 import team.dream.oldDatabases.SingleMemoryListDatabase;
 import team.dream.oldDatabases.SingleUserDatabase;
 import team.dream.shared.MemoryList;
@@ -14,6 +17,8 @@ public class SingleServerProtocol {
     private static final SingleServerProtocol serverProtocol = new SingleServerProtocol();
     private static final SingleUserDatabase userDatabase = SingleUserDatabase.getInstance();
     private static final SingleMemoryListDatabase singleMemoryListDatabase = SingleMemoryListDatabase.getInstance();
+    private static final ConnectionToSQL connToSQL = ConnectionToSQL.getInstance();
+    private final String userTableName = "users";
 
     private SingleServerProtocol() {
     }
@@ -27,7 +32,8 @@ public class SingleServerProtocol {
             case REQUEST_LOGIN -> {
                 IO.println(inputFromClient.getType() + " received from client");
                 if (inputFromClient.getData() instanceof String usernameToCheck) {
-                    if (userDatabase.findExistingUser(usernameToCheck) != null) {
+                    SQLTableFunctions.createTableIfNotExist(userTableName);
+                    if (UsersMethodSQL.checkIfUserExistsInDB(usernameToCheck)) {
                         IO.println("User found, Login Successful");
                         return new Message(MessageType.STARTING_MENU, usernameToCheck);
                     } else {
@@ -40,7 +46,7 @@ public class SingleServerProtocol {
             case CREATE_NEW_USER -> {
                 IO.println(inputFromClient.getType() + " received from client");
                 if (inputFromClient.getData() instanceof String usernameToAddToDB) {
-                    userDatabase.addNewUser(usernameToAddToDB);
+                    UsersMethodSQL.addUserToDB(usernameToAddToDB);
                     IO.println("SSP: New User created");
                     return new Message(MessageType.STARTING_MENU, usernameToAddToDB);
                 }
