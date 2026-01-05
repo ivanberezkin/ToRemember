@@ -14,6 +14,26 @@ public class MemoryListMethodSQL {
     private static final String memoryListTableName = "memorylist";
     private static final String usersTableName = "users";
 
+
+    public static void createNewMemoryList(String username, String titleForNewMemoryList){
+
+        int userID = UsersMethodSQL.getUserIDForUser(username);
+
+        String sqlCreateNewMemoryList = String.format("INSERT INTO memorylist (ownerUserID, title) VALUES (?,?)");
+
+        try(PreparedStatement stmt = connectionToDB.prepareStatement(sqlCreateNewMemoryList)){
+
+            stmt.setInt(1,userID);
+            stmt.setString(2, titleForNewMemoryList);
+
+            stmt.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
     public static ArrayList<MemoryList> showUsersMemoryLists (String usernameForUser){
         ArrayList<MemoryList> usersMemoryList = new ArrayList<>();
 

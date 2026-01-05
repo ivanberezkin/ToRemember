@@ -57,18 +57,8 @@ public class SingleServerProtocol {
             case CREATE_MEMORY_LIST -> {
                 IO.println(inputFromClient.getType() + " received from client");
                 if (inputFromClient.getData() instanceof String titleOfNewMemoryList) {
-                    Random randomID = new Random();
-                    int assignedIdToNewMemoryList = randomID.nextInt(100);
-                    while (singleMemoryListDatabase.isIDtaken(assignedIdToNewMemoryList)) {
-                        assignedIdToNewMemoryList = randomID.nextInt(100);
-                    }
-                    MemoryList memoryListToAddToDB = new MemoryList(
-                            titleOfNewMemoryList,
-                            inputFromClient.getUsername(),
-                            assignedIdToNewMemoryList);
-
-                    singleMemoryListDatabase.addNewMemoryListToDB(memoryListToAddToDB);
-                    IO.println("SSP: Memorylist added to DB succesfully");
+                    SQLTableFunctions.createMemoryListTableIfNotExist(memoryListTableName);
+                    MemoryListMethodSQL.createNewMemoryList(inputFromClient.getUsername(), titleOfNewMemoryList);
                     return new Message(MessageType.STARTING_MENU, inputFromClient.getUsername());
                 }
             }
