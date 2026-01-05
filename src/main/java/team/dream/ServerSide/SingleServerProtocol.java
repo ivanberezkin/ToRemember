@@ -19,6 +19,7 @@ public class SingleServerProtocol {
     private static final SingleMemoryListDatabase singleMemoryListDatabase = SingleMemoryListDatabase.getInstance();
     private static final ConnectionToSQL connToSQL = ConnectionToSQL.getInstance();
     private final String userTableName = "users";
+    private final String memoryListTableName = "memorylist";
 
     private SingleServerProtocol() {
     }
@@ -118,6 +119,7 @@ public class SingleServerProtocol {
             case SHOW_LIST_OF_MEMORY_LISTS -> {
                 IO.println(inputFromClient.getType() + " received from client");
                 if (inputFromClient.getData() instanceof String ownerUsername) {
+                    SQLTableFunctions.createMemoryListTableIfNotExist(memoryListTableName);
                     return new Message(MessageType.SHOW_LIST_OF_MEMORY_LISTS, singleMemoryListDatabase.getAllUsersMemoryLists(ownerUsername), ownerUsername);
                 }
 
