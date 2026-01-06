@@ -13,11 +13,11 @@ public class MemoryListMethodSQL {
     private static final Connection connectionToDB = ConnectionToSQL.getInstance().getConnectionToDb();
     private static final String memoryListTableName = "memorylist";
     private static final String usersTableName = "users";
-
+    private static int userID;
 
     public static void createNewMemoryList(String username, String titleForNewMemoryList){
 
-        int userID = UsersMethodSQL.getUserIDForUser(username);
+        userID = UsersMethodSQL.getUserIDForUser(username);
 
         String sqlCreateNewMemoryList = String.format("INSERT INTO memorylist (ownerUserID, title) VALUES (?,?)");
 
@@ -27,6 +27,23 @@ public class MemoryListMethodSQL {
             stmt.setString(2, titleForNewMemoryList);
 
             stmt.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    public static void removeMemoryList(MemoryList memoryListToDelete){
+
+
+        String sqlCreateNewMemoryList = String.format("DELETE FROM memorylist WHERE memoryListID = ?");
+
+        try(PreparedStatement stmt = connectionToDB.prepareStatement(sqlCreateNewMemoryList)){
+
+            stmt.setInt(1,memoryListToDelete.getMemoryListID());
+            stmt.executeUpdate();
+            IO.print("removeMemoryList executed.");
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
