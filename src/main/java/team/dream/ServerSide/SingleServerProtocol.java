@@ -84,7 +84,7 @@ public class SingleServerProtocol {
                 IO.println(inputFromClient.getType() + " received from client");
                 if (inputFromClient.getData() instanceof MemoryList memoryListToRemoveFromDB) {
                     MemoryListMethodSQL.removeMemoryList(memoryListToRemoveFromDB);
-                    return new Message(MessageType.SHOW_LIST_OF_MEMORY_LISTS, singleMemoryListDatabase.getAllUsersMemoryLists(inputFromClient.getUsername()), inputFromClient.getUsername());
+                    return new Message(MessageType.SHOW_LIST_OF_MEMORY_LISTS, MemoryListMethodSQL.showUsersMemoryLists(inputFromClient.getUsername()), inputFromClient.getUsername());
                 }
             }
 
