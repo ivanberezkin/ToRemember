@@ -103,7 +103,7 @@ public class NoteHelperMethods {
                 return new Message(MessageType.SHOW_CHOSEN_MEMORY_LIST, chosedMemoryList, clientController.getModel().getUser());
             }
         }
-        return new Message(MessageType.UPDATE_NOTE, chosedMemoryList, clientController.getModel().getUser());
+        return new Message(MessageType.UPDATE_NOTE, note, clientController.getModel().getUser());
     }
 
     protected static Message getChosenNoteForUser(MemoryList chosedMemoryList, Scanner scan, ClientController clientController) {

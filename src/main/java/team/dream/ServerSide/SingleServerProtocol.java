@@ -74,9 +74,9 @@ public class SingleServerProtocol {
 
             case UPDATE_NOTE -> {
                 IO.println(inputFromClient.getType() + " received from client");
-                if (inputFromClient.getData() instanceof MemoryList updatedMemoryListWithUpdatedNote) {
-                    singleMemoryListDatabase.updateNotesInMemoryListInDB(updatedMemoryListWithUpdatedNote);
-                    return new Message(MessageType.SHOW_CHOSEN_MEMORY_LIST, updatedMemoryListWithUpdatedNote, inputFromClient.getUsername());
+                if (inputFromClient.getData() instanceof Note updatedNote) {
+                    NotelistMethodSQL.updateNoteInSQL(updatedNote);
+                    return new Message(MessageType.SHOW_LIST_OF_MEMORY_LISTS, MemoryListMethodSQL.showUsersMemoryLists(inputFromClient.getUsername()), inputFromClient.getUsername());
                 }
             }
 
