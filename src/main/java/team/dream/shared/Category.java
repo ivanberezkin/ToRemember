@@ -19,6 +19,15 @@ public enum Category implements Serializable {
         return description;
     }
 
+    public static Category getCategory (String categoryInput){
+        for(Category c : Category.values()){
+            if(c.toString().equalsIgnoreCase(categoryInput)){
+                return c;
+            }
+        }
+        return null;
+    }
+
 }
 
 

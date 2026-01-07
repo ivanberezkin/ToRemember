@@ -1,6 +1,8 @@
 package team.dream.Databases;
 
+import team.dream.shared.Category;
 import team.dream.shared.MemoryList;
+import team.dream.shared.Note;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,7 +15,47 @@ public class MemoryListMethodSQL {
     private static final Connection connectionToDB = ConnectionToSQL.getInstance().getConnectionToDb();
     private static final String memoryListTableName = "memorylist";
     private static final String usersTableName = "users";
+    private static final String notelistTableName = "notelist";
     private static int userID;
+
+
+
+    public static ArrayList<Note> showMemoryListWithNotes(int memoryListID){
+
+        ArrayList<Note> notesInMemoryList = new ArrayList<>();
+
+        String sqlGetAllNotesForMemoryList = String.format("SELECT * FROM %s WHERE memorylistID = ?", notelistTableName);
+        try(PreparedStatement stmt = connectionToDB.prepareStatement(sqlGetAllNotesForMemoryList)){
+
+            stmt.setInt(1,memoryListID);
+
+            ResultSet rs = stmt.executeQuery();
+            while(rs.next()){
+
+                int noteID = rs.getInt(1);
+                int memorylistID = rs.getInt(1);
+                String title = rs.getString(3);
+                String description = rs.getString(4);
+                int priority = rs.getInt(5);
+                Category cat = Category.getCategory(rs.getString(6));
+                boolean isDone = rs.getBoolean(7);
+
+                notesInMemoryList.add(new Note(noteID,
+                        memorylistID,
+                        title,
+                        description,
+                        priority,
+                        cat,
+                        isDone));
+            }
+
+            IO.println("showMemoryListWithNotes executed succesfully.");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return notesInMemoryList;
+    }
 
     public static void createNewMemoryList(String username, String titleForNewMemoryList){
 
@@ -31,7 +73,6 @@ public class MemoryListMethodSQL {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
     }
 
     public static void removeMemoryList(MemoryList memoryListToDelete){

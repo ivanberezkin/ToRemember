@@ -16,11 +16,12 @@ import java.util.Random;
 
 public class SingleServerProtocol {
     private static final SingleServerProtocol serverProtocol = new SingleServerProtocol();
-    private static final SingleUserDatabase userDatabase = SingleUserDatabase.getInstance();
+//    private static final SingleUserDatabase userDatabase = SingleUserDatabase.getInstance();
     private static final SingleMemoryListDatabase singleMemoryListDatabase = SingleMemoryListDatabase.getInstance();
     private static final ConnectionToSQL connToSQL = ConnectionToSQL.getInstance();
     private final String userTableName = "users";
     private final String memoryListTableName = "memorylist";
+    private final String notelistTableName = "notelist";
 
     private SingleServerProtocol() {
     }
@@ -103,6 +104,8 @@ public class SingleServerProtocol {
             case SHOW_CHOSEN_MEMORY_LIST -> {
                 IO.println(inputFromClient.getType() + " received from client");
                 if (inputFromClient.getData() instanceof MemoryList memoryListToShow) {
+                    SQLTableFunctions.createNoteListTableIfNotExist(notelistTableName);
+                    memoryListToShow.setNotes(MemoryListMethodSQL.showMemoryListWithNotes(memoryListToShow.getMemoryListID()));
                     return new Message(MessageType.SHOW_CHOSEN_MEMORY_LIST, memoryListToShow, inputFromClient.getUsername());
                 }
             }
