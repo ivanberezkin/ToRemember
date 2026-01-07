@@ -13,12 +13,6 @@ public class NoteHelperMethods {
         return new Message(MessageType.UPDATE_NOTE, chosenMemoryList, clientController.getModel().getUser());
     }
 
-    protected static Message sortNotesByPriority(MemoryList chosenMemoryList, ClientController clientController) {
-
-        chosenMemoryList.getNotes().sort(Comparator.comparingInt(Note::getPriorityIndex));
-        return new Message(MessageType.SHOW_CHOSEN_MEMORY_LIST, chosenMemoryList, clientController.getModel().getUser());
-    }
-
     protected static Message wouldUserWantToEditNote(Note note, MemoryList chosedMemoryList, Scanner scan, ClientController clientController) {
         IO.println("If you want to edit note, enter Title/Description/Priority/Category." +
                 "\nIf you want to remove note enter 'Remove'" +
@@ -109,7 +103,7 @@ public class NoteHelperMethods {
                 return new Message(MessageType.SHOW_CHOSEN_MEMORY_LIST, chosedMemoryList, clientController.getModel().getUser());
             }
         }
-        return new Message(MessageType.UPDATE_NOTE, chosedMemoryList, clientController.getModel().getUser());
+        return new Message(MessageType.UPDATE_NOTE, note, clientController.getModel().getUser());
     }
 
     protected static Message getChosenNoteForUser(MemoryList chosedMemoryList, Scanner scan, ClientController clientController) {
@@ -145,7 +139,7 @@ public class NoteHelperMethods {
         }
     }
 
-    protected static Note createNewNote(Scanner scan, ClientController clientController) {
+    protected static Note createNewNote(Scanner scan, ClientController clientController, MemoryList chosedMemoryList) {
         Category chosenCategory = null;
 
         while (true) {
@@ -168,7 +162,7 @@ public class NoteHelperMethods {
                     IO.println("---- Category doesn't exist, please try again. ----");
                 }
 
-                return new Note(title, description, priority, chosenCategory);
+                return new Note(chosedMemoryList.getMemoryListID(),title, description, priority, chosenCategory);
             } catch (InputMismatchException e) {
                 IO.println("---- Please enter valid values. ----");
             }
