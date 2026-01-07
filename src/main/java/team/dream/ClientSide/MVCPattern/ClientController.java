@@ -27,8 +27,8 @@ public class ClientController {
                     return NoteHelperMethods.getChosenNoteForUser(chosedMemoryList, scan, this);
                 }
                 case 2 -> {
-                    chosedMemoryList.addNoteToMemoryList(NoteHelperMethods.createNewNote(scan, this));
-                    return new Message(MessageType.CREATE_NOTE, chosedMemoryList, model.getUser());
+                    Note newNote = NoteHelperMethods.createNewNote(scan, this, chosedMemoryList);
+                    return new Message(MessageType.CREATE_NOTE, newNote, model.getUser());
                 }
                 case 3 -> {
                     return NoteHelperMethods.sortNotesByPriority(chosedMemoryList, this);
@@ -88,6 +88,7 @@ public class ClientController {
                 view.showMemoryListView(memoryListToShow);
                 view.showUserOptionForChosenMemoryListView();
                 int userChosenOption = scan.nextInt();
+                scan.nextLine();
                 return getInputFromChosenMemoryListAllOptions(userChosenOption, memoryListToShow);
 
             } catch (InputMismatchException e) {

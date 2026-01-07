@@ -145,7 +145,7 @@ public class NoteHelperMethods {
         }
     }
 
-    protected static Note createNewNote(Scanner scan, ClientController clientController) {
+    protected static Note createNewNote(Scanner scan, ClientController clientController, MemoryList chosedMemoryList) {
         Category chosenCategory = null;
 
         while (true) {
@@ -168,7 +168,7 @@ public class NoteHelperMethods {
                     IO.println("---- Category doesn't exist, please try again. ----");
                 }
 
-                return new Note(title, description, priority, chosenCategory);
+                return new Note(chosedMemoryList.getMemoryListID(),title, description, priority, chosenCategory);
             } catch (InputMismatchException e) {
                 IO.println("---- Please enter valid values. ----");
             }

@@ -1,15 +1,13 @@
 package team.dream.ServerSide;
 
 
-import team.dream.Databases.ConnectionToSQL;
-import team.dream.Databases.MemoryListMethodSQL;
-import team.dream.Databases.SQLTableFunctions;
-import team.dream.Databases.UsersMethodSQL;
+import team.dream.Databases.*;
 import team.dream.oldDatabases.SingleMemoryListDatabase;
 import team.dream.oldDatabases.SingleUserDatabase;
 import team.dream.shared.MemoryList;
 import team.dream.shared.Message;
 import team.dream.shared.MessageType;
+import team.dream.shared.Note;
 
 import java.util.Random;
 
@@ -91,12 +89,9 @@ public class SingleServerProtocol {
 
             case CREATE_NOTE -> {
                 IO.println(inputFromClient.getType() + " received from client");
-                if (inputFromClient.getData() instanceof MemoryList updatedMemoryListFromClient) {
-                    singleMemoryListDatabase.updateNotesInMemoryListInDB(updatedMemoryListFromClient);
-
-                    //For Troubleshooting purposes.
-//                    singleMemoryListDatabase.printSizeOfUsersMemoryLists(singleMemoryListDatabase.getAllUsersMemoryLists(inputFromClient.getUsername()));
-                    return new Message(MessageType.SHOW_LIST_OF_MEMORY_LISTS, singleMemoryListDatabase.getAllUsersMemoryLists(inputFromClient.getUsername()), inputFromClient.getUsername());
+                if (inputFromClient.getData() instanceof Note newNoteToAdd) {
+                    NotelistMethodSQL.addNewNoteToSQL(newNoteToAdd);
+                    return new Message(MessageType.SHOW_LIST_OF_MEMORY_LISTS, MemoryListMethodSQL.showUsersMemoryLists(inputFromClient.getUsername()), inputFromClient.getUsername());
                 }
             }
 

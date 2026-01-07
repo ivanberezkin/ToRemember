@@ -19,7 +19,8 @@ public class Note implements Serializable {
     private Category categoryEnum;
     private boolean isDone;
 
-    public Note(String title, String description, int priorityIndex, Category categoryEnum) {
+    public Note(int memoryListID, String title, String description, int priorityIndex, Category categoryEnum) {
+        this.memoryListID = memoryListID;
         this.title = title;
         this.description = description;
         this.priorityIndex = priorityIndex;
