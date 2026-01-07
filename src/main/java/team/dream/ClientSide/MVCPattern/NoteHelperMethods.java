@@ -13,12 +13,6 @@ public class NoteHelperMethods {
         return new Message(MessageType.UPDATE_NOTE, chosenMemoryList, clientController.getModel().getUser());
     }
 
-    protected static Message sortNotesByPriority(MemoryList chosenMemoryList, ClientController clientController) {
-
-        chosenMemoryList.getNotes().sort(Comparator.comparingInt(Note::getPriorityIndex));
-        return new Message(MessageType.SHOW_CHOSEN_MEMORY_LIST, chosenMemoryList, clientController.getModel().getUser());
-    }
-
     protected static Message wouldUserWantToEditNote(Note note, MemoryList chosedMemoryList, Scanner scan, ClientController clientController) {
         IO.println("If you want to edit note, enter Title/Description/Priority/Category." +
                 "\nIf you want to remove note enter 'Remove'" +

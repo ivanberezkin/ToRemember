@@ -9,6 +9,7 @@ import team.dream.shared.Message;
 import team.dream.shared.MessageType;
 import team.dream.shared.Note;
 
+import java.util.Comparator;
 import java.util.Random;
 
 
@@ -101,6 +102,15 @@ public class SingleServerProtocol {
                 if (inputFromClient.getData() instanceof MemoryList memoryListToShow) {
                     SQLTableFunctions.createNoteListTableIfNotExist(notelistTableName);
                     memoryListToShow.setNotes(MemoryListMethodSQL.showMemoryListWithNotes(memoryListToShow.getMemoryListID()));
+                    return new Message(MessageType.SHOW_CHOSEN_MEMORY_LIST, memoryListToShow, inputFromClient.getUsername());
+                }
+            }
+
+            case SORT_NOTES_BY_PRIORITY -> {
+                IO.println(inputFromClient.getType() + " received from client");
+                if (inputFromClient.getData() instanceof MemoryList memoryListToShow) {
+                    memoryListToShow.setNotes(MemoryListMethodSQL.showMemoryListWithNotes(memoryListToShow.getMemoryListID()));
+                    memoryListToShow.getNotes().sort(Comparator.comparingInt(Note::getPriorityIndex));
                     return new Message(MessageType.SHOW_CHOSEN_MEMORY_LIST, memoryListToShow, inputFromClient.getUsername());
                 }
             }
