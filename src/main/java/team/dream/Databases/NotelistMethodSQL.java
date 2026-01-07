@@ -13,6 +13,22 @@ public class NotelistMethodSQL {
     private static final String notelistTableName = "notelist";
 
 
+    public static void removeAllNotesInMemoryList(int memoryListID){
+
+        String sql = "DELETE from notelist where memorylistID = ?;";
+
+        try(PreparedStatement stmt = connToSQL.prepareStatement(sql)){
+
+            stmt.setInt(1, memoryListID);
+            stmt.executeUpdate();
+
+            IO.println("All notes deleted from memorylist");
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public static void updateNoteInSQL(Note note){
         String sql = String.format("UPDATE notelist SET " +
                 "title = ?," +

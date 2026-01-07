@@ -77,8 +77,9 @@ public class MemoryListMethodSQL {
 
     public static void removeMemoryList(MemoryList memoryListToDelete){
 
+        NotelistMethodSQL.removeAllNotesInMemoryList(memoryListToDelete.getMemoryListID());
 
-        String sqlCreateNewMemoryList = String.format("DELETE FROM memorylist WHERE memoryListID = ?");
+        String sqlCreateNewMemoryList = "DELETE FROM memorylist WHERE memoryListID = ?";
 
         try(PreparedStatement stmt = connectionToDB.prepareStatement(sqlCreateNewMemoryList)){
 
