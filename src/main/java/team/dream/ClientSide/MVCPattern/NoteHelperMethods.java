@@ -120,7 +120,7 @@ public class NoteHelperMethods {
                 if (chosenNoteIndex == 0) {
                     return new Message(MessageType.SHOW_LIST_OF_MEMORY_LISTS, clientController.getModel().getUser());
                 } else {
-                    if (chosenNoteIndex < chosedMemoryList.getNotes().size()) {
+                    if (chosenNoteIndex <= chosedMemoryList.getNotes().size()) {
                         Note chosenNote = chosedMemoryList.getNotes().get(chosenNoteIndex - 1);
                         chosenNote.printNote();
                         return wouldUserWantToEditNote(chosenNote, chosedMemoryList, scan, clientController);

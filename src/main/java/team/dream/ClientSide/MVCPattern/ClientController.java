@@ -58,17 +58,15 @@ public class ClientController {
                     case 1 -> {
                         return new Message(MessageType.SHOW_LIST_OF_MEMORY_LISTS, model.getUser());
                     }
-                    //Create new memoryList
+
                     case 2 -> {
                         String title = MemoryListHelperMethods.getTitleForNewMemoryList(scan);
                         return new Message(MessageType.CREATE_MEMORY_LIST, title, model.getUser());
                     }
                     case 3 -> {
-                        return new Message(MessageType.REMOVE_MEMORY_LIST, model.getUser());
-                    }
-                    case 4 -> {
                         System.exit(0);
                     }
+
                     default -> {
                         throw new InputMismatchException();
                     }
