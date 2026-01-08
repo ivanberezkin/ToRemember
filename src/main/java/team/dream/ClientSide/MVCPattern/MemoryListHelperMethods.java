@@ -4,10 +4,18 @@ import java.util.Scanner;
 
 public class MemoryListHelperMethods {
     protected static String getTitleForNewMemoryList(Scanner scan) {
-        IO.println("Please enter name for your memorylist.");
-        String title = scan.nextLine();
-        //TODO lägga till felhantering
-        return title;
+        String title;
+
+        while(true){
+            IO.println("Please enter name for your memorylist.");
+            title = scan.nextLine();
+
+            if(!title.isEmpty()){
+                return title;
+            }else{
+                IO.println("Title can't be empty. ");
+            }
+        }
     }
 
 }
