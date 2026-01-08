@@ -1,9 +1,12 @@
 package team.dream.ServerSide;
 
 import team.dream.shared.Message;
+
+import java.io.EOFException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.net.SocketException;
 
 public class ClientHandler extends Thread {
     private Socket socket;
@@ -19,16 +22,15 @@ public class ClientHandler extends Thread {
             ObjectInputStream inputStream = new ObjectInputStream(socket.getInputStream())){
 
             Message messageFromUser;
-            IO.println("ClientHandler: Waiting for client to send");
             while((messageFromUser = (Message) inputStream.readObject()) != null){
-//                IO.println("ClientHandler: Received from client");
                 outputStream.reset();
                 outputStream.writeObject(serverProtocol.processInputFromClient(messageFromUser));
-//                IO.println("ClientHandler: Sent to client");
                 outputStream.flush();
             }
-        }catch (Exception e){
-            e.printStackTrace();
+        }catch (EOFException |SocketException e){
+            IO.println("Client disconnected.");
+        } catch (Exception e){
+            IO.println("Unexpected error.");
         }
     }
 }

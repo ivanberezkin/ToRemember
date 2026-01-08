@@ -24,7 +24,7 @@ public class MemoryList implements Serializable {
 
     public void addNoteToMemoryList(Note noteToAdd){
         notes.add(noteToAdd);
-        IO.println("Note " + noteToAdd.getTitle() + " successfully added to " + title);
+//        IO.println("Note " + noteToAdd.getTitle() + " successfully added to " + title);
     }
 
 }

@@ -29,7 +29,6 @@ public class SingleClientProtocol {
         switch (messageFromServer.getType()) {
             case USER_NOT_FOUND -> {
                 if (messageFromServer.getData() instanceof String notFoundUsername) {
-                    IO.println("ClientProtocol: User not found");
                     return getInputFromUserForUserNotFoundMessage(notFoundUsername);
                 }
             }
@@ -40,20 +39,9 @@ public class SingleClientProtocol {
                     return cc.getInputFromStartingMenu();
                 }
             }
-            case CREATE_MEMORY_LIST -> {
-                IO.println("ClientProtocol: Create Memory List");
-                IO.println("ClientProtocol: Enter title of new memory list");
-                String title = scanner.nextLine();
-                String user = model.getUser();
-//                MemoryList memoryList = new MemoryList(title, user);
-//                model.getUsersMemoryList().add(memoryList);
-//                return new Message(MessageType.STARTING_MENU, model);
-            }
+
             case SHOW_LIST_OF_MEMORY_LISTS -> {
-                IO.println("ClientProtocol: Show list of memory lists");
-
                 model.updateUsersMemoryList((ArrayList<MemoryList>) messageFromServer.getData());
-
                 return cc.getInputFromShowMemoryLists();
 
             }
@@ -64,7 +52,6 @@ public class SingleClientProtocol {
                 }
             }
         }
-        IO.println("ClientProtocol: No return from switch triggered");
         return null;
     }
 
