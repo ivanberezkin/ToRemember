@@ -6,9 +6,8 @@ import team.dream.shared.MemoryList;
 import team.dream.shared.Message;
 import team.dream.shared.MessageType;
 import team.dream.shared.Note;
-
 import java.util.Comparator;
-import java.util.Random;
+
 
 
 public class SingleServerProtocol {
@@ -98,7 +97,6 @@ public class SingleServerProtocol {
                 }
             }
 
-            //TODO detta steg känns egentligen lite onödig, men tar det för att det ska vara tydligare tillsvidare.
             case SHOW_CHOSEN_MEMORY_LIST -> {
                 IO.println(inputFromClient.getType() + " received from client");
                 if (inputFromClient.getData() instanceof MemoryList memoryListToShow) {

@@ -19,8 +19,6 @@ public class ClientModel {
 
     ClientModel(String user){
         this.user = user;
-        //TODO här behöver vi göra så att en funktion i singleMemoryListDatabase
-        // bara returnerar memory lists som tillhör user.
     }
 
     public void updateUsersMemoryList(ArrayList<MemoryList> updatedList){
