@@ -2,8 +2,6 @@ package team.dream.ServerSide;
 
 
 import team.dream.Databases.*;
-import team.dream.oldDatabases.SingleMemoryListDatabase;
-import team.dream.oldDatabases.SingleUserDatabase;
 import team.dream.shared.MemoryList;
 import team.dream.shared.Message;
 import team.dream.shared.MessageType;
@@ -15,9 +13,6 @@ import java.util.Random;
 
 public class SingleServerProtocol {
     private static final SingleServerProtocol serverProtocol = new SingleServerProtocol();
-//    private static final SingleUserDatabase userDatabase = SingleUserDatabase.getInstance();
-    private static final SingleMemoryListDatabase singleMemoryListDatabase = SingleMemoryListDatabase.getInstance();
-    private static final ConnectionToSQL connToSQL = ConnectionToSQL.getInstance();
     private final String userTableName = "users";
     private final String memoryListTableName = "memorylist";
     private final String notelistTableName = "notelist";
@@ -67,7 +62,6 @@ public class SingleServerProtocol {
                 if (inputFromClient.getData() instanceof String username) {
 
                     IO.println(inputFromClient.getType() + " received from client");
-                    //TODO send starting menu model to client side MVC
                     return new Message(MessageType.STARTING_MENU, username);
                 }
             }
