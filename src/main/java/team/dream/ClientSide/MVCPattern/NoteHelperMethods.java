@@ -7,10 +7,8 @@ import java.util.*;
 public class NoteHelperMethods {
 
 
-    protected static Message removeNote(MemoryList chosenMemoryList, Scanner scan, ClientController clientController) {
-
-
-        return new Message(MessageType.UPDATE_NOTE, chosenMemoryList, clientController.getModel().getUser());
+    protected static Message removeNote(Note noteToRemove, ClientController clientController) {
+        return new Message(MessageType.REMOVE_NOTE, noteToRemove, clientController.getModel().getUser());
     }
 
     protected static Message wouldUserWantToEditNote(Note note, MemoryList chosedMemoryList, Scanner scan, ClientController clientController) {
@@ -94,7 +92,7 @@ public class NoteHelperMethods {
                 }
             }
             case "remove" -> {
-                chosedMemoryList.getNotes().remove(note);
+                return removeNote(note, clientController);
             }
             case "done" -> {
                 note.setDone(true);

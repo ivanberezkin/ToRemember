@@ -80,6 +80,14 @@ public class SingleServerProtocol {
                 }
             }
 
+            case REMOVE_NOTE -> {
+                IO.println(inputFromClient.getType() + " received from client");
+                if (inputFromClient.getData() instanceof Note noteToRemove) {
+                    NotelistMethodSQL.removeNoteInMemoryList(noteToRemove);
+                    return new Message(MessageType.SHOW_LIST_OF_MEMORY_LISTS, MemoryListMethodSQL.showUsersMemoryLists(inputFromClient.getUsername()), inputFromClient.getUsername());
+                }
+            }
+
             case REMOVE_MEMORY_LIST -> {
                 IO.println(inputFromClient.getType() + " received from client");
                 if (inputFromClient.getData() instanceof MemoryList memoryListToRemoveFromDB) {

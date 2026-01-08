@@ -51,6 +51,7 @@ public class SingleClientProtocol {
             }
             case SHOW_LIST_OF_MEMORY_LISTS -> {
                 IO.println("ClientProtocol: Show list of memory lists");
+
                 model.updateUsersMemoryList((ArrayList<MemoryList>) messageFromServer.getData());
 
                 return cc.getInputFromShowMemoryLists();

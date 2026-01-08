@@ -95,7 +95,7 @@ public class MemoryListMethodSQL {
 
     public static ArrayList<MemoryList> showUsersMemoryLists (String usernameForUser){
         ArrayList<MemoryList> usersMemoryList = new ArrayList<>();
-
+        MemoryList tempMl;
         String sqlShowUsersMemoryLists = String.format(
           "SELECT * FROM %s INNER JOIN %s ON %s.ownerUserID = %s.userid WHERE %s.username = '%s'",
                 memoryListTableName,usersTableName,memoryListTableName,usersTableName,usersTableName,usernameForUser
@@ -108,7 +108,10 @@ public class MemoryListMethodSQL {
                     String memoryListTitle = rs.getString(3);
                     String memoryListOwnerUsername = rs.getString(5);
 
-                usersMemoryList.add(new MemoryList(memoryListTitle,memoryListOwnerUsername,memoryListID));
+                    tempMl = new MemoryList(memoryListTitle,memoryListOwnerUsername,memoryListID);
+                    NotelistMethodSQL.getNotesForMemoryList(tempMl);
+
+                    usersMemoryList.add(tempMl);
                 }
             }
 
