@@ -1,4 +1,4 @@
-package team.dream.ClientSide.MVCPattern;
+package team.dream.ClientSide.MVCPattern.ConsoleView;
 
 import team.dream.shared.Category;
 import team.dream.shared.MemoryList;
@@ -6,10 +6,10 @@ import team.dream.shared.Note;
 
 import java.util.List;
 
-public class View {
+public class ConsoleView {
 
 
-    public View() {
+    public ConsoleView() {
 
     }
 

@@ -1,4 +1,4 @@
-package team.dream.ClientSide.MVCPattern;
+package team.dream.ClientSide.MVCPattern.ConsoleView;
 
 import team.dream.shared.MemoryList;
 

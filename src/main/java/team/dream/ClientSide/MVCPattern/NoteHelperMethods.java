@@ -76,7 +76,7 @@ public class NoteHelperMethods {
             case "category" -> {
                 while (true) {
                     IO.println("Current Category: " + note.getCategoryEnum().toString());
-                    clientController.getView().categoryEnumPrint();
+                    clientController.getConsoleView().categoryEnumPrint();
                     userEdit = scan.nextLine();
                     if (!userEdit.isEmpty()) {
                         try {
@@ -109,7 +109,7 @@ public class NoteHelperMethods {
         while (true) {
             try {
 
-                clientController.getView().showMemoryListView(chosedMemoryList);
+                clientController.getConsoleView().showMemoryListView(chosedMemoryList);
                 IO.println("Which note would you like to see?" +
                         "\nEnter 0 to go back " +
                         "\nEnter a valid index");
@@ -152,7 +152,7 @@ public class NoteHelperMethods {
                 int priority = scan.nextInt();
                 scan.nextLine();
 
-                clientController.getView().categoryEnumPrint();
+                clientController.getConsoleView().categoryEnumPrint();
                 String category = scan.nextLine();
                 try {
                     chosenCategory = Category.valueOf(category.trim().toUpperCase());

@@ -1,6 +1,7 @@
 package team.dream.ClientSide.MVCPattern;
 
 import lombok.Data;
+import team.dream.ClientSide.MVCPattern.ConsoleView.ConsoleView;
 import team.dream.shared.*;
 
 import java.util.ArrayList;
@@ -11,13 +12,13 @@ import java.util.Scanner;
 @Data
 public class ClientController {
     private ClientModel model;
-    private View view;
+    private ConsoleView consoleView;
     List<MemoryList> bothOwnedAndSharedList = new ArrayList<>();
     Scanner scan = new Scanner(System.in);
 
-    public ClientController(ClientModel model, View view) {
+    public ClientController(ClientModel model, ConsoleView consoleView) {
         this.model = model;
-        this.view = view;
+        this.consoleView = consoleView;
     }
 
     private Message getInputFromChosenMemoryListAllOptions(int userChosenOption, MemoryList chosedMemoryList) throws InputMismatchException {
@@ -50,7 +51,7 @@ public class ClientController {
         IO.println("Hello " + model.getUser());
         int inputFromUser;
         while (true) {
-            view.showStartingMenuView();
+            consoleView.showStartingMenuView();
             try {
                 inputFromUser = scan.nextInt();
                 scan.nextLine();
@@ -83,8 +84,8 @@ public class ClientController {
         while (true) {
             try {
 
-                view.showMemoryListView(memoryListToShow);
-                view.showUserOptionForChosenMemoryListView();
+                consoleView.showMemoryListView(memoryListToShow);
+                consoleView.showUserOptionForChosenMemoryListView();
                 int userChosenOption = scan.nextInt();
                 scan.nextLine();
                 return getInputFromChosenMemoryListAllOptions(userChosenOption, memoryListToShow);
@@ -101,7 +102,7 @@ public class ClientController {
         while (true) {
 
             try {
-                view.showAllMemoryListsView(model.getUsersMemoryList(), model.getSharedMemoryList());
+                consoleView.showAllMemoryListsView(model.getUsersMemoryList(), model.getSharedMemoryList());
 
                 int inputFromUser = scan.nextInt();
 

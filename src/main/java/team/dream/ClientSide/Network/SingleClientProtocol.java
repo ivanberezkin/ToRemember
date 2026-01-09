@@ -2,7 +2,7 @@ package team.dream.ClientSide.Network;
 
 import team.dream.ClientSide.MVCPattern.ClientController;
 import team.dream.ClientSide.MVCPattern.ClientModel;
-import team.dream.ClientSide.MVCPattern.View;
+import team.dream.ClientSide.MVCPattern.ConsoleView.ConsoleView;
 import team.dream.shared.MemoryList;
 import team.dream.shared.Message;
 import team.dream.shared.MessageType;
@@ -14,7 +14,7 @@ public class SingleClientProtocol {
     private static final SingleClientProtocol clientProtocol = new SingleClientProtocol();
     Scanner scanner = new Scanner(System.in);
     private ClientModel model = new ClientModel();
-    ClientController cc = new ClientController(model, new View());
+    ClientController cc = new ClientController(model, new ConsoleView());
 
     private SingleClientProtocol() {
 
