@@ -117,7 +117,6 @@ public class NotelistMethodSQL {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        IO.println("getAllUsersNotesInChosenCategory executed");
         return tempMemoryListForNotesChosenByCategory;
 
     }
@@ -127,9 +126,6 @@ public class NotelistMethodSQL {
         int userID = UsersMethodSQL.getUserIDForUser(username);
         String sqlGetAllUsersMemoryList = "SELECT * from memorylist WHERE ownerUserID = ? ";
         ArrayList<Integer> usersMemoryListIDarray = new ArrayList<>();
-
-        IO.println("getAllUsersMemoryListIDs entered");
-
 
         try(PreparedStatement stmt = connToSQL.prepareStatement(sqlGetAllUsersMemoryList)){
 
@@ -142,7 +138,6 @@ public class NotelistMethodSQL {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        IO.println("getAllUsersMemoryListIDs executed");
 
         return usersMemoryListIDarray;
     }
@@ -150,7 +145,6 @@ public class NotelistMethodSQL {
     public static MemoryList getNotesForMemoryList(MemoryList memoryList){
         String sql = "SELECT * FROM notelist WHERE memoryListID = ?;";
 
-        IO.println("getNotesForMemoryList entered");
 
         try(PreparedStatement stmt = connToSQL.prepareStatement(sql)){
 
@@ -172,7 +166,6 @@ public class NotelistMethodSQL {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        IO.println("getAllUsersMemoryListIDs executed");
         return memoryList;
     }
 

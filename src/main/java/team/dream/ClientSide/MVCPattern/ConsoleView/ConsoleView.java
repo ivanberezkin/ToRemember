@@ -75,10 +75,12 @@ public class ConsoleView {
             memoryListSb.append(" ".repeat(5));
             memoryListSb.append("\tStatus: ");
             if(currentNote.isDone()){
-                memoryListSb.append("Finished").append("\n");
+                memoryListSb.append("Finished");
             }else{
-                memoryListSb.append("Ongoing").append("\n");
+                memoryListSb.append("Ongoing");
             }
+            memoryListSb.append(" ".repeat(5));
+            memoryListSb.append("\tCategory: ").append(currentNote.getCategoryEnum()).append("\n");
 
         }
 
