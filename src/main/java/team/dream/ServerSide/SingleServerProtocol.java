@@ -6,6 +6,8 @@ import team.dream.shared.MemoryList;
 import team.dream.shared.Message;
 import team.dream.shared.MessageType;
 import team.dream.shared.Note;
+
+import java.util.ArrayList;
 import java.util.Comparator;
 
 
@@ -60,7 +62,8 @@ public class SingleServerProtocol {
             case GET_ALL_NOTES_FOR_CATEGORY -> {
                 if(inputFromClient.getData() instanceof String chosenCategory){
                     IO.println(inputFromClient.getType() + " received from client");
-
+                    MemoryList notesChosenByCategory = NotelistMethodSQL.getAllUsersNotesInChosenCategory(chosenCategory,inputFromClient.getUsername());
+                    return new Message(MessageType.SHOW_CHOSEN_MEMORY_LIST,notesChosenByCategory, inputFromClient.getUsername());
                 }
 
             }

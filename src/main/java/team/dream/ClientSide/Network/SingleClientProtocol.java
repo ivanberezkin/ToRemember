@@ -6,6 +6,7 @@ import team.dream.ClientSide.MVCPattern.ConsoleView.ConsoleView;
 import team.dream.shared.MemoryList;
 import team.dream.shared.Message;
 import team.dream.shared.MessageType;
+import team.dream.shared.Note;
 
 import java.util.ArrayList;
 import java.util.Scanner;

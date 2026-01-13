@@ -79,9 +79,9 @@ public class NotelistMethodSQL {
     }
 
 
-    public static ArrayList<Note> getAllUsersNotesInChosenCategory(String chosenCategory, String username){
+    public static MemoryList getAllUsersNotesInChosenCategory(String chosenCategory, String username){
         ArrayList<Integer> usersMemoryListID = getAllUsersMemoryListIDs(username);
-        ArrayList<Note> usersNotesChosenByCategory = new ArrayList<>();
+        MemoryList tempMemoryListForNotesChosenByCategory = new MemoryList();
         int numberOfMemoryLists = usersMemoryListID.size();
 
         StringBuilder sb = new StringBuilder();
@@ -112,20 +112,23 @@ public class NotelistMethodSQL {
                 tempNote.setPriorityIndex(rs.getInt(5));
                 tempNote.setCategoryEnum(Category.getCategory(rs.getString(6)));
                 tempNote.setDone(rs.getBoolean(7));
-                usersNotesChosenByCategory.add(tempNote);
+                tempMemoryListForNotesChosenByCategory.addNoteToMemoryList(tempNote);
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return usersNotesChosenByCategory;
+        IO.println("getAllUsersNotesInChosenCategory executed");
+        return tempMemoryListForNotesChosenByCategory;
 
     }
 
     public static ArrayList<Integer> getAllUsersMemoryListIDs(String username){
 
         int userID = UsersMethodSQL.getUserIDForUser(username);
-        String sqlGetAllUsersMemoryList = "SELECT * from memorylist WHERE userID = ? ";
+        String sqlGetAllUsersMemoryList = "SELECT * from memorylist WHERE ownerUserID = ? ";
         ArrayList<Integer> usersMemoryListIDarray = new ArrayList<>();
+
+        IO.println("getAllUsersMemoryListIDs entered");
 
 
         try(PreparedStatement stmt = connToSQL.prepareStatement(sqlGetAllUsersMemoryList)){
@@ -139,11 +142,15 @@ public class NotelistMethodSQL {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+        IO.println("getAllUsersMemoryListIDs executed");
+
         return usersMemoryListIDarray;
     }
 
     public static MemoryList getNotesForMemoryList(MemoryList memoryList){
         String sql = "SELECT * FROM notelist WHERE memoryListID = ?;";
+
+        IO.println("getNotesForMemoryList entered");
 
         try(PreparedStatement stmt = connToSQL.prepareStatement(sql)){
 
@@ -165,6 +172,7 @@ public class NotelistMethodSQL {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+        IO.println("getAllUsersMemoryListIDs executed");
         return memoryList;
     }
 
