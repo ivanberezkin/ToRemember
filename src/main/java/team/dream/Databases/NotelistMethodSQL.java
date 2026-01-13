@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class NotelistMethodSQL {
 
@@ -77,6 +78,26 @@ public class NotelistMethodSQL {
 
     }
 
+    public static ArrayList<Integer> getAllUsersMemoryListIDs(String chosenCategory, String username){
+
+        int userID = UsersMethodSQL.getUserIDForUser(username);
+        String sqlGetAllUsersMemoryList = "SELECT * from memorylist WHERE userID = ? ";
+        ArrayList<Integer> usersMemoryListIDarray = new ArrayList<>();
+
+
+        try(PreparedStatement stmt = connToSQL.prepareStatement(sqlGetAllUsersMemoryList)){
+
+            stmt.setInt(1,userID);
+            ResultSet rs = stmt.executeQuery();
+            while(rs.next()){
+                usersMemoryListIDarray.add(rs.getInt(1));
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return usersMemoryListIDarray;
+    }
 
     public static MemoryList getNotesForMemoryList(MemoryList memoryList){
         String sql = "SELECT * FROM notelist WHERE memoryListID = ?;";
