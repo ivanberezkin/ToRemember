@@ -65,11 +65,11 @@ public class ClientController {
                         return new Message(MessageType.CREATE_MEMORY_LIST, title, model.getUser());
                     }
 
-                    case 4 -> {
+                    case 3 -> {
                         String category = NoteHelperMethods.getCategoryFromUserToShowNotes(scan,this);
                         return new Message(MessageType.GET_ALL_NOTES_FOR_CATEGORY, category, model.getUser());
                     }
-                    case 3 -> {
+                    case 4 -> {
                         System.exit(0);
                     }
 

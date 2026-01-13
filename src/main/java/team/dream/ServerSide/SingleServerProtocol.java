@@ -57,6 +57,14 @@ public class SingleServerProtocol {
                 }
             }
 
+            case GET_ALL_NOTES_FOR_CATEGORY -> {
+                if(inputFromClient.getData() instanceof String chosenCategory){
+                    IO.println(inputFromClient.getType() + " received from client");
+
+                }
+
+            }
+
             case STARTING_MENU -> {
                 if (inputFromClient.getData() instanceof String username) {
 
