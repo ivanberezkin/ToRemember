@@ -78,7 +78,50 @@ public class NotelistMethodSQL {
 
     }
 
-    public static ArrayList<Integer> getAllUsersMemoryListIDs(String chosenCategory, String username){
+
+    public static ArrayList<Note> getAllUsersNotesInChosenCategory(String chosenCategory, String username){
+        ArrayList<Integer> usersMemoryListID = getAllUsersMemoryListIDs(username);
+        ArrayList<Note> usersNotesChosenByCategory = new ArrayList<>();
+        int numberOfMemoryLists = usersMemoryListID.size();
+
+        StringBuilder sb = new StringBuilder();
+        for(int i = 0; i < numberOfMemoryLists;i++){
+            if(i == numberOfMemoryLists-1){
+                sb.append("?");
+            }else{
+                sb.append("?,");
+            }
+
+        }
+
+        String sqlGetAllNotesForChosenCategory = String.format("SELECT * FROM notelist where memorylistID IN (%s) AND category = ?;",sb);
+
+        try(PreparedStatement stmt = connToSQL.prepareStatement(sqlGetAllNotesForChosenCategory)){
+            int x;
+            for(x = 0; x < numberOfMemoryLists; x++){
+                stmt.setInt(x+1, usersMemoryListID.get(x));
+            }
+            stmt.setString(x+1,chosenCategory);
+            ResultSet rs = stmt.executeQuery();
+            while(rs.next()){
+                Note tempNote = new Note();
+                tempNote.setNoteID(rs.getInt(1));
+                tempNote.setMemoryListID(rs.getInt(2));
+                tempNote.setTitle(rs.getString(3));
+                tempNote.setDescription(rs.getString(4));
+                tempNote.setPriorityIndex(rs.getInt(5));
+                tempNote.setCategoryEnum(Category.getCategory(rs.getString(6)));
+                tempNote.setDone(rs.getBoolean(7));
+                usersNotesChosenByCategory.add(tempNote);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return usersNotesChosenByCategory;
+
+    }
+
+    public static ArrayList<Integer> getAllUsersMemoryListIDs(String username){
 
         int userID = UsersMethodSQL.getUserIDForUser(username);
         String sqlGetAllUsersMemoryList = "SELECT * from memorylist WHERE userID = ? ";
