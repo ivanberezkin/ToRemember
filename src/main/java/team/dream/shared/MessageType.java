@@ -15,5 +15,6 @@ public enum MessageType implements Serializable {
     CREATE_NOTE,
     SORT_NOTES_BY_PRIORITY,
     REMOVE_NOTE,
+    GET_ALL_NOTES_FOR_CATEGORY,
     UPDATE_NOTE,
 }

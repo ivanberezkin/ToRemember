@@ -66,7 +66,8 @@ public class ClientController {
                     }
 
                     case 4 -> {
-                        //TODO show all notes for a category
+                        String category = NoteHelperMethods.getCategoryFromUserToShowNotes(scan,this);
+                        return new Message(MessageType.GET_ALL_NOTES_FOR_CATEGORY, category, model.getUser());
                     }
                     case 3 -> {
                         System.exit(0);

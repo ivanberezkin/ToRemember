@@ -11,6 +11,24 @@ public class NoteHelperMethods {
         return new Message(MessageType.REMOVE_NOTE, noteToRemove, clientController.getModel().getUser());
     }
 
+    protected static String getCategoryFromUserToShowNotes(Scanner scan, ClientController clientController){
+
+        String input;
+        while(true){
+            clientController.getConsoleView().categoryEnumPrint();
+            if(!(input = scan.nextLine()).isEmpty()){
+                Category chosenCategory = Category.getCategory(input);
+                if(chosenCategory != null){
+                    return input;
+                } else{
+                    IO.println("Couldn't find category, please try again.");
+                }
+            }
+
+        }
+
+    }
+
     protected static Message wouldUserWantToEditNote(Note note, MemoryList chosedMemoryList, Scanner scan, ClientController clientController) {
         IO.println("If you want to edit note, enter Title/Description/Priority/Category." +
                 "\nIf you want to remove note enter 'Remove'" +
