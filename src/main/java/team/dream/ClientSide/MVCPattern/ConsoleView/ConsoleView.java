@@ -18,7 +18,8 @@ public class ConsoleView {
                 "\nPlease choose an option below" +
                 "\n1. Show all memory lists" +
                 "\n2. Create new memory list" +
-                "\n3. Exit");
+                "\n3. Show all notes for a category" +
+                "\n4. Exit");
     }
 
     public void showAllMemoryListsView(List<MemoryList> ownedList, List<MemoryList> sharedList) {

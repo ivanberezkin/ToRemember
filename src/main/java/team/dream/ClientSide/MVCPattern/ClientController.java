@@ -64,6 +64,10 @@ public class ClientController {
                         String title = MemoryListHelperMethods.getTitleForNewMemoryList(scan);
                         return new Message(MessageType.CREATE_MEMORY_LIST, title, model.getUser());
                     }
+
+                    case 4 -> {
+                        //TODO show all notes for a category
+                    }
                     case 3 -> {
                         System.exit(0);
                     }
