@@ -13,13 +13,14 @@ Run the program in IntelliJ IDEA.<br>
 4) Right-click the file and select `Run 'ToRemember.main()'`<br>
 <br>
 
-<h3>Design Patterns<h3></h3>
-Program is implemented with MVC pattern to make it easier with implementing other views, like SWING or WEB based. <br>
-Singleton is also used to make sure that user is communicating to the right server and the server is accessing the same MySQL database <br>
-
 **Example Usage:**<br>
 This program is currently only for terminal use, follow the terminaloutputs to navigate through program. <br>
 Create memorylist/note, remove memorylist/note, sort notes by priority, show all notes by category <br>
+
+
+<h3>Design Patterns<h3></h3>
+Program is implemented with **MVC** pattern to make it easier with implementing other views, like SWING or WEB based. <br>
+**Singleton** is also used to make sure that user is communicating to the right server and the server is accessing the same MySQL database <br>
 
 <h3>Contact<h3></h3>
 For questions or feedback feel free to contact me at:<br>
